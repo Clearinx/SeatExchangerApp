@@ -1,0 +1,602 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F8F22E20F2600FA7324 /* AppDelegate.swift */; };
+		890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F9122E20F2600FA7324 /* ViewController.swift */; };
+		890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9322E20F2600FA7324 /* Main.storyboard */; };
+		890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F9622E20F2600FA7324 /* FlightRider.xcdatamodeld */; };
+		890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9922E20F2700FA7324 /* Assets.xcassets */; };
+		890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */; };
+		890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */; };
+		890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		890A4FA422E20F2700FA7324 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 890A4F8422E20F2600FA7324 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 890A4F8B22E20F2600FA7324;
+			remoteInfo = FlightRider;
+		};
+		890A4FAF22E20F2700FA7324 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 890A4F8422E20F2600FA7324 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 890A4F8B22E20F2600FA7324;
+			remoteInfo = FlightRider;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		890A4F8C22E20F2600FA7324 /* FlightRider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightRider.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		890A4F8F22E20F2600FA7324 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		890A4F9122E20F2600FA7324 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		890A4F9422E20F2600FA7324 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		890A4F9722E20F2600FA7324 /* FlightRider.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FlightRider.xcdatamodel; sourceTree = "<group>"; };
+		890A4F9922E20F2700FA7324 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		890A4F9C22E20F2700FA7324 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		890A4F9E22E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		890A4FA322E20F2700FA7324 /* FlightRiderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlightRiderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRiderTests.swift; sourceTree = "<group>"; };
+		890A4FA922E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlightRiderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRiderUITests.swift; sourceTree = "<group>"; };
+		890A4FB422E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		890A4F8922E20F2600FA7324 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		890A4FA022E20F2700FA7324 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		890A4FAB22E20F2700FA7324 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		890A4F8322E20F2600FA7324 = {
+			isa = PBXGroup;
+			children = (
+				890A4F8E22E20F2600FA7324 /* FlightRider */,
+				890A4FA622E20F2700FA7324 /* FlightRiderTests */,
+				890A4FB122E20F2700FA7324 /* FlightRiderUITests */,
+				890A4F8D22E20F2600FA7324 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		890A4F8D22E20F2600FA7324 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				890A4F8C22E20F2600FA7324 /* FlightRider.app */,
+				890A4FA322E20F2700FA7324 /* FlightRiderTests.xctest */,
+				890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		890A4F8E22E20F2600FA7324 /* FlightRider */ = {
+			isa = PBXGroup;
+			children = (
+				890A4F8F22E20F2600FA7324 /* AppDelegate.swift */,
+				890A4F9122E20F2600FA7324 /* ViewController.swift */,
+				890A4F9322E20F2600FA7324 /* Main.storyboard */,
+				890A4F9922E20F2700FA7324 /* Assets.xcassets */,
+				890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */,
+				890A4F9E22E20F2700FA7324 /* Info.plist */,
+				890A4F9622E20F2600FA7324 /* FlightRider.xcdatamodeld */,
+			);
+			path = FlightRider;
+			sourceTree = "<group>";
+		};
+		890A4FA622E20F2700FA7324 /* FlightRiderTests */ = {
+			isa = PBXGroup;
+			children = (
+				890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */,
+				890A4FA922E20F2700FA7324 /* Info.plist */,
+			);
+			path = FlightRiderTests;
+			sourceTree = "<group>";
+		};
+		890A4FB122E20F2700FA7324 /* FlightRiderUITests */ = {
+			isa = PBXGroup;
+			children = (
+				890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */,
+				890A4FB422E20F2700FA7324 /* Info.plist */,
+			);
+			path = FlightRiderUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		890A4F8B22E20F2600FA7324 /* FlightRider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 890A4FB722E20F2700FA7324 /* Build configuration list for PBXNativeTarget "FlightRider" */;
+			buildPhases = (
+				890A4F8822E20F2600FA7324 /* Sources */,
+				890A4F8922E20F2600FA7324 /* Frameworks */,
+				890A4F8A22E20F2600FA7324 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlightRider;
+			productName = FlightRider;
+			productReference = 890A4F8C22E20F2600FA7324 /* FlightRider.app */;
+			productType = "com.apple.product-type.application";
+		};
+		890A4FA222E20F2700FA7324 /* FlightRiderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 890A4FBA22E20F2700FA7324 /* Build configuration list for PBXNativeTarget "FlightRiderTests" */;
+			buildPhases = (
+				890A4F9F22E20F2700FA7324 /* Sources */,
+				890A4FA022E20F2700FA7324 /* Frameworks */,
+				890A4FA122E20F2700FA7324 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				890A4FA522E20F2700FA7324 /* PBXTargetDependency */,
+			);
+			name = FlightRiderTests;
+			productName = FlightRiderTests;
+			productReference = 890A4FA322E20F2700FA7324 /* FlightRiderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		890A4FAD22E20F2700FA7324 /* FlightRiderUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 890A4FBD22E20F2700FA7324 /* Build configuration list for PBXNativeTarget "FlightRiderUITests" */;
+			buildPhases = (
+				890A4FAA22E20F2700FA7324 /* Sources */,
+				890A4FAB22E20F2700FA7324 /* Frameworks */,
+				890A4FAC22E20F2700FA7324 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				890A4FB022E20F2700FA7324 /* PBXTargetDependency */,
+			);
+			name = FlightRiderUITests;
+			productName = FlightRiderUITests;
+			productReference = 890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		890A4F8422E20F2600FA7324 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = Tomi;
+				TargetAttributes = {
+					890A4F8B22E20F2600FA7324 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					890A4FA222E20F2700FA7324 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 890A4F8B22E20F2600FA7324;
+					};
+					890A4FAD22E20F2700FA7324 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 890A4F8B22E20F2600FA7324;
+					};
+				};
+			};
+			buildConfigurationList = 890A4F8722E20F2600FA7324 /* Build configuration list for PBXProject "FlightRider" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 890A4F8322E20F2600FA7324;
+			productRefGroup = 890A4F8D22E20F2600FA7324 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				890A4F8B22E20F2600FA7324 /* FlightRider */,
+				890A4FA222E20F2700FA7324 /* FlightRiderTests */,
+				890A4FAD22E20F2700FA7324 /* FlightRiderUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		890A4F8A22E20F2600FA7324 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */,
+				890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */,
+				890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		890A4FA122E20F2700FA7324 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		890A4FAC22E20F2700FA7324 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		890A4F8822E20F2600FA7324 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
+				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
+				890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		890A4F9F22E20F2700FA7324 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		890A4FAA22E20F2700FA7324 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		890A4FA522E20F2700FA7324 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 890A4F8B22E20F2600FA7324 /* FlightRider */;
+			targetProxy = 890A4FA422E20F2700FA7324 /* PBXContainerItemProxy */;
+		};
+		890A4FB022E20F2700FA7324 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 890A4F8B22E20F2600FA7324 /* FlightRider */;
+			targetProxy = 890A4FAF22E20F2700FA7324 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		890A4F9322E20F2600FA7324 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				890A4F9422E20F2600FA7324 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				890A4F9C22E20F2700FA7324 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		890A4FB522E20F2700FA7324 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		890A4FB622E20F2700FA7324 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		890A4FB822E20F2700FA7324 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = FlightRider/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.clearinx.FlightRider;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		890A4FB922E20F2700FA7324 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = FlightRider/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.clearinx.FlightRider;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		890A4FBB22E20F2700FA7324 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = FlightRiderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.clearinx.FlightRiderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlightRider.app/FlightRider";
+			};
+			name = Debug;
+		};
+		890A4FBC22E20F2700FA7324 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = FlightRiderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.clearinx.FlightRiderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlightRider.app/FlightRider";
+			};
+			name = Release;
+		};
+		890A4FBE22E20F2700FA7324 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = FlightRiderUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.clearinx.FlightRiderUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlightRider;
+			};
+			name = Debug;
+		};
+		890A4FBF22E20F2700FA7324 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = FlightRiderUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.clearinx.FlightRiderUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlightRider;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		890A4F8722E20F2600FA7324 /* Build configuration list for PBXProject "FlightRider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				890A4FB522E20F2700FA7324 /* Debug */,
+				890A4FB622E20F2700FA7324 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		890A4FB722E20F2700FA7324 /* Build configuration list for PBXNativeTarget "FlightRider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				890A4FB822E20F2700FA7324 /* Debug */,
+				890A4FB922E20F2700FA7324 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		890A4FBA22E20F2700FA7324 /* Build configuration list for PBXNativeTarget "FlightRiderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				890A4FBB22E20F2700FA7324 /* Debug */,
+				890A4FBC22E20F2700FA7324 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		890A4FBD22E20F2700FA7324 /* Build configuration list for PBXNativeTarget "FlightRiderUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				890A4FBE22E20F2700FA7324 /* Debug */,
+				890A4FBF22E20F2700FA7324 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		890A4F9622E20F2600FA7324 /* FlightRider.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				890A4F9722E20F2600FA7324 /* FlightRider.xcdatamodel */,
+			);
+			currentVersion = 890A4F9722E20F2600FA7324 /* FlightRider.xcdatamodel */;
+			path = FlightRider.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 890A4F8422E20F2600FA7324 /* Project object */;
+}
