@@ -26,6 +26,7 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         cell.textLabel?.text = flights[indexPath.row]
         return cell
     }

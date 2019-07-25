@@ -46,6 +46,13 @@ class FlightRiderUITests: XCTestCase {
         let app = XCUIApplication()
         let table = XCUIApplication().tables
         
+        app.navigationBars["FlightRider.View"].buttons["Add"].tap()
+    
+        let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
+        textField.tap()
+        textField.typeText("some text")
+        app.alerts["Enter a flight number"].buttons["Submit"].tap()
+        
         for i in 1...5{
         app.navigationBars["FlightRider.View"].buttons["Add"].tap()
         
@@ -56,7 +63,14 @@ class FlightRiderUITests: XCTestCase {
         
         
         }
-        XCTAssertEqual(table.cells.count, 5, "There should be 5 rows")
+        let cell = table.cells.element(boundBy:0).staticTexts["some text"]
+        XCTAssertTrue(cell.exists)
+        
+        let cell2 = table.cells.element(boundBy:4).staticTexts["4"]
+        XCTAssertTrue(cell2.exists)
+        let cell3 = table.cells.element(boundBy:2).staticTexts["dummy"]
+        XCTAssertFalse(cell3.exists)
+        XCTAssertEqual(table.cells.count, 6, "There should be 5 rows")
     }
     
     func testAddAndRemoveItemsToList() {
