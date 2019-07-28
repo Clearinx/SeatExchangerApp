@@ -15,6 +15,8 @@
 		890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */; };
 		890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */; };
 		890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */; };
+		FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFF37B222EDBC8C0014D999 /* Ryanair.png */; };
+		FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlightRiderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRiderUITests.swift; sourceTree = "<group>"; };
 		890A4FB422E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFFF37B222EDBC8C0014D999 /* Ryanair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ryanair.png; sourceTree = "<group>"; };
+		FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,8 +108,10 @@
 				890A4F9322E20F2600FA7324 /* Main.storyboard */,
 				890A4F9922E20F2700FA7324 /* Assets.xcassets */,
 				890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */,
+				FFFF37B222EDBC8C0014D999 /* Ryanair.png */,
 				890A4F9E22E20F2700FA7324 /* Info.plist */,
 				890A4F9622E20F2600FA7324 /* FlightRider.xcdatamodeld */,
+				FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */,
 			);
 			path = FlightRider;
 			sourceTree = "<group>";
@@ -232,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */,
 				890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */,
 				890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */,
 				890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */,
@@ -261,6 +268,7 @@
 			files = (
 				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
+				FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */,
 				890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

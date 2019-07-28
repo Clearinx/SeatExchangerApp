@@ -46,7 +46,7 @@ class FlightRiderUITests: XCTestCase {
         let app = XCUIApplication()
         let table = XCUIApplication().tables
         
-        app.navigationBars["FlightRider.View"].buttons["Add"].tap()
+        app.navigationBars["Flights"].buttons["Add"].tap()
     
         let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
         textField.tap()
@@ -54,7 +54,7 @@ class FlightRiderUITests: XCTestCase {
         app.alerts["Enter a flight number"].buttons["Submit"].tap()
         
         for i in 1...5{
-        app.navigationBars["FlightRider.View"].buttons["Add"].tap()
+        app.navigationBars["Flights"].buttons["Add"].tap()
         
         let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
         textField.tap()
@@ -76,10 +76,10 @@ class FlightRiderUITests: XCTestCase {
     func testAddAndRemoveItemsToList() {
         let app = XCUIApplication()
         let table = XCUIApplication().tables
-        let flightriderViewNavigationBar = app.navigationBars["FlightRider.View"]
+        let flightriderViewNavigationBar = app.navigationBars["Flights"]
         
         for i in 1...3{
-            app.navigationBars["FlightRider.View"].buttons["Add"].tap()
+        app.navigationBars["Flights"].buttons["Add"].tap()
             
             let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
             textField.tap()
@@ -92,6 +92,36 @@ class FlightRiderUITests: XCTestCase {
         flightriderViewNavigationBar.buttons["Delete"].tap()
         XCTAssertEqual(table.cells.count, 2, "There should be  rows")
         
+        
+        
+    }
+    func testIfImageViewAndSubtitleExists() {
+        let app = XCUIApplication()
+        let table = XCUIApplication().tables
+        
+        app.navigationBars["Flights"].buttons["Add"].tap()
+        
+        let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
+        textField.tap()
+        textField.typeText("FR1234")
+        app.alerts["Enter a flight number"].buttons["Submit"].tap()
+        
+        let cell = table.cells.element(boundBy:0)
+        let txt = cell.staticTexts["FR1234"]
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let date = formatter.string(from: Date())
+        
+        let subt = cell.staticTexts[date]
+        let img = cell.images.element(boundBy: 0)
+        
+        XCTAssertTrue(cell.exists)
+        XCTAssertTrue(txt.exists)
+        XCTAssertTrue(subt.exists)
+        XCTAssertTrue(img.exists)
+        
+    
         
         
     }

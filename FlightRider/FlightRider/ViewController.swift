@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     var flights = [String]()
     var listIdx : Int?
@@ -18,17 +18,47 @@ class ViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFlight))
+        title = "Flights"
+        
+        setupLongPressGesture()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return flights.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         cell.textLabel?.text = flights[indexPath.row]
+        cell.detailTextLabel?.text = getDate()
+        if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+            cell.imageView?.image = UIImage(named: img)
+        }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if let idx = listIdx{
+            flights.remove(at: idx)
+            let indexPath = IndexPath(row: idx, section: 0)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            listIdx = nil
+        }
+    }
+    
+    
+    func getDate() -> String
+    {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let date = formatter.string(from: Date()) // string purpose I add here
+        return date
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -40,17 +70,17 @@ class ViewController: UITableViewController {
         ac.addTextField()
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak ac] action in
-            guard let answer = ac?.textFields?[0].text else { return }
-            self?.submit(answer)
+            guard let flight = ac?.textFields?[0].text else { return }
+            self?.submit(flight)
         }
         
         ac.addAction(submitAction)
         present(ac, animated: true)
     }
     
-    func submit(_ answer: String) {
+    func submit(_ flight: String) {
         
-        flights.append(answer)
+        flights.append(flight)
         let indexPath = IndexPath(row: flights.count - 1, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
@@ -63,7 +93,24 @@ class ViewController: UITableViewController {
             listIdx = nil
         }
     }
-
+    
+    
+    func setupLongPressGesture() {
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.delegate = self
+        self.view.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
+        if gestureRecognizer.state == .ended {
+            let touchPoint = gestureRecognizer.location(in: self.view)
+            if let indexPath = self.tableView.indexPathForRow(at: touchPoint) {
+                
+            }
+        }
+    }
+    
 
 }
 
