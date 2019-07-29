@@ -11,16 +11,16 @@ import UIKit
 class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     var flights = [String]()
-    var listIdx : Int?
+    //var listIdx : Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFlight))
+        /*navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFlight))*/
         title = "Flights"
         
-        setupLongPressGesture()
+        //setupLongPressGesture()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -38,18 +38,15 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    /*override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
-    }
+    }*/
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        if let idx = listIdx{
-            flights.remove(at: idx)
-            let indexPath = IndexPath(row: idx, section: 0)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            listIdx = nil
-        }
+            tableView.setEditing(false, animated: false)
+            flights.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .none)
     }
     
     
@@ -62,7 +59,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        listIdx = indexPath.row
+        //listIdx = indexPath.row
     }
     
     @objc func addFlight(){
@@ -85,7 +82,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
     
-    @objc func removeFlight(){
+    /*@objc func removeFlight(idx: Int){
         if let idx = listIdx{
             flights.remove(at: idx)
             let indexPath = IndexPath(row: idx, section: 0)
@@ -97,19 +94,21 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     func setupLongPressGesture() {
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
-        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.minimumPressDuration = 1.0
         longPressGesture.delegate = self
         self.view.addGestureRecognizer(longPressGesture)
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
-        if gestureRecognizer.state == .ended {
+        if gestureRecognizer.state == .began {
             let touchPoint = gestureRecognizer.location(in: self.view)
             if let indexPath = self.tableView.indexPathForRow(at: touchPoint) {
-                
+                //tableView.isEditing = tableView.isEditing
+                tableView.setEditing(!tableView.isEditing, animated: true)
+                //tableView.allowsSelectionDuringEditing = true
             }
         }
-    }
+    }*/
     
 
 }
