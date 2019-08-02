@@ -1,18 +1,18 @@
 //
-//  FlightDetailViewController.swift
+//  FlightDetailViewControllerCannotCheckin.swift
 //  FlightRider
 //
-//  Created by Horvath Tamas on 2019. 07. 28..
+//  Created by Tomi on 2019. 08. 02..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
 import UIKit
 
-class FlightDetailViewController: UIViewController {
+class FlightDetailViewControllerCannotCheckin: UIViewController {
+    
 
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
-    
     
     var flightNrString : String?
     var imageToLoad : UIImage!
@@ -23,7 +23,7 @@ class FlightDetailViewController: UIViewController {
             flightNr.text = flightNrString
             flightLogo.image = imageToLoad
         }
-
+        
         // Do any additional setup after loading the view.
     }
     

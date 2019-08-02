@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift */; };
+		89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift */; };
 		890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F8F22E20F2600FA7324 /* AppDelegate.swift */; };
 		890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F9122E20F2600FA7324 /* ViewController.swift */; };
 		890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9322E20F2600FA7324 /* Main.storyboard */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerCannotCheckin.swift; sourceTree = "<group>"; };
+		89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerSelectSeats.swift; sourceTree = "<group>"; };
 		890A4F8C22E20F2600FA7324 /* FlightRider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightRider.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		890A4F8F22E20F2600FA7324 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		890A4F9122E20F2600FA7324 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 				890A4F9E22E20F2700FA7324 /* Info.plist */,
 				890A4F9622E20F2600FA7324 /* FlightRider.xcdatamodeld */,
 				FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */,
+				89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift */,
+				89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift */,
 			);
 			path = FlightRider;
 			sourceTree = "<group>";
@@ -266,6 +272,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,
+				89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift in Sources */,
 				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */,

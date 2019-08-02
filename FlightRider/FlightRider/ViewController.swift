@@ -19,6 +19,9 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         /*navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFlight))*/
         title = "Flights"
+        flights.append("FR110")
+        flights.append("FR111")
+        flights.append("FR112")
         
         //setupLongPressGesture()
     }
@@ -28,7 +31,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         return flights.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
         cell.textLabel?.text = flights[indexPath.row]
         cell.detailTextLabel?.text = getDate()
@@ -59,7 +62,35 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //listIdx = indexPath.row
+        
+        if indexPath.row == 0{
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetail") as? FlightDetailViewController{
+                vc.flightNrString = flights[indexPath.row]
+                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                    vc.imageToLoad = UIImage(named: img)
+                }
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        else if indexPath.row == 1{
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
+                vc.flightNrString = flights[indexPath.row]
+                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                    vc.imageToLoad = UIImage(named: img)
+                }
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        else if indexPath.row == 2{
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailCannotCheckin") as? FlightDetailViewControllerCannotCheckin{
+                vc.flightNrString = flights[indexPath.row]
+                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                    vc.imageToLoad = UIImage(named: img)
+                }
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        
     }
     
     @objc func addFlight(){
