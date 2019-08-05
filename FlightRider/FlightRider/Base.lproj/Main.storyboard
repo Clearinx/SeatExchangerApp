@@ -438,6 +438,44 @@
             </objects>
             <point key="canvasLocation" x="3553.6231884057975" y="867.85714285714278"/>
         </scene>
+        <!--Check Seats View Controller-->
+        <scene sceneID="j0i-C2-wl0">
+            <objects>
+                <viewController storyboardIdentifier="CheckSeats" id="UsU-kG-3Dm" customClass="CheckSeatsViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jPE-Tc-TYs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="im7-se-2om">
+                                <rect key="frame" x="100" y="152" width="40" height="40"/>
+                                <color key="backgroundColor" red="0.31083711980000001" green="0.67594176530000005" blue="0.95863026380000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Fru-NS-1xj"/>
+                                    <constraint firstAttribute="width" constant="40" id="zl8-h4-jIY"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="im7-se-2om" firstAttribute="top" secondItem="mVV-4v-yOZ" secondAttribute="top" constant="64" id="1yZ-E1-qOf"/>
+                            <constraint firstItem="im7-se-2om" firstAttribute="leading" secondItem="mVV-4v-yOZ" secondAttribute="leading" constant="100" id="8xo-LQ-OIT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="mVV-4v-yOZ"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="im7-se-2om"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="or5-rE-ydv"/>
+                    <connections>
+                        <outlet property="testView" destination="im7-se-2om" id="WU2-CV-hpn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iNS-Im-IE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6133.3333333333339" y="838.39285714285711"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="8wm-TI-im9">
             <objects>
@@ -455,6 +493,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0aR-U3-US1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2645" y="868"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bfl-HJ-M2e">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QNf-ju-Qoo" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tmB-eB-Nux">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UsU-kG-3Dm" kind="relationship" relationship="rootViewController" id="EJm-Ap-6nO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ImG-uQ-PqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5223.188405797102" y="838.39285714285711"/>
         </scene>
     </scenes>
 </document>

@@ -22,6 +22,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         flights.append("FR110")
         flights.append("FR111")
         flights.append("FR112")
+        flights.append("FR113")
         
         //setupLongPressGesture()
     }
@@ -87,6 +88,11 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
                 if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                     vc.imageToLoad = UIImage(named: img)
                 }
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        else if indexPath.row == 3{
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

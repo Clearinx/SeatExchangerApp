@@ -17,6 +17,8 @@
 		890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */; };
 		890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */; };
 		890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */; };
+		FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */; };
+		FF489CB622F88B92005FAE41 /* Tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB522F88B92005FAE41 /* Tap.swift */; };
 		FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFF37B222EDBC8C0014D999 /* Ryanair.png */; };
 		FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -55,6 +57,8 @@
 		890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlightRiderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRiderUITests.swift; sourceTree = "<group>"; };
 		890A4FB422E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSeatsViewController.swift; sourceTree = "<group>"; };
+		FF489CB522F88B92005FAE41 /* Tap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tap.swift; sourceTree = "<group>"; };
 		FFFF37B222EDBC8C0014D999 /* Ryanair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ryanair.png; sourceTree = "<group>"; };
 		FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +111,7 @@
 		890A4F8E22E20F2600FA7324 /* FlightRider */ = {
 			isa = PBXGroup;
 			children = (
+				FF489CB422F88B75005FAE41 /* Services */,
 				890A4F8F22E20F2600FA7324 /* AppDelegate.swift */,
 				890A4F9122E20F2600FA7324 /* ViewController.swift */,
 				890A4F9322E20F2600FA7324 /* Main.storyboard */,
@@ -118,6 +123,7 @@
 				FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */,
 				89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift */,
 				89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift */,
+				FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */,
 			);
 			path = FlightRider;
 			sourceTree = "<group>";
@@ -138,6 +144,14 @@
 				890A4FB422E20F2700FA7324 /* Info.plist */,
 			);
 			path = FlightRiderUITests;
+			sourceTree = "<group>";
+		};
+		FF489CB422F88B75005FAE41 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FF489CB522F88B92005FAE41 /* Tap.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +287,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,
+				FF489CB622F88B92005FAE41 /* Tap.swift in Sources */,
+				FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */,
 				89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift in Sources */,
 				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
