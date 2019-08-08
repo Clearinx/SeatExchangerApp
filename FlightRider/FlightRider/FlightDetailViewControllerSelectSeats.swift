@@ -51,16 +51,33 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return maxElements
     }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel: UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont(name: "Helvetica", size: 60)
+            pickerLabel?.textAlignment = .center
+        }
         let myRow = row % pickerData[component].count
-        let myString = pickerData[component][myRow]
-        return myString
+        pickerLabel?.text = pickerData[component][myRow]
+        pickerLabel?.textColor = UIColor.blue
+        
+        return pickerLabel!
     }
     
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 80 // you can calculate this based on your container view or window size
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 80
+    }
     /*func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let myRow = row % pickerData[component].count
         let myString = pickerData[component][myRow]
-        let myTitle = NSAttributedString(string: myString, attributes: [NSAttributedString.Key.font:UIFont(name: "Georgia", size: 50.0)!,NSAttributedString.Key.foregroundColor:UIColor.blue])
+        let myTitle = NSAttributedString(string: myString, attributes: [NSAttributedString.Key.font:UIFont(name: "Georgia", size: 70.0)!,NSAttributedString.Key.foregroundColor:UIColor.blue])
         return myTitle
     }*/
     

@@ -23,6 +23,8 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         flights.append("FR111")
         flights.append("FR112")
         flights.append("FR113")
+        flights.append("FR114")
+
         
         //setupLongPressGesture()
     }
@@ -93,6 +95,15 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         }
         else if indexPath.row == 3{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        else if indexPath.row == 4{
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "ExchangeAggreement") as? FlightDetailViewControllerExchangeAggreement{
+                vc.flightNrString = flights[indexPath.row]
+                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                    vc.imageToLoad = UIImage(named: img)
+                }
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
