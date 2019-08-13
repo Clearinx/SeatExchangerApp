@@ -2,7 +2,7 @@
 //  Flight+CoreDataClass.swift
 //  FlightRider
 //
-//  Created by Tomi on 2019. 08. 12..
+//  Created by Horvath Tamas on 2019. 08. 13..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 //

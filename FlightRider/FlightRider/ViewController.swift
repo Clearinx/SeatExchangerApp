@@ -7,24 +7,31 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
-    var flights = [String]()
-    //var listIdx : Int?
+    var flights = [Flight]()
+    var container: NSPersistentContainer!
+    var fetchedResultsController: NSFetchedResultsController<Flight>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
-        /*navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFlight))*/
         title = "Flights"
-        /*flights.append("FR110")
-        flights.append("FR111")
-        flights.append("FR112")
-        flights.append("FR113")
-        flights.append("FR114")*/
+        
+        container = NSPersistentContainer(name: "FlightRider")
+        
+        container.loadPersistentStores { storeDescription, error in
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+        }
         parseJson()
+        loadSavedData()
 
         
         //setupLongPressGesture()
@@ -34,12 +41,26 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         if let filepath = Bundle.main.path(forResource: "test_flights", ofType: "json") {
             do {
                 let data = try String(contentsOfFile: filepath)
-                let jsonCommits = JSON(parseJSON: data)
-                let jsonCommitArray = jsonCommits.arrayValue
-                for jsonCommit in jsonCommitArray {
+                let jsonData = JSON(parseJSON: data)
+                let jsonArray = jsonData.arrayValue
+                for json in jsonArray {
                     // the following three lines are new
-                    print(jsonCommit["flight"]["iataNumber"].stringValue)
+                    print(json["flight"]["iataNumber"].stringValue)
+                    let flight = Flight(context: self.container.viewContext)
+                    flight.iataNumber = json["flight"]["iataNumber"].stringValue
+                    flight.checkedIn = false
+                    
+                    let departureDate = json["departure"]["scheduledTime"].stringValue
+                    let dateFormat = getDate(receivedDate: departureDate)
+                    flight.departureDate = dateFormat
+                    
+                    /*let seat = Seat(context: self.container.viewContext)
+                    seat.number = "13C"
+                    seat.occupiedBy = "AAA"
+                    seat.flight = flight
+                    flight.seats = [seat]*/
                 }
+                self.saveContext()
             } catch {
                 // contents could not be loaded
             }
@@ -49,6 +70,29 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         
     }
     
+    func loadSavedData() {
+        let request = Flight.createFetchRequest()
+        let sort = NSSortDescriptor(key: "iataNumber", ascending: false)
+        request.sortDescriptors = [sort]
+        
+        do {
+            flights = try container.viewContext.fetch(request)
+            tableView.reloadData()
+        } catch {
+            print("Fetch failed")
+        }
+    }
+    
+    func saveContext() {
+        if container.viewContext.hasChanges {
+            do {
+                try container.viewContext.save()
+            } catch {
+                print("An error occurred while saving: \(error)")
+            }
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         return flights.count
@@ -56,8 +100,8 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
-        cell.textLabel?.text = flights[indexPath.row]
-        cell.detailTextLabel?.text = getDate()
+        cell.textLabel?.text = flights[indexPath.row].iataNumber
+        cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate)
         if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
             cell.imageView?.image = UIImage(named: img)
         }
@@ -76,11 +120,19 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     }
     
     
-    func getDate() -> String
+    func getDate(receivedDate : String) -> Date
+    {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.zzz"
+        let date = formatter.date(from: receivedDate)! // change this to nil colescaling!
+        return date
+    }
+    
+    func getDateString(receivedDate : Date) -> String
     {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let date = formatter.string(from: Date()) // string purpose I add here
+        let date = formatter.string(from: receivedDate)
         return date
     }
     
@@ -88,7 +140,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         
         if indexPath.row == 0{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetail") as? FlightDetailViewController{
-                vc.flightNrString = flights[indexPath.row]
+                vc.flightNrString = flights[indexPath.row].iataNumber
                 if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                     vc.imageToLoad = UIImage(named: img)
                 }
@@ -97,7 +149,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         }
         else if indexPath.row == 1{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
-                vc.flightNrString = flights[indexPath.row]
+                vc.flightNrString = flights[indexPath.row].iataNumber
                 if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                     vc.imageToLoad = UIImage(named: img)
                 }
@@ -106,7 +158,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         }
         else if indexPath.row == 2{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailCannotCheckin") as? FlightDetailViewControllerCannotCheckin{
-                vc.flightNrString = flights[indexPath.row]
+                vc.flightNrString = flights[indexPath.row].iataNumber
                 if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                     vc.imageToLoad = UIImage(named: img)
                 }
@@ -120,7 +172,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         }
         else if indexPath.row == 4{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "ExchangeAggreement") as? FlightDetailViewControllerExchangeAggreement{
-                vc.flightNrString = flights[indexPath.row]
+                vc.flightNrString = flights[indexPath.row].iataNumber
                 if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                     vc.imageToLoad = UIImage(named: img)
                 }
@@ -145,9 +197,9 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     func submit(_ flight: String) {
         
-        flights.append(flight)
+        /*flights.append(flight)
         let indexPath = IndexPath(row: flights.count - 1, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.insertRows(at: [indexPath], with: .automatic)*/
     }
     
     /*@objc func removeFlight(idx: Int){
