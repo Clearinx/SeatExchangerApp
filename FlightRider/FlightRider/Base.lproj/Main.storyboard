@@ -502,16 +502,16 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 1:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLi-0D-huR">
-                                <rect key="frame" x="41.5" y="371" width="87" height="36"/>
+                                <rect key="frame" x="41.5" y="371" width="91.5" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=compact">
-                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                 </variation>
                             </label>
                             <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="s0C-2W-dgR">
-                                <rect key="frame" x="161" y="339" width="320" height="100"/>
+                                <rect key="frame" x="161" y="421" width="320" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="85" id="JI4-I1-9jd">
                                         <variation key="heightClass=regular-widthClass=regular" constant="120"/>
@@ -536,12 +536,43 @@
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your seat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vp4-PT-ej2">
+                                <rect key="frame" x="41.5" y="456" width="107" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other User's seat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mq7-ia-kfB">
+                                <rect key="frame" x="41.5" y="558" width="194" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pickerView tag="1" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="S2D-tj-lXI">
+                                <rect key="frame" x="161" y="523" width="320" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="85" id="0xP-nO-qor">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="120"/>
+                                    </constraint>
+                                    <constraint firstAttribute="height" constant="100" id="uHx-Ca-g6h">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    </constraint>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="0xP-nO-qor"/>
+                                    </mask>
+                                </variation>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="I2z-ij-hk9" firstAttribute="centerY" secondItem="mce-th-qRK" secondAttribute="centerY" id="5zF-OC-xZp"/>
                             <constraint firstItem="OLi-0D-huR" firstAttribute="top" secondItem="6gy-ls-FZZ" secondAttribute="bottom" multiplier="1.2" id="9CG-30-M59"/>
+                            <constraint firstItem="S2D-tj-lXI" firstAttribute="centerY" secondItem="mq7-ia-kfB" secondAttribute="centerY" id="9E8-rm-FmH"/>
+                            <constraint firstItem="mq7-ia-kfB" firstAttribute="leading" secondItem="Vp4-PT-ej2" secondAttribute="leading" id="A5K-vP-33L"/>
                             <constraint firstItem="OLi-0D-huR" firstAttribute="leading" secondItem="6gy-ls-FZZ" secondAttribute="leading" id="AVe-ih-SOA"/>
+                            <constraint firstItem="Vp4-PT-ej2" firstAttribute="leading" secondItem="OLi-0D-huR" secondAttribute="leading" id="FWW-TB-ulo"/>
                             <constraint firstItem="6gy-ls-FZZ" firstAttribute="leading" secondItem="mce-th-qRK" secondAttribute="leading" id="Kb4-Vm-R50"/>
                             <constraint firstItem="AT5-wE-hsm" firstAttribute="trailing" secondItem="qTp-TM-jiQ" secondAttribute="trailing" constant="61" id="MEh-qs-xIm"/>
                             <constraint firstItem="AT5-wE-hsm" firstAttribute="bottom" secondItem="qTp-TM-jiQ" secondAttribute="bottom" constant="49" id="RhF-wh-Q3y"/>
@@ -549,21 +580,31 @@
                             <constraint firstItem="s0C-2W-dgR" firstAttribute="centerX" secondItem="MmS-Nf-tQ2" secondAttribute="centerX" id="VST-SJ-I1B"/>
                             <constraint firstItem="mce-th-qRK" firstAttribute="leading" secondItem="AT5-wE-hsm" secondAttribute="centerX" multiplier="0.2" id="VkU-pc-C6w"/>
                             <constraint firstItem="MmS-Nf-tQ2" firstAttribute="centerY" secondItem="6gy-ls-FZZ" secondAttribute="centerY" id="f8v-tg-TM3"/>
-                            <constraint firstItem="s0C-2W-dgR" firstAttribute="centerY" secondItem="OLi-0D-huR" secondAttribute="centerY" id="n4h-9E-hUo"/>
+                            <constraint firstItem="S2D-tj-lXI" firstAttribute="centerX" secondItem="s0C-2W-dgR" secondAttribute="centerX" id="nfX-4W-2TD"/>
+                            <constraint firstItem="mq7-ia-kfB" firstAttribute="top" secondItem="Vp4-PT-ej2" secondAttribute="bottom" constant="72" id="oRn-01-91V"/>
                             <constraint firstItem="I2z-ij-hk9" firstAttribute="centerX" secondItem="AT5-wE-hsm" secondAttribute="centerX" multiplier="1.55" id="qFk-T5-ZZA"/>
                             <constraint firstItem="MmS-Nf-tQ2" firstAttribute="centerX" secondItem="I2z-ij-hk9" secondAttribute="centerX" id="qxq-r9-80Q"/>
                             <constraint firstItem="mce-th-qRK" firstAttribute="top" secondItem="AT5-wE-hsm" secondAttribute="top" multiplier="2" id="s5e-xU-LFi">
                                 <variation key="heightClass=regular-widthClass=compact" constant="-40"/>
                             </constraint>
+                            <constraint firstItem="Vp4-PT-ej2" firstAttribute="top" secondItem="OLi-0D-huR" secondAttribute="bottom" constant="49" id="tmM-E2-hBc"/>
+                            <constraint firstItem="s0C-2W-dgR" firstAttribute="centerY" secondItem="Vp4-PT-ej2" secondAttribute="centerY" id="xSw-d5-fOu"/>
                             <constraint firstItem="qTp-TM-jiQ" firstAttribute="leading" secondItem="AT5-wE-hsm" secondAttribute="leading" constant="61" id="z7W-9g-TRL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AT5-wE-hsm"/>
                     </view>
                     <navigationItem key="navigationItem" id="yra-cb-6q0"/>
                     <connections>
+                        <outlet property="Seat1" destination="OLi-0D-huR" id="HeZ-9X-8Cf"/>
                         <outlet property="flightLogo" destination="I2z-ij-hk9" id="jmM-7E-9CU"/>
-                        <outlet property="flightNr" destination="mce-th-qRK" id="CA0-FJ-wjb"/>
+                        <outlet property="flightNr" destination="mce-th-qRK" id="nN3-Ug-XE9"/>
+                        <outlet property="one" destination="MmS-Nf-tQ2" id="89w-Ja-0JT"/>
+                        <outlet property="otherSeat" destination="mq7-ia-kfB" id="o7b-Lr-Hmk"/>
                         <outlet property="seat1Picker" destination="s0C-2W-dgR" id="fhB-4b-fd5"/>
+                        <outlet property="seat2Picker" destination="S2D-tj-lXI" id="nVh-kH-9ML"/>
+                        <outlet property="seatsToExchange" destination="6gy-ls-FZZ" id="40B-k0-gzQ"/>
+                        <outlet property="sendButton" destination="qTp-TM-jiQ" id="EhV-rF-oIU"/>
+                        <outlet property="yourSeat" destination="Vp4-PT-ej2" id="shA-HN-m4v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OR2-iL-Hv7" userLabel="First Responder" sceneMemberID="firstResponder"/>

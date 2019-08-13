@@ -19,14 +19,34 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         /*navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFlight))*/
         title = "Flights"
-        flights.append("FR110")
+        /*flights.append("FR110")
         flights.append("FR111")
         flights.append("FR112")
         flights.append("FR113")
-        flights.append("FR114")
+        flights.append("FR114")*/
+        parseJson()
 
         
         //setupLongPressGesture()
+    }
+    
+    func parseJson(){
+        if let filepath = Bundle.main.path(forResource: "test_flights", ofType: "json") {
+            do {
+                let data = try String(contentsOfFile: filepath)
+                let jsonCommits = JSON(parseJSON: data)
+                let jsonCommitArray = jsonCommits.arrayValue
+                for jsonCommit in jsonCommitArray {
+                    // the following three lines are new
+                    print(jsonCommit["flight"]["iataNumber"].stringValue)
+                }
+            } catch {
+                // contents could not be loaded
+            }
+        } else {
+            // example.txt not found!
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

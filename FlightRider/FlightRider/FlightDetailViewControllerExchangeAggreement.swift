@@ -10,12 +10,20 @@ import UIKit
 
 class FlightDetailViewControllerExchangeAggreement: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var flightLogo: UIImageView!
-    @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var seat1Picker: UIPickerView!
+    @IBOutlet weak var seat2Picker: UIPickerView!
+    @IBOutlet weak var flightNr: UILabel!
+    @IBOutlet weak var seatsToExchange: UILabel!
+    @IBOutlet weak var one: UILabel!
+    @IBOutlet weak var Seat1: UILabel!
+    @IBOutlet weak var yourSeat: UILabel!
+    @IBOutlet weak var otherSeat: UILabel!
+    @IBOutlet weak var sendButton: UIButton!
     
     var flightNrString : String?
     var imageToLoad : UIImage!
     var pickerData: [String] = [String]()
+    var pickerData2: [String] = [String]()
     private let maxElements = 10000
     
     override func viewDidLoad() {
@@ -26,9 +34,13 @@ class FlightDetailViewControllerExchangeAggreement: UIViewController, UIPickerVi
             flightLogo.image = imageToLoad
         }
         pickerData = ["05F", "13C", "32A"]
+        pickerData2 = ["08D", "28B", "17E"]
         seat1Picker.delegate = self
         seat1Picker.dataSource = self
         seat1Picker.selectRow((maxElements / 2) - 8, inComponent: 0, animated: false)
+        seat2Picker.delegate = self
+        seat2Picker.dataSource = self
+        seat2Picker.selectRow((maxElements / 2) - 8, inComponent: 0, animated: false)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -45,8 +57,16 @@ class FlightDetailViewControllerExchangeAggreement: UIViewController, UIPickerVi
             pickerLabel?.font = UIFont(name: "Helvetica", size: 30)
             pickerLabel?.textAlignment = .center
         }
-        let myRow = row % pickerData.count
-        pickerLabel?.text = pickerData[myRow]
+        if pickerView.tag == 0{
+            let myRow = row % pickerData.count
+            pickerLabel?.text = pickerData[myRow]
+            
+        }
+        else if pickerView.tag == 1{
+            let myRow = row % pickerData2.count
+            pickerLabel?.text = pickerData2[myRow]
+            
+        }
         pickerLabel?.textColor = UIColor.blue
         
         return pickerLabel!

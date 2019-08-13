@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class FlightDetailViewController: UIViewController {
 
@@ -14,8 +15,10 @@ class FlightDetailViewController: UIViewController {
     @IBOutlet weak var flightLogo: UIImageView!
     
     
+    
     var flightNrString : String?
     var imageToLoad : UIImage!
+    var container: NSPersistentContainer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,27 @@ class FlightDetailViewController: UIViewController {
             flightNr.text = flightNrString
             flightLogo.image = imageToLoad
         }
+        
+        container = NSPersistentContainer(name: "FlightRider")
+        
+        container.loadPersistentStores { storeDescription, error in
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+        }
+        
+        let flight = Flight(context: self.container.viewContext)
+        flight.iataNumber = "FR110"
+        flight.departureDate = Date()
+        flight.checkedIn = true
+        
+        let seat = Seat(context: self.container.viewContext)
+        seat.number = "13C"
+        seat.occupiedBy = "AAA"
+        
+        flight.seats = [seat]
 
         // Do any additional setup after loading the view.
     }
