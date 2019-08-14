@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewController.swift"
-            timestampString = "587312815.80433"
+            timestampString = "587460202.360013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkName = "saveContext()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,14 +41,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FlightRider/ViewController.swift"
-            timestampString = "587312822.247612"
+            filePath = "FlightRider/ViewControllers/ViewController.swift"
+            timestampString = "587481438.180519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "parseJson()"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "createObjectsFromJson(json:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FlightRider.ViewController.createObjectsFromJson(json: FlightRider.JSON) -&gt; ()"
+                  moduleName = "FlightRider"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/clearinx/Documents/sources/FlightRider/FlightRider/ViewControllers/ViewController.swift"
+                  timestampString = "587481439.242786"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "2580">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; Swift.Bool in FlightRider.ViewController.createObjectsFromJson(json: FlightRider.JSON) -&gt; ()"
+                  moduleName = "FlightRider"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/clearinx/Documents/sources/FlightRider/FlightRider/ViewControllers/ViewController.swift"
+                  timestampString = "587481439.2534831"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
