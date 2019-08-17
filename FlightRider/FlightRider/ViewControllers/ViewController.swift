@@ -18,14 +18,13 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
         
         setupContainer()
+       // parseJson()
         loadSavedData()
-        parseJson()
     }
-    
     func setupContainer(){
         container = NSPersistentContainer(name: "FlightRider")
         
@@ -45,8 +44,21 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
                 let jsonData = JSON(parseJSON: data)
                 let jsonArray = jsonData.arrayValue
                 for json in jsonArray {
-                    createObjectsFromJson(json : json)
-
+                    // the following three lines are new
+                    print(json["flight"]["iataNumber"].stringValue)
+                    let flight = Flight(context: self.container.viewContext)
+                    flight.iataNumber = json["flight"]["iataNumber"].stringValue
+                    flight.checkedIn = false
+                    
+                    let departureDate = json["departure"]["scheduledTime"].stringValue
+                    let dateFormat = getDate(receivedDate: departureDate)
+                    flight.departureDate = dateFormat
+                    
+                    /*let seat = Seat(context: self.container.viewContext)
+                     seat.number = "13C"
+                     seat.occupiedBy = "AAA"
+                     seat.flight = flight
+                     flight.seats = [seat]*/
                 }
                 self.saveContext()
             } catch {
@@ -58,12 +70,13 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         
     }
     
-    func createObjectsFromJson(json : JSON){
+    
+    func createObjectsFromJson(json : JSON, flightCode : String){
         let flight = Flight(context: self.container.viewContext)
-        flight.iataNumber = json["flight"]["iataNumber"].stringValue
+        flight.iataNumber = flightCode
         flight.checkedIn = false
         
-        let departureDate = json["departure"]["scheduledTime"].stringValue
+        let departureDate = json["departureTime"].stringValue
         let dateFormat = getDate(receivedDate: departureDate)
         flight.departureDate = dateFormat
         
@@ -72,15 +85,23 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         seat.number = "13C"
         seat.occupiedBy = "AAA"
         
-        print(flight)
-        print(flights[14])
+        let seat2 = Seat(context: self.container.viewContext)
+        seat2.number = "13F"
+        seat2.occupiedBy = "BBB"
         
-        let numbers = [1, 2, 3, 4]
-        let contains = flight.seats.contains(where: {$0.number == "3" })
-        
-        let storedFlight = flights.firstIndex(of: flight)
-        print(flights.count)
-        flight.seats.insert(seat)
+        if let idx = flights.firstIndex(where: {$0.iataNumber == flight.iataNumber }){
+            if (!flights[idx].seats.contains(where: {$0.number == seat.number })) && (!flights[idx].seats.contains(where: {$0.number == seat2.number })){
+                flight.seats.insert(seat)
+                flight.seats.insert(seat2)
+            }
+        }
+        else{
+            flight.seats.insert(seat)
+            flight.seats.insert(seat2)
+            flights.append(flight)
+            let indexPath = IndexPath(row: flights.count-1, section: 0)
+            tableView.insertRows(at: [indexPath], with: .automatic)
+        }
         
         
         
@@ -88,7 +109,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     func loadSavedData() {
         let request = Flight.createFetchRequest()
-        let sort = NSSortDescriptor(key: "iataNumber", ascending: false)
+        let sort = NSSortDescriptor(key: "iataNumber", ascending: true)
         request.sortDescriptors = [sort]
         
         do {
@@ -101,7 +122,6 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
                     print(element.occupiedBy)
                 }
             }
-            tableView.reloadData()
         } catch {
             print("Fetch failed")
         }
@@ -131,31 +151,33 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         }
         return cell
     }
-    
-    /*override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }*/
+
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-            tableView.setEditing(false, animated: false)
+            /*tableView.setEditing(false, animated: false)
             flights.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .none)
+            tableView.deleteRows(at: [indexPath], with: .none)*/
+        let flight = flights[indexPath.row]
+        container.viewContext.delete(flight)
+        flights.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        saveContext()
     }
     
     
     func getDate(receivedDate : String) -> Date
     {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.zzz"
-        let date = formatter.date(from: receivedDate)! // change this to nil colescaling!
+        formatter.dateFormat = "HH:mm:ss"
+        let date = formatter.date(from: receivedDate) ?? Date() // change this to nil colescaling!
         return date
     }
     
     func getDateString(receivedDate : Date) -> String
     {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        formatter.dateFormat = "HH:mm:ss"
         let date = formatter.string(from: receivedDate)
         return date
     }
@@ -206,53 +228,54 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         
     }
     
-    /*@objc func addFlight(){
+    @objc func addFlight(){
         let ac = UIAlertController(title: "Enter a flight number", message: nil, preferredStyle: .alert)
         ac.addTextField()
         
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak ac] action in
-            guard let flight = ac?.textFields?[0].text else { return }
-            self?.submit(flight)
+            guard let flightCode = ac?.textFields?[0].text else { return }
+            self?.submit(flightCode.uppercased())
         }
         
         ac.addAction(submitAction)
         present(ac, animated: true)
     }
     
-    func submit(_ flight: String) {
-        
-        /*flights.append(flight)
-        let indexPath = IndexPath(row: flights.count - 1, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)*/
-    }*/
-    
-    /*@objc func removeFlight(idx: Int){
-        if let idx = listIdx{
-            flights.remove(at: idx)
-            let indexPath = IndexPath(row: idx, section: 0)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            listIdx = nil
-        }
-    }
-    
-    
-    func setupLongPressGesture() {
-        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
-        longPressGesture.minimumPressDuration = 1.0
-        longPressGesture.delegate = self
-        self.view.addGestureRecognizer(longPressGesture)
-    }
-    
-    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
-        if gestureRecognizer.state == .began {
-            let touchPoint = gestureRecognizer.location(in: self.view)
-            if let indexPath = self.tableView.indexPathForRow(at: touchPoint) {
-                //tableView.isEditing = tableView.isEditing
-                tableView.setEditing(!tableView.isEditing, animated: true)
-                //tableView.allowsSelectionDuringEditing = true
+    func submit(_ flightCode: String) { //async download needed
+
+        let airlineIata = flightCode.prefix(2)
+        let flightNumber = flightCode.suffix(flightCode.count-2)
+        print(airlineIata)
+        print(flightNumber)
+        let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
+        do{
+            let data = try String(contentsOf: URL(string: urlString)!)
+            let jsonData = JSON(parseJSON: data)
+            let jsonArray = jsonData.arrayValue
+            if jsonArray.count > 0{
+                DispatchQueue.main.async { [unowned self] in
+                    self.createObjectsFromJson(json : jsonArray[0], flightCode: flightCode)
+                    self.saveContext()
+                }
             }
+            else{
+                flightNotFoundError()
+            }
+
         }
-    }*/
+        catch{
+            flightNotFoundError()
+            
+        }
+    }
+    
+    func flightNotFoundError(){
+        let ac = UIAlertController(title: "Error", message: "Could not found flight", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
+    }
+    
     
 
 }
