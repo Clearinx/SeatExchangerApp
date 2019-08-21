@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>55734713825-0u607ppr9l16gjk0jf4aaa08veetov65.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.55734713825-0u607ppr9l16gjk0jf4aaa08veetov65</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCcnV3N4EpgyoxB04a6OkmfF8KqERjf6OI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>55734713825</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.clearinx.FlightRider</string>
+	<key>PROJECT_ID</key>
+	<string>flightrider-110eb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flightrider-110eb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:55734713825:ios:1a55c34796b42a1f</string>
+	<key>DATABASE_URL</key>
+	<string>https://flightrider-110eb.firebaseio.com</string>
+</dict>
+</plist>
