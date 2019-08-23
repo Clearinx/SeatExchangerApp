@@ -9,11 +9,15 @@
 import UIKit
 import CoreData
 
-class ViewController: UITableViewController, UIGestureRecognizerDelegate {
+class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var flights = [Flight]()
+    var user = User()
     var container: NSPersistentContainer!
     var fetchedResultsController: NSFetchedResultsController<Flight>!
+    var fetchedUser: NSFetchedResultsController<User>!
+    var uid : String = ""
+    var email : String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +25,13 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
         
+        
+        
         setupContainer()
        // parseJson()
+        checkUserData()
         loadSavedData()
+        print(uid)
     }
     func setupContainer(){
         container = NSPersistentContainer(name: "FlightRider")
@@ -37,7 +45,8 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func parseJson(){
+    //function only for loading some dummy data
+    /*func parseJson(){
         if let filepath = Bundle.main.path(forResource: "test_flights", ofType: "json") {
             do {
                 let data = try String(contentsOfFile: filepath)
@@ -68,7 +77,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
             // example.txt not found!
         }
         
-    }
+    }*/
     
     
     func createObjectsFromJson(json : JSON, flightCode : String){
@@ -101,27 +110,55 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
             flights.append(flight)
             let indexPath = IndexPath(row: flights.count-1, section: 0)
             tableView.insertRows(at: [indexPath], with: .automatic)
+            user.flights.append(flight.iataNumber)
         }
         
         
         
     }
     
+    func checkUserData() {
+        let request = User.createFetchRequest()
+        let sort = NSSortDescriptor(key: "uid", ascending: true)
+        request.sortDescriptors = [sort]
+            
+        fetchedUser = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: "uid", cacheName: nil)
+        fetchedUser.delegate = self
+        
+        fetchedUser.fetchRequest.predicate = NSPredicate(format: "uid == %@", self.uid)
+        do {
+            try fetchedUser.performFetch()
+            let result = fetchedUser.fetchedObjects! //ok to force unwrap, because if fetch is succesful, fetchedObjects cannot be nil
+            if(result.first != nil){
+                user = result.first!
+            }
+            else{
+                user = User(context: self.container.viewContext)
+                user.uid = self.uid
+                user.email = self.email
+                user.flights = [String]()
+                saveContext()
+            }
+            
+            print(user.email)
+        } catch {
+            print("Fetch failed")
+        }
+    }
+    
     func loadSavedData() {
         let request = Flight.createFetchRequest()
         let sort = NSSortDescriptor(key: "iataNumber", ascending: true)
         request.sortDescriptors = [sort]
+            
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: "iataNumber", cacheName: nil)
+        fetchedResultsController.delegate = self
         
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "ANY iataNumber IN %@", user.flights)
         do {
-            flights = try container.viewContext.fetch(request)
-            for flight in flights{
-                print(flight.iataNumber)
-                print(flight.departureDate)
-                for element in flight.seats{
-                    print(element.number)
-                    print(element.occupiedBy)
-                }
-            }
+            try fetchedResultsController.performFetch()
+            flights = fetchedResultsController.fetchedObjects! //ok to force unwrap, because if fetch is succesful, fetchedObjects cannot be nil
+            tableView.reloadData()
         } catch {
             print("Fetch failed")
         }
@@ -154,12 +191,9 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
 
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-            /*tableView.setEditing(false, animated: false)
-            flights.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .none)*/
         let flight = flights[indexPath.row]
-        container.viewContext.delete(flight)
+        //container.viewContext.delete(flight)
+        user.flights.removeAll{$0 == flight.iataNumber}
         flights.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         saveContext()
@@ -170,7 +204,7 @@ class ViewController: UITableViewController, UIGestureRecognizerDelegate {
     {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        let date = formatter.date(from: receivedDate) ?? Date() // change this to nil colescaling!
+        let date = formatter.date(from: receivedDate) ?? Date()
         return date
     }
     
