@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import CloudKit
 
 class LoginViewController: UIViewController {
 
@@ -68,6 +69,24 @@ class LoginViewController: UIViewController {
             vc.uid = self.uid
             vc.email = self.email
             navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+        
+    @IBAction func Test(_ sender: Any) {
+        let testRecord = CKRecord(recordType: "TestType2")
+        testRecord["type3"] = "dummy3" as CKRecordValue
+        testRecord["type4"] = "dummy4" as CKRecordValue
+        
+        CKContainer.default().publicCloudDatabase.save(testRecord) { [unowned self] record, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                    print("success")
+                    
+                    //self.isDirty = true
+                }
+            }
         }
     }
 }
