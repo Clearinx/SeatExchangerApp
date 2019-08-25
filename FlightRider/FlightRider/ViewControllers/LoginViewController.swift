@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import CloudKit
+import CoreData
 
 class LoginViewController: UIViewController {
 
@@ -16,11 +17,23 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var EmailFiled: UITextField!
     var uid : String = ""
     var email : String = ""
+    var container: NSPersistentContainer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupContainer()
         
+    }
+    func setupContainer(){
+        container = NSPersistentContainer(name: "FlightRider")
+        
+        container.loadPersistentStores { storeDescription, error in
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+        }
     }
     
     @IBAction func LoginButtonPressed(_ sender: Any) {
@@ -73,11 +86,23 @@ class LoginViewController: UIViewController {
     }
         
     @IBAction func Test(_ sender: Any) {
-        let testRecord = CKRecord(recordType: "TestType2")
-        testRecord["type3"] = "dummy3" as CKRecordValue
-        testRecord["type4"] = "dummy4" as CKRecordValue
+        let testRecord = CKRecord(recordType: "Flights")
+        testRecord["iataNumber"] = "FR110" as CKRecordValue
+        testRecord["departureDate"] = Date() as CKRecordValue
+        let seat1Record = CKRecord(recordType: "Seat")
+        seat1Record["number"] = "05F"
+        seat1Record["occupiedBy"] = "AA"
+        let seat2Record = CKRecord(recordType: "Seat")
+        seat2Record["number"] = "18C"
+        seat2Record["occupiedBy"] = "BB"
+        saveRecord(record: seat1Record)
+        saveRecord(record: seat2Record)
         
-        CKContainer.default().publicCloudDatabase.save(testRecord) { [unowned self] record, error in
+        saveRecord(record: testRecord)
+    }
+    
+    func saveRecord(record : CKRecord){
+        CKContainer.default().publicCloudDatabase.save(record) { [unowned self] record, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
@@ -88,5 +113,17 @@ class LoginViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @IBAction func iCloudRead(_ sender: Any) {
+        let pred = NSPredicate(value: true)
+        let sort = NSSortDescriptor(key: "number", ascending: true)
+        let query = CKQuery(recordType: "Seat", predicate: pred)
+        query.sortDescriptors = [sort]
+        
+        let operation = CKQueryOperation(query: query)
+        operation.desiredKeys = ["number", "occupiedBy"]
+        
+        print(operation.recordFetchedBlock as Any)
     }
 }

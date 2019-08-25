@@ -226,14 +226,14 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8c-HS-aMJ">
-                                <rect key="frame" x="141" y="373" width="38" height="30"/>
+                                <rect key="frame" x="140" y="398" width="38" height="30"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="LoginButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="OhV-C7-DA1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2D-iU-LfJ">
-                                <rect key="frame" x="134" y="449" width="52" height="30"/>
+                                <rect key="frame" x="134" y="474" width="52" height="30"/>
                                 <state key="normal" title="Sign up"/>
                                 <connections>
                                     <action selector="SignupButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="sRs-nx-089"/>
@@ -246,11 +246,19 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QvW-4C-cie">
-                                <rect key="frame" x="125" y="296" width="70" height="30"/>
+                                <rect key="frame" x="107" y="296" width="107" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="testiCloud"/>
+                                <state key="normal" title="testiCloudWrite"/>
                                 <connections>
                                     <action selector="Test:" destination="VFj-wt-fBu" eventType="touchUpInside" id="Nf9-vH-jSy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PKt-Tn-Uqm">
+                                <rect key="frame" x="107" y="342" width="105" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="testiCloudRead"/>
+                                <connections>
+                                    <action selector="iCloudRead:" destination="VFj-wt-fBu" eventType="touchUpInside" id="lgk-76-sOT"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -258,13 +266,13 @@
                         <constraints>
                             <constraint firstItem="Y2D-iU-LfJ" firstAttribute="top" secondItem="v8c-HS-aMJ" secondAttribute="bottom" constant="46" id="2eB-P7-uOO"/>
                             <constraint firstItem="VPb-Ag-Ofb" firstAttribute="centerX" secondItem="Crr-2X-DWt" secondAttribute="centerX" id="Kee-ns-fef"/>
-                            <constraint firstItem="QEO-uN-hVE" firstAttribute="bottom" secondItem="Y2D-iU-LfJ" secondAttribute="bottom" constant="89" id="TVO-87-u2e"/>
-                            <constraint firstItem="xgd-ob-6fA" firstAttribute="centerX" secondItem="v8c-HS-aMJ" secondAttribute="centerX" id="VMW-Tn-zEX"/>
+                            <constraint firstItem="QEO-uN-hVE" firstAttribute="bottom" secondItem="Y2D-iU-LfJ" secondAttribute="bottom" constant="64" id="TVO-87-u2e"/>
+                            <constraint firstItem="xgd-ob-6fA" firstAttribute="centerX" secondItem="v8c-HS-aMJ" secondAttribute="centerX" constant="1" id="VMW-Tn-zEX"/>
                             <constraint firstItem="VPb-Ag-Ofb" firstAttribute="leading" secondItem="xgd-ob-6fA" secondAttribute="leading" id="WZP-I2-Dsb"/>
                             <constraint firstItem="VPb-Ag-Ofb" firstAttribute="top" secondItem="QEO-uN-hVE" secondAttribute="top" constant="122" id="ajg-dO-fZ9"/>
                             <constraint firstItem="VPb-Ag-Ofb" firstAttribute="trailing" secondItem="xgd-ob-6fA" secondAttribute="trailing" id="jpU-QB-nYA"/>
                             <constraint firstItem="xgd-ob-6fA" firstAttribute="top" secondItem="VPb-Ag-Ofb" secondAttribute="bottom" constant="30" id="kcR-ao-WbC"/>
-                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="centerX" secondItem="Y2D-iU-LfJ" secondAttribute="centerX" id="nKB-e3-Ba3"/>
+                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="centerX" secondItem="Y2D-iU-LfJ" secondAttribute="centerX" constant="-1" id="nKB-e3-Ba3"/>
                             <constraint firstItem="VPb-Ag-Ofb" firstAttribute="leading" secondItem="QEO-uN-hVE" secondAttribute="leading" constant="52" id="uYp-q4-lyn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QEO-uN-hVE"/>

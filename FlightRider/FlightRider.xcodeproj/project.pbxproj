@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -30,6 +30,10 @@
 		FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */; };
 		FF489CB622F88B92005FAE41 /* Tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB522F88B92005FAE41 /* Tap.swift */; };
 		FF90B14323084EE10003E4D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */; };
+		FFA03FF02312D941009A3D3F /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FEE2312D941009A3D3F /* User+CoreDataClass.swift */; };
+		FFA03FF12312D941009A3D3F /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FEF2312D941009A3D3F /* User+CoreDataProperties.swift */; };
+		FFA03FF32312D94C009A3D3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FF22312D94C009A3D3F /* LoginViewController.swift */; };
+		FFA03FF62312DB08009A3D3F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA03FF52312DB08009A3D3F /* CloudKit.framework */; };
 		FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFF37B222EDBC8C0014D999 /* Ryanair.png */; };
 		FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -87,6 +91,11 @@
 		FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSeatsViewController.swift; sourceTree = "<group>"; };
 		FF489CB522F88B92005FAE41 /* Tap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tap.swift; sourceTree = "<group>"; };
 		FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FFA03FEE2312D941009A3D3F /* User+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		FFA03FEF2312D941009A3D3F /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		FFA03FF22312D94C009A3D3F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlightRider.entitlements; sourceTree = "<group>"; };
+		FFA03FF52312DB08009A3D3F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FFFF37B222EDBC8C0014D999 /* Ryanair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ryanair.png; sourceTree = "<group>"; };
 		FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4BDF6339156311CE218B426 /* Pods_FlightRider.framework in Frameworks */,
+				FFA03FF62312DB08009A3D3F /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +132,7 @@
 		649D53FEF60732134A04E9DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FFA03FF52312DB08009A3D3F /* CloudKit.framework */,
 				3166D2EDABAC33E67B21280F /* Pods_FlightRider.framework */,
 				838A8F549BFA5095025DA075 /* Pods_FlightRiderTests.framework */,
 				1F9B8094374816329C6786F9 /* Pods_FlightRiderUITests.framework */,
@@ -139,7 +150,6 @@
 				E1C5648191A6C75628B8F32A /* Pods-FlightRiderUITests.debug.xcconfig */,
 				9D5568620812861BE8189E7E /* Pods-FlightRiderUITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -168,6 +178,7 @@
 		890A4F8E22E20F2600FA7324 /* FlightRider */ = {
 			isa = PBXGroup;
 			children = (
+				FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */,
 				891990572303EFD5002D9074 /* LocalResources */,
 				891990562303EF00002D9074 /* CoreDataClasses */,
 				891990552303EDE1002D9074 /* ViewControllers */,
@@ -208,6 +219,7 @@
 				FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */,
 				89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift */,
 				89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift */,
+				FFA03FF22312D94C009A3D3F /* LoginViewController.swift */,
 				FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */,
 				891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */,
 			);
@@ -219,6 +231,8 @@
 			children = (
 				891990582303F171002D9074 /* Seat+CoreDataClass.swift */,
 				891990592303F171002D9074 /* Seat+CoreDataProperties.swift */,
+				FFA03FEE2312D941009A3D3F /* User+CoreDataClass.swift */,
+				FFA03FEF2312D941009A3D3F /* User+CoreDataProperties.swift */,
 				8919905A2303F171002D9074 /* Flight+CoreDataClass.swift */,
 				8919905B2303F171002D9074 /* Flight+CoreDataProperties.swift */,
 			);
@@ -315,6 +329,11 @@
 				TargetAttributes = {
 					890A4F8B22E20F2600FA7324 = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					890A4FA222E20F2700FA7324 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -469,6 +488,7 @@
 			files = (
 				891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */,
 				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,
+				FFA03FF12312D941009A3D3F /* User+CoreDataProperties.swift in Sources */,
 				FF489CB622F88B92005FAE41 /* Tap.swift in Sources */,
 				8919905C2303F171002D9074 /* Seat+CoreDataClass.swift in Sources */,
 				FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */,
@@ -479,8 +499,10 @@
 				8919905F2303F171002D9074 /* Flight+CoreDataProperties.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				8919905E2303F171002D9074 /* Flight+CoreDataClass.swift in Sources */,
+				FFA03FF32312D94C009A3D3F /* LoginViewController.swift in Sources */,
 				FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */,
 				890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */,
+				FFA03FF02312D941009A3D3F /* User+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,7 +678,9 @@
 			baseConfigurationReference = B006031DCDE23D17B0AD77BD /* Pods-FlightRider.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FlightRider/FlightRider.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7RAQ7W44J6;
 				INFOPLIST_FILE = FlightRider/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -674,7 +698,9 @@
 			baseConfigurationReference = 059ABA59AE3FE55937E8B4EB /* Pods-FlightRider.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FlightRider/FlightRider.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7RAQ7W44J6;
 				INFOPLIST_FILE = FlightRider/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
