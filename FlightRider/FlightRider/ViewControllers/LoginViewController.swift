@@ -18,7 +18,7 @@ class LoginViewController: UIViewController {
     var uid : String = ""
     var email : String = ""
     var container: NSPersistentContainer!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupContainer()
@@ -87,18 +87,23 @@ class LoginViewController: UIViewController {
         
     @IBAction func Test(_ sender: Any) {
         let testRecord = CKRecord(recordType: "Flights")
-        testRecord["iataNumber"] = "FR110" as CKRecordValue
+        testRecord["iataNumber"] = "ABCD" as CKRecordValue
         testRecord["departureDate"] = Date() as CKRecordValue
         let seat1Record = CKRecord(recordType: "Seat")
-        seat1Record["number"] = "05F"
-        seat1Record["occupiedBy"] = "AA"
+        seat1Record["number"] = "05FF"
+        seat1Record["occupiedBy"] = "AAA"
         let seat2Record = CKRecord(recordType: "Seat")
-        seat2Record["number"] = "18C"
-        seat2Record["occupiedBy"] = "BB"
+        seat2Record["number"] = "18CC"
+        seat2Record["occupiedBy"] = "BBB"
+        let reference = CKRecord.Reference(recordID: testRecord.recordID, action: .none)
+        
+        seat1Record["flight"] = reference
+        seat2Record["flight"] = reference
+        saveRecord(record: testRecord)
         saveRecord(record: seat1Record)
         saveRecord(record: seat2Record)
         
-        saveRecord(record: testRecord)
+        
     }
     
     func saveRecord(record : CKRecord){
@@ -117,13 +122,45 @@ class LoginViewController: UIViewController {
     
     @IBAction func iCloudRead(_ sender: Any) {
         let pred = NSPredicate(value: true)
-        let sort = NSSortDescriptor(key: "number", ascending: true)
-        let query = CKQuery(recordType: "Seat", predicate: pred)
+        let sort = NSSortDescriptor(key: "iataNumber", ascending: true)
+        let query = CKQuery(recordType: "Flights", predicate: pred)
         query.sortDescriptors = [sort]
         
-        let operation = CKQueryOperation(query: query)
-        operation.desiredKeys = ["number", "occupiedBy"]
+        /*let operation = CKQueryOperation(query: query)
+        operation.recordFetchedBlock = { record in
+            print(record["number"])
+            print(record["occupiedBy"])
+        }*/
+        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
+            if let error = error {
+                print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
+                return
+            }
+            for result in results!{
+                print(result["departureDate"] ?? "Nil value")
+                print(result["iataNumber"] ?? "Nil value")
+                let flightID = result.recordID
+                let recordToMatch = CKRecord.Reference(recordID: flightID, action: .none)
+                let predicate = NSPredicate(format: "flight == %@", recordToMatch.recordID)
+                let query2 = CKQuery(recordType: "Seat", predicate: predicate)
+                CKContainer.default().publicCloudDatabase.perform(query2, inZoneWith: nil){results2, error in
+                    if let error = error {
+                        print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
+                        return
+                    }
+                    for result2 in results2!{
+                        print(result2["number"] ?? "Nil value")
+                        print(result2["occupiedBy"] ?? "Nil value")
+                    }
+                }
+            }
+            
+        }
+        //let operation = CKQueryOperation(query: query)
+        //operation.desiredKeys = ["number", "occupiedBy"]
         
-        print(operation.recordFetchedBlock as Any)
+        //operation.recordFetchedBlock = { record in
+        //    print(record.allTokens())
+        //}
     }
 }
