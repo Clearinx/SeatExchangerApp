@@ -26,6 +26,7 @@
 		8919905E2303F171002D9074 /* Flight+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8919905A2303F171002D9074 /* Flight+CoreDataClass.swift */; };
 		8919905F2303F171002D9074 /* Flight+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8919905B2303F171002D9074 /* Flight+CoreDataProperties.swift */; };
 		891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */; };
+		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		B4BDF6339156311CE218B426 /* Pods_FlightRider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3166D2EDABAC33E67B21280F /* Pods_FlightRider.framework */; };
 		FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */; };
 		FF489CB622F88B92005FAE41 /* Tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB522F88B92005FAE41 /* Tap.swift */; };
@@ -84,6 +85,7 @@
 		8919905A2303F171002D9074 /* Flight+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flight+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8919905B2303F171002D9074 /* Flight+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flight+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerExchangeAggreement.swift; sourceTree = "<group>"; };
+		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		9D5568620812861BE8189E7E /* Pods-FlightRiderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRiderUITests.release.xcconfig"; path = "Target Support Files/Pods-FlightRiderUITests/Pods-FlightRiderUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B006031DCDE23D17B0AD77BD /* Pods-FlightRider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRider.debug.xcconfig"; path = "Target Support Files/Pods-FlightRider/Pods-FlightRider.debug.xcconfig"; sourceTree = "<group>"; };
 		BBFA841F28B08DCC98B1F8D3 /* Pods-FlightRiderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRiderTests.release.xcconfig"; path = "Target Support Files/Pods-FlightRiderTests/Pods-FlightRiderTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				FFA03FF22312D94C009A3D3F /* LoginViewController.swift */,
 				FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */,
 				891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */,
+				89EC5E062314331C00F24139 /* Spinner.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */,
+				89EC5E072314331C00F24139 /* Spinner.swift in Sources */,
 				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,
 				FFA03FF12312D941009A3D3F /* User+CoreDataProperties.swift in Sources */,
 				FF489CB622F88B92005FAE41 /* Tap.swift in Sources */,

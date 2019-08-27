@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  FlightRider
 //
-//  Created by Tomi on 2019. 08. 22..
+//  Created by Tomi on 2019. 08. 27..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 //
@@ -20,5 +20,6 @@ extension User {
     @NSManaged public var email: String
     @NSManaged public var flights: [String]
     @NSManaged public var uid: String
+    @NSManaged public var changetag: String
 
 }

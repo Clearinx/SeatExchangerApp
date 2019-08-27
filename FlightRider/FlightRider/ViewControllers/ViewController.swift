@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
@@ -25,24 +26,10 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
         
-        
-        
-        setupContainer()
        // parseJson()
         checkUserData()
-        loadSavedData()
-        print(uid)
-    }
-    func setupContainer(){
-        container = NSPersistentContainer(name: "FlightRider")
-        
-        container.loadPersistentStores { storeDescription, error in
-            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
-            if let error = error {
-                print("Unresolved error \(error)")
-            }
-        }
+        //loadSavedData()
+        //print(uid)
     }
     
     //function only for loading some dummy data
@@ -112,10 +99,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             tableView.insertRows(at: [indexPath], with: .automatic)
             user.flights.append(flight.iataNumber)
         }
-        
-        
-        
     }
+    
     
     func checkUserData() {
         let request = User.createFetchRequest()
@@ -133,18 +118,65 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 user = result.first!
             }
             else{
-                user = User(context: self.container.viewContext)
-                user.uid = self.uid
-                user.email = self.email
-                user.flights = [String]()
-                saveContext()
+                let pred = NSPredicate(value: true)
+                let sort = NSSortDescriptor(key: "uid", ascending: true)
+                let query = CKQuery(recordType: "AppUsers", predicate: pred)
+                query.sortDescriptors = [sort]
+                //self.showSpinner(onView: self.view)
+                CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
+                    //self.removeSpinner()
+                    if let error = error {
+                        print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
+                        return
+                    }
+                    if(results != nil){
+                        if(!(results!.isEmpty)){
+                            
+                        }
+                        else{
+                            let userRecord = CKRecord(recordType: "AppUsers")
+                            userRecord["uid"] = self.uid as CKRecordValue
+                            userRecord["email"] = self.email as CKRecordValue
+                            userRecord["flights"] = [String]() as CKRecordValue
+
+                            self.user = User(context: self.container.viewContext)
+                            self.user.uid = self.uid
+                            self.user.email = self.email
+                            self.user.flights = [String]()
+                            self.user.changetag = ""
+                            
+                            self.saveRecords(records: [userRecord])
+                            self.saveContext()
+                    }
+                }
             }
-            
-            print(user.email)
-        } catch {
-            print("Fetch failed")
         }
     }
+        catch {
+        print("Fetch failed")
+    }
+}
+    
+    func saveRecords(records : [CKRecord]){
+        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        CKContainer.default().publicCloudDatabase.add(operation)
+        print("success")
+        /*CKContainer.default().publicCloudDatabase.save(records) { [unowned self] record, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print( "Error: \(error.localizedDescription)")
+                } else {
+                    self.view.backgroundColor = UIColor(red: 0, green: 0.6, blue: 0, alpha: 1)
+                    print("Done!")
+                    
+                }
+                
+            }
+        }*/
+        
+    }
+        
+    
     
     func loadSavedData() {
         let request = Flight.createFetchRequest()

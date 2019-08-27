@@ -38,7 +38,9 @@ class LoginViewController: UIViewController {
     
     @IBAction func LoginButtonPressed(_ sender: Any) {
         if(EmailFiled.text != nil && PasswordField.text != nil){
+            self.showSpinner(onView: self.view)
             Auth.auth().signIn(withEmail: EmailFiled.text!, password: PasswordField.text!) { authResult, error in
+                self.removeSpinner()
                 guard let user = authResult?.user, error == nil else {
                     self.LoginError()
                     return
@@ -81,6 +83,7 @@ class LoginViewController: UIViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
             vc.uid = self.uid
             vc.email = self.email
+            vc.container = container
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -99,25 +102,21 @@ class LoginViewController: UIViewController {
         
         seat1Record["flight"] = reference
         seat2Record["flight"] = reference
-        saveRecord(record: testRecord)
-        saveRecord(record: seat1Record)
-        saveRecord(record: seat2Record)
         
+        let records = [testRecord, seat1Record, seat2Record]
+        
+        self.showSpinner(onView: self.view)
+        saveRecords(records: records)
+        self.removeSpinner()
         
     }
     
-    func saveRecord(record : CKRecord){
-        CKContainer.default().publicCloudDatabase.save(record) { [unowned self] record, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print("Error: \(error.localizedDescription)")
-                } else {
-                    print("success")
-                    
-                    //self.isDirty = true
-                }
-            }
-        }
+    func saveRecords(records : [CKRecord]){
+        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        operation.savePolicy = .ifServerRecordUnchanged
+        CKContainer.default().publicCloudDatabase.add(operation)
+        print("success")
+        
     }
     
     @IBAction func iCloudRead(_ sender: Any) {
@@ -125,13 +124,10 @@ class LoginViewController: UIViewController {
         let sort = NSSortDescriptor(key: "iataNumber", ascending: true)
         let query = CKQuery(recordType: "Flights", predicate: pred)
         query.sortDescriptors = [sort]
-        
-        /*let operation = CKQueryOperation(query: query)
-        operation.recordFetchedBlock = { record in
-            print(record["number"])
-            print(record["occupiedBy"])
-        }*/
+
+        self.showSpinner(onView: self.view)
         CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
+            self.removeSpinner()
             if let error = error {
                 print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
                 return
@@ -156,11 +152,5 @@ class LoginViewController: UIViewController {
             }
             
         }
-        //let operation = CKQueryOperation(query: query)
-        //operation.desiredKeys = ["number", "occupiedBy"]
-        
-        //operation.recordFetchedBlock = { record in
-        //    print(record.allTokens())
-        //}
     }
 }
