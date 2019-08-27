@@ -146,7 +146,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                             self.user.changetag = ""
                             
                             self.saveRecords(records: [userRecord])
-                            self.saveContext()
+                            //self.saveContext()
                     }
                 }
             }
@@ -159,14 +159,21 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     
     func saveRecords(records : [CKRecord]){
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordID, error in
+            if let error = error{
+                let detailedError = ((error as? CKError)!.localizedDescription)
+                print("Error: \(detailedError )")
+            }
+            else{
+                print("success")
+            }
+        }
         CKContainer.default().publicCloudDatabase.add(operation)
-        print("success")
-        /*CKContainer.default().publicCloudDatabase.save(records) { [unowned self] record, error in
+        /*CKContainer.default().publicCloudDatabase.save(records[0]) {result, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print( "Error: \(error.localizedDescription)")
                 } else {
-                    self.view.backgroundColor = UIColor(red: 0, green: 0.6, blue: 0, alpha: 1)
                     print("Done!")
                     
                 }

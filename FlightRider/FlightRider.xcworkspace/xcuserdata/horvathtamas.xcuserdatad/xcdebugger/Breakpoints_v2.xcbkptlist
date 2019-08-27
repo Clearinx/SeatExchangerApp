@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FlightRider/ViewControllers/LoginViewController.swift"
-            timestampString = "588451007.491118"
+            filePath = "FlightRider/ViewControllers/ViewController.swift"
+            timestampString = "588632335.489624"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "iCloudRead(_:)"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "checkUserData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
