@@ -19,6 +19,9 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     var fetchedUser: NSFetchedResultsController<User>!
     var uid : String = ""
     var email : String = ""
+    typealias VoidParameter = () -> Void
+    typealias CKRecordParameter = ([CKRecord]) -> Void
+    typealias NSManagedAndCkrecordParameter = ([NSManagedObject], [CKRecord]) -> Void
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +30,10 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         title = "Flights"
         
        // parseJson()
-        checkUserData()
+        //checkUserData()
         //loadSavedData()
         //print(uid)
+        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: self.uid, cloudTable: "AppUsers", saveToBothDb: saveUserDataToBothDb, fetchFromCloud: fetchUserFromCloud, compareChangeTag: compareUserChangeTag)
     }
     
     //function only for loading some dummy data
@@ -115,10 +119,11 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             try fetchedUser.performFetch()
             let result = fetchedUser.fetchedObjects! //ok to force unwrap, because if fetch is succesful, fetchedObjects cannot be nil
             if(result.first != nil){
+                
                 user = result.first!
             }
             else{
-                let pred = NSPredicate(value: true)
+                let pred = NSPredicate(format: "uid == %@", self.uid)
                 let sort = NSSortDescriptor(key: "uid", ascending: true)
                 let query = CKQuery(recordType: "AppUsers", predicate: pred)
                 query.sortDescriptors = [sort]
@@ -146,7 +151,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                             self.user.changetag = ""
                             
                             self.saveRecords(records: [userRecord])
-                            //self.saveContext()
+                            self.saveContext()
                     }
                 }
             }
@@ -156,13 +161,123 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         print("Fetch failed")
     }
 }
+    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : String, cloudTable : String, saveToBothDb : @escaping VoidParameter, fetchFromCloud : @escaping CKRecordParameter, compareChangeTag : @escaping NSManagedAndCkrecordParameter){
+        var request = NSFetchRequest<NSManagedObject>()
+        if (providedObject is User.Type){
+            request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        }
+        let sort = NSSortDescriptor(key: sortKey, ascending: true)
+        request.sortDescriptors = [sort]
+        let fetchedObject = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: sortKey, cacheName: nil)
+        fetchedObject.delegate = self
+        fetchedObject.fetchRequest.predicate = NSPredicate(format: "\(sortKey) == %@", sortValue)
+        do {
+            try fetchedObject.performFetch()
+            let localResults = fetchedObject.fetchedObjects! //ok to force unwrap, because if fetch is succesful, fetchedObjects cannot be nil
+            if(!(localResults.isEmpty)){
+                print((localResults.first! as! User).changetag)
+                makeCloudQuery(sortKey: sortKey, sortValue: sortValue, cloudTable: cloudTable){ cloudResults in
+                    if(!(cloudResults.isEmpty)){
+                        compareChangeTag(localResults, cloudResults)
+                    }
+                    else{
+                        
+                    }
+                }
+            }
+            else{
+                /*let pred = NSPredicate(format: "\(sortKey) == %@", sortValue)
+                let sort = NSSortDescriptor(key: sortKey, ascending: true)
+                let query = CKQuery(recordType: cloudTable, predicate: pred)
+                query.sortDescriptors = [sort]
+                
+                CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
+                    if let error = error {
+                        print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
+                        return
+                    }*/
+                makeCloudQuery(sortKey: sortKey, sortValue: sortValue, cloudTable: cloudTable){ cloudResults in
+                    if(!(cloudResults.isEmpty)){
+                        fetchFromCloud(cloudResults)
+                    }
+                    else{
+                        saveToBothDb()
+                    }
+                }
+                
+            }
+        }
+        catch{
+            
+        }
+    }
+    
+    func makeCloudQuery(sortKey : String, sortValue : String, cloudTable: String, completionHandler: @escaping (_ records: [CKRecord]) -> Void){
+        let pred = NSPredicate(format: "\(sortKey) == %@", sortValue)
+        let sort = NSSortDescriptor(key: sortKey, ascending: true)
+        let query = CKQuery(recordType: cloudTable, predicate: pred)
+        query.sortDescriptors = [sort]
+        
+        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
+            if let error = error {
+                print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
+                return
+            }
+            else{
+                if(results != nil){
+                    completionHandler(results!)
+                }
+            }
+        }
+        
+    }
+    
+    func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
+        self.user = localResults.first! as! User
+        if(self.user.changetag != cloudResults.first!.recordChangeTag){
+            fetchUserFromCloud(results : cloudResults)
+        }
+    }
+    func fetchUserFromCloud(results : [CKRecord]){
+        self.user = User(context: self.container.viewContext)
+        self.user.uid = results.first!["uid"]!
+        self.user.email = results.first!["email"]!
+        self.user.flights = results.first!["flights"]!
+        self.user.changetag = results.first!.recordChangeTag!
+        self.saveContext()
+    }
+    
+    func saveUserDataToBothDb(){
+        saveUserDataToCloud()
+        saveUserDataToLocal()
+    }
+    
+    func saveUserDataToCloud(){
+        let userRecord = CKRecord(recordType: "AppUsers")
+        userRecord["uid"] = self.uid as CKRecordValue
+        userRecord["email"] = self.email as CKRecordValue
+        userRecord["flights"] = [String]() as CKRecordValue
+        self.saveRecords(records: [userRecord])
+    }
+    
+    func saveUserDataToLocal(){
+        self.user = User(context: self.container.viewContext)
+        self.user.uid = self.uid
+        self.user.email = self.email
+        self.user.flights = [String]()
+        self.user.changetag = ""
+        
+        self.saveContext()
+    }
+        
+    
+    
     
     func saveRecords(records : [CKRecord]){
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordID, error in
             if let error = error{
-                let detailedError = ((error as? CKError)!.localizedDescription)
-                print("Error: \(detailedError )")
+                print("Error: \(error.localizedDescription)")
             }
             else{
                 print("success")
