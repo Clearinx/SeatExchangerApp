@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Flight" representedClassName="Flight" syncable="YES">
-        <attribute name="checkedIn" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="changetag" attributeType="String" syncable="YES"/>
         <attribute name="departureDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="iataNumber" attributeType="String" syncable="YES"/>
+        <attribute name="uid" attributeType="String" syncable="YES"/>
         <relationship name="seats" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Seat" inverseName="flight" inverseEntity="Seat" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="iataNumber"/>
+                <constraint value="uid"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -28,7 +29,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Flight" positionX="-45" positionY="0" width="128" height="105"/>
+        <element name="Flight" positionX="-45" positionY="0" width="128" height="120"/>
         <element name="Seat" positionX="-18" positionY="54" width="128" height="90"/>
         <element name="User" positionX="-27" positionY="54" width="128" height="105"/>
     </elements>

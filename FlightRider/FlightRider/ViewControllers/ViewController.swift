@@ -20,6 +20,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     var uid : String = ""
     var email : String = ""
     typealias VoidParameter = () -> Void
+    typealias StringValuesParameter = ([String]) -> Void
     typealias CKRecordParameter = ([CKRecord]) -> Void
     typealias NSManagedAndCkrecordParameter = ([NSManagedObject], [CKRecord]) -> Void
 
@@ -29,13 +30,12 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
         
-       // parseJson()
-        //checkUserData()
-        //loadSavedData()
-        //print(uid)
-        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: self.uid, cloudTable: "AppUsers", saveToBothDb: saveUserDataToBothDb, fetchFromCloud: fetchUserFromCloud, compareChangeTag: compareUserChangeTag)
+        loadUserData()
     }
     
+    func loadUserData(){
+        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser)
+    }
     //function only for loading some dummy data
     /*func parseJson(){
         if let filepath = Bundle.main.path(forResource: "test_flights", ofType: "json") {
@@ -71,17 +71,18 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }*/
     
     
-    func createObjectsFromJson(json : JSON, flightCode : String){
-        let flight = Flight(context: self.container.viewContext)
-        flight.iataNumber = flightCode
-        flight.checkedIn = false
+    func createStringsFromJson(json : JSON, flightCode : String) -> [String]{
+        var result = [String]()
+        result.append(flightCode)
         
         let departureDate = json["departureTime"].stringValue
-        let dateFormat = getDate(receivedDate: departureDate)
-        flight.departureDate = dateFormat
+        //let dateFormat = getDate(receivedDate: departureDate)
+        result.append(departureDate)
+        
+        return result
         
         
-        let seat = Seat(context: self.container.viewContext)
+       /* let seat = Seat(context: self.container.viewContext)
         seat.number = "13C"
         seat.occupiedBy = "AAA"
         
@@ -102,11 +103,11 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             let indexPath = IndexPath(row: flights.count-1, section: 0)
             tableView.insertRows(at: [indexPath], with: .automatic)
             user.flights.append(flight.iataNumber)
-        }
+        }*/
     }
     
     
-    func checkUserData() {
+    /*func checkUserData() {
         let request = User.createFetchRequest()
         let sort = NSSortDescriptor(key: "uid", ascending: true)
         request.sortDescriptors = [sort]
@@ -160,63 +161,65 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         catch {
         print("Fetch failed")
     }
-}
-    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : String, cloudTable : String, saveToBothDb : @escaping VoidParameter, fetchFromCloud : @escaping CKRecordParameter, compareChangeTag : @escaping NSManagedAndCkrecordParameter){
+}*/
+    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String], saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping VoidParameter){
         var request = NSFetchRequest<NSManagedObject>()
-        if (providedObject is User.Type){
+        switch providedObject{
+        case is User.Type:
             request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+            break
+        case is Flight.Type:
+            request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        default:
+            break
         }
-        let sort = NSSortDescriptor(key: sortKey, ascending: true)
-        request.sortDescriptors = [sort]
-        let fetchedObject = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: sortKey, cacheName: nil)
-        fetchedObject.delegate = self
-        fetchedObject.fetchRequest.predicate = NSPredicate(format: "\(sortKey) == %@", sortValue)
-        do {
-            try fetchedObject.performFetch()
-            let localResults = fetchedObject.fetchedObjects! //ok to force unwrap, because if fetch is succesful, fetchedObjects cannot be nil
+        if let localResults = makeLocalQuery(sortKey: sortKey, sortValue: sortValue, request: request){
             if(!(localResults.isEmpty)){
-                print((localResults.first! as! User).changetag)
                 makeCloudQuery(sortKey: sortKey, sortValue: sortValue, cloudTable: cloudTable){ cloudResults in
                     if(!(cloudResults.isEmpty)){
-                        compareChangeTag(localResults, cloudResults)
+                        compareChangeTagHandler(localResults, cloudResults)
                     }
                     else{
-                        
+                        decideIfUpdateCloudOrDeleteHandler()
                     }
                 }
             }
             else{
-                /*let pred = NSPredicate(format: "\(sortKey) == %@", sortValue)
-                let sort = NSSortDescriptor(key: sortKey, ascending: true)
-                let query = CKQuery(recordType: cloudTable, predicate: pred)
-                query.sortDescriptors = [sort]
-                
-                CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
-                    if let error = error {
-                        print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
-                        return
-                    }*/
                 makeCloudQuery(sortKey: sortKey, sortValue: sortValue, cloudTable: cloudTable){ cloudResults in
                     if(!(cloudResults.isEmpty)){
-                        fetchFromCloud(cloudResults)
+                        fetchFromCloudHandler(cloudResults)
                     }
                     else{
-                        saveToBothDb()
+                        saveToBothDbHandler(saveParams)
                     }
                 }
                 
             }
         }
+
+    }
+    
+    func makeLocalQuery(sortKey : String, sortValue : [String], request: NSFetchRequest<NSManagedObject>) -> [NSManagedObject]?{
+        let sort = NSSortDescriptor(key: sortKey, ascending: true)
+        request.sortDescriptors = [sort]
+        let fetchedObject = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: sortKey, cacheName: nil)
+        fetchedObject.delegate = self
+        fetchedObject.fetchRequest.predicate = NSPredicate(format: "ANY \(sortKey) IN %@", sortValue)
+        do{
+            try fetchedObject.performFetch()
+            return fetchedObject.fetchedObjects!
+        }
         catch{
-            
+            return nil
         }
     }
     
-    func makeCloudQuery(sortKey : String, sortValue : String, cloudTable: String, completionHandler: @escaping (_ records: [CKRecord]) -> Void){
-        let pred = NSPredicate(format: "\(sortKey) == %@", sortValue)
+    func makeCloudQuery(sortKey : String, sortValue : [String], cloudTable: String, completionHandler: @escaping (_ records: [CKRecord]) -> Void){
+        let pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
         let sort = NSSortDescriptor(key: sortKey, ascending: true)
         let query = CKQuery(recordType: cloudTable, predicate: pred)
         query.sortDescriptors = [sort]
+        
         
         CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
             if let error = error {
@@ -231,47 +234,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         
     }
-    
-    func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
-        self.user = localResults.first! as! User
-        if(self.user.changetag != cloudResults.first!.recordChangeTag){
-            fetchUserFromCloud(results : cloudResults)
-        }
-    }
-    func fetchUserFromCloud(results : [CKRecord]){
-        self.user = User(context: self.container.viewContext)
-        self.user.uid = results.first!["uid"]!
-        self.user.email = results.first!["email"]!
-        self.user.flights = results.first!["flights"]!
-        self.user.changetag = results.first!.recordChangeTag!
-        self.saveContext()
-    }
-    
-    func saveUserDataToBothDb(){
-        saveUserDataToCloud()
-        saveUserDataToLocal()
-    }
-    
-    func saveUserDataToCloud(){
-        let userRecord = CKRecord(recordType: "AppUsers")
-        userRecord["uid"] = self.uid as CKRecordValue
-        userRecord["email"] = self.email as CKRecordValue
-        userRecord["flights"] = [String]() as CKRecordValue
-        self.saveRecords(records: [userRecord])
-    }
-    
-    func saveUserDataToLocal(){
-        self.user = User(context: self.container.viewContext)
-        self.user.uid = self.uid
-        self.user.email = self.email
-        self.user.flights = [String]()
-        self.user.changetag = ""
-        
-        self.saveContext()
-    }
-        
-    
-    
     
     func saveRecords(records : [CKRecord]){
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
@@ -300,15 +262,15 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         
     
     
-    func loadSavedData() {
+    func loadFlightsToTableView() {
         let request = Flight.createFetchRequest()
-        let sort = NSSortDescriptor(key: "iataNumber", ascending: true)
+        let sort = NSSortDescriptor(key: "uid", ascending: true)
         request.sortDescriptors = [sort]
             
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: "iataNumber", cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: "uid", cacheName: nil)
         fetchedResultsController.delegate = self
         
-        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "ANY iataNumber IN %@", user.flights)
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "ANY uid IN %@", user.flights)
         do {
             try fetchedResultsController.performFetch()
             flights = fetchedResultsController.fetchedObjects! //ok to force unwrap, because if fetch is succesful, fetchedObjects cannot be nil
@@ -440,10 +402,11 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             let data = try String(contentsOf: URL(string: urlString)!)
             let jsonData = JSON(parseJSON: data)
             let jsonArray = jsonData.arrayValue
-            if jsonArray.count > 0{
+            if (!(jsonArray.isEmpty)){
                 DispatchQueue.main.async { [unowned self] in
-                    self.createObjectsFromJson(json : jsonArray[0], flightCode: flightCode)
-                    self.saveContext()
+                    let results = self.createStringsFromJson(json : jsonArray[0], flightCode: flightCode)
+                    //self.saveContext()
+                    self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: results, saveToBothDbHandler: self.saveFlightDataToBothDb, fetchFromCloudHandler: self.fetchUserFromCloud, compareChangeTagHandler: self.compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: self.decideIfUpdateCloudOrDeleteUser)
                 }
             }
             else{

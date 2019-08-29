@@ -2,7 +2,7 @@
 //  Flight+CoreDataProperties.swift
 //  FlightRider
 //
-//  Created by Tomi on 2019. 08. 14..
+//  Created by Tomi on 2019. 08. 29..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 //
@@ -17,13 +17,12 @@ extension Flight {
         return NSFetchRequest<Flight>(entityName: "Flight")
     }
 
-    @NSManaged public var checkedIn: Bool
     @NSManaged public var departureDate: Date
     @NSManaged public var iataNumber: String
+    @NSManaged public var uid: String
+    @NSManaged public var changetag: String
     @NSManaged public var seats: Set<Seat>
-    
-    
-    
+
 }
 
 // MARK: Generated accessors for seats
