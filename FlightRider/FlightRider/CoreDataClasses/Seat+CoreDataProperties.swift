@@ -19,6 +19,8 @@ extension Seat {
 
     @NSManaged public var number: String
     @NSManaged public var occupiedBy: String
+    @NSManaged public var changetag: String
+    @NSManaged public var uid: String
     @NSManaged public var flight: Flight
     
 }

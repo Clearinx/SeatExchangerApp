@@ -48,34 +48,5 @@ extension ViewController {
         //this should never happen in case of users
     }
     
-    func saveFlightDataToBothDb(params: [String]){
-        let flight = Flight(context: self.container.viewContext)
-        let id = UUID()
-        flight.uid = id.uuidString
-        flight.iataNumber = params[0]
-        let departureDate = params[1]
-        let dateFormat = getDate(receivedDate: departureDate)
-        flight.departureDate = dateFormat
-        flight.seats = Set<Seat>()
-        flight.changetag = ""
-        self.saveContext()
-        
-        let flightRecord = CKRecord(recordType: "Flights")
-        flightRecord["uid"] = flight.uid as CKRecordValue
-        flightRecord["iataNumber"] = flight.iataNumber as CKRecordValue
-        flightRecord["seats"] = Array(flight.seats) as CKRecordValue
-        flightRecord["departureDate"] = flight.departureDate as CKRecordValue
-        self.saveRecords(records: [flightRecord])
-        
-    }
-    
-    /*func fetchFlightsFromCloud(results : [CKRecord]){
-        self.user = User(context: self.container.viewContext)
-        self.user.uid = results.first!["uid"]!
-        self.user.email = results.first!["email"]!
-        self.user.flights = results.first!["flights"]!
-        self.user.changetag = results.first!.recordChangeTag!
-        self.saveContext()
-    }*/
 
 }

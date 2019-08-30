@@ -13,8 +13,10 @@
         </uniquenessConstraints>
     </entity>
     <entity name="Seat" representedClassName="Seat" syncable="YES">
+        <attribute name="changetag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="number" attributeType="String" syncable="YES"/>
         <attribute name="occupiedBy" attributeType="String" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="flight" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Flight" inverseName="seats" inverseEntity="Flight" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
@@ -30,7 +32,7 @@
     </entity>
     <elements>
         <element name="Flight" positionX="-45" positionY="0" width="128" height="120"/>
-        <element name="Seat" positionX="-18" positionY="54" width="128" height="90"/>
+        <element name="Seat" positionX="-18" positionY="54" width="128" height="120"/>
         <element name="User" positionX="-27" positionY="54" width="128" height="105"/>
     </elements>
 </model>
