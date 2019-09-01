@@ -14,13 +14,14 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     
     var flights = [Flight]()
     var user = User()
+    var userRecord = CKRecord(recordType: "AppUsers")
     var container: NSPersistentContainer!
     var fetchedResultsController: NSFetchedResultsController<Flight>!
     var fetchedUser: NSFetchedResultsController<User>!
     var uid : String = ""
     var email : String = ""
-    typealias VoidParameter = () -> Void
-    typealias StringValuesParameter = ([String]) -> Void
+    typealias NSManagedObjectParameter = ([NSManagedObject]) -> Void
+    typealias StringValuesParameter = ([String]?) -> Void
     typealias CKRecordParameter = ([CKRecord]) -> Void
     typealias NSManagedAndCkrecordParameter = ([NSManagedObject], [CKRecord]) -> Void
 
@@ -34,7 +35,10 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     func loadUserData(){
-        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser)
+        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){
+                print(self.user.flights)
+                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) { }
+        }
     }
     //function only for loading some dummy data
     /*func parseJson(){
@@ -162,7 +166,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         print("Fetch failed")
     }
 }*/
-    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String], saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping VoidParameter){
+    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String]?, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void){
         var request = NSFetchRequest<NSManagedObject>()
         switch providedObject{
         case is User.Type:
@@ -182,8 +186,9 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                         compareChangeTagHandler(localResults, cloudResults)
                     }
                     else{
-                        decideIfUpdateCloudOrDeleteHandler()
+                        decideIfUpdateCloudOrDeleteHandler(localResults)
                     }
+                        completionHandler()
                 }
             }
             else{
@@ -195,6 +200,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     else{
                         saveToBothDbHandler(saveParams)
                     }
+                        completionHandler()
                 }
                 
             }
@@ -237,7 +243,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         
     }
     
-    func saveRecords(records : [CKRecord]){
+    func saveRecords(records : [CKRecord], completionHandler: @escaping () -> Void){
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordID, error in
             if let error = error{
@@ -245,20 +251,21 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             }
             else{
                 print("success")
+                completionHandler()
             }
         }
         CKContainer.default().publicCloudDatabase.add(operation)
         /*CKContainer.default().publicCloudDatabase.save(records[0]) {result, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print( "Error: \(error.localizedDescription)")
-                } else {
-                    print("Done!")
-                    
-                }
-                
-            }
-        }*/
+         DispatchQueue.main.async {
+         if let error = error {
+         print( "Error: \(error.localizedDescription)")
+         } else {
+         print("Done!")
+         
+         }
+         
+         }
+         }*/
         
     }
         
@@ -408,7 +415,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 DispatchQueue.main.async { [unowned self] in
                     let results = self.createStringsFromJson(json : jsonArray[0], flightCode: flightCode)
                     //self.saveContext()
-                    self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: results, saveToBothDbHandler: self.saveFlightDataToBothDb, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.decideIfUpdateCloudOrDeleteUser)
+                    self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: results, saveToBothDbHandler: self.saveFlightDataToBothDb, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ }
                 }
             }
             else{
