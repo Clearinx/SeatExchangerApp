@@ -13,9 +13,9 @@ import CoreData
 extension ViewController {
     
     func saveUserDataToBothDb(params: [String]?){
-        userRecord["uid"] = self.uid as CKRecordValue
-        userRecord["email"] = self.email as CKRecordValue
-        userRecord["flights"] = [String]() as CKRecordValue
+        self.userRecord["uid"] = self.uid as CKRecordValue
+        self.userRecord["email"] = self.email as CKRecordValue
+        self.userRecord["flights"] = [String]() as CKRecordValue
         self.user = User(context: self.container.viewContext)
         self.user.uid = params![0]
         self.user.email = params![1]
@@ -28,17 +28,18 @@ extension ViewController {
     }
     
     func fetchUserFromCloud(results : [CKRecord]){
-        userRecord = results.first!
+        self.userRecord = results.first!
         self.user = User(context: self.container.viewContext)
         self.user.uid = results.first!["uid"]!
         self.user.email = results.first!["email"]!
-        self.user.flights = results.first!["flights"]!
+        self.user.flights = results.first!["flights"] ?? [String]()
         self.user.changetag = results.first!.recordChangeTag!
         self.saveContext()
     }
     //DIR DIR DIRI DURI KALAPIRU PURI
     func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
         self.user = localResults.first! as! User
+        self.userRecord = cloudResults.first!
         if(self.user.changetag != cloudResults.first!.recordChangeTag){
             fetchUserFromCloud(results : cloudResults)
         }

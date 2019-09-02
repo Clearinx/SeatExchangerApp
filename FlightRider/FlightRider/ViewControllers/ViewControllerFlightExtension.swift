@@ -29,15 +29,24 @@ extension ViewController {
         flightRecord["iataNumber"] = flight.iataNumber as CKRecordValue
         flightRecord["departureDate"] = flight.departureDate as CKRecordValue
         recordsToSave.append(flightRecord)
-        user.flights = userRecord["flights"]!
+        user.flights = userRecord["flights"] ?? [String]()
         user.flights.append(flight.iataNumber)
+        print(userRecord)
         userRecord["flights"] = user.flights as CKRecordValue
+        print(userRecord)
         recordsToSave.append(userRecord)
+        let semaphore = DispatchSemaphore(value: 0)
         self.saveRecords(records: recordsToSave){
             self.user.changetag = self.userRecord.recordChangeTag!
             flight.changetag = flightRecord.recordChangeTag!
+            for i in 0...flight.seats.count-1{
+                let seatsArray = Array(flight.seats)
+                seatsArray[i].changetag = recordsToSave[i].recordChangeTag!
+            }
             self.saveContext()
+            semaphore.signal()
         }
+        semaphore.wait()
         
         
 }
@@ -52,12 +61,11 @@ extension ViewController {
         seatRecord["number"] = seat.number as CKRecordValue
         seatRecord["occupiedBy"] = seat.occupiedBy as CKRecordValue
         seatRecord["flight"] = CKRecord.Reference(recordID: flightRecord.recordID, action: .none)
-
         
         let seat2 = Seat(context: self.container.viewContext)
         seat2.number = "13F"
         seat2.occupiedBy = "BBB"
-        seat.flight = flight
+        seat2.flight = flight
         
         let seat2Record = CKRecord(recordType: "Seat")
         seat2Record["number"] = seat.number as CKRecordValue
@@ -84,6 +92,7 @@ extension ViewController {
 
         func fetchFlightsFromCloud(results : [CKRecord]){
             for result in results{
+                
                 let flight = Flight(context: self.container.viewContext)
                 flight.uid = result["uid"]!
                 flight.iataNumber = result["iataNumber"]!
@@ -99,7 +108,7 @@ extension ViewController {
                     
                 }
                 let predicate = NSPredicate(format: "ANY %@ = recordID" ,recordIDs)
-                
+                let semaphore = DispatchSemaphore(value: 0)
                 makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
                     for seatResult in cloudResults{
                         let seat = Seat(context: self.container.viewContext)
@@ -108,11 +117,13 @@ extension ViewController {
                         seat.uid = seatResult.recordID.recordName
                         seat.changetag = seatResult.recordChangeTag!
                         seat.flight = flight
-                        self.saveContext() //somehow have to avoid this
                     }
+                    semaphore.signal()
                 }
+                semaphore.wait()
+                
          }
-            
+        saveContext()
     }
     
     func fetchFlightsFromCloudWaitForResult(results : [CKRecord], completionHandler: @escaping (Flight) -> Void){
@@ -154,10 +165,8 @@ extension ViewController {
              self.user.flights.append(flight.iataNumber)
              self.userRecord["flights"] = self.user.flights as CKRecordValue
              let recordsToSave = [self.userRecord]
-            print(self.userRecord.recordChangeTag!)
              self.saveRecords(records: recordsToSave){
                 self.user.changetag = self.userRecord.recordChangeTag!
-                print(self.userRecord.recordChangeTag!)
                 self.saveContext()
             }
         }
@@ -177,8 +186,13 @@ extension ViewController {
     
     func deleteFlightsFromLocalDb(localResults : [NSManagedObject]){
         for result in localResults{
+            let flight = result as! Flight
+            for seat in flight.seats{
+                container.viewContext.delete(seat)
+            }
             container.viewContext.delete(result)
         }
+        saveContext()
 
     }
     func doNothing(params: [String]?){

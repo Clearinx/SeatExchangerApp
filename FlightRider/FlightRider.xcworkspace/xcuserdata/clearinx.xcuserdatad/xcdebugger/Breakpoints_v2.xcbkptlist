@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewController.swift"
-            timestampString = "588862395.0738339"
+            timestampString = "589123162.156831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
-            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:)"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewController.swift"
-            timestampString = "588862395.073908"
+            timestampString = "589123162.1575921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:)"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewController.swift"
-            timestampString = "588862395.073963"
+            timestampString = "589123162.157956"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:)"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewController.swift"
-            timestampString = "588862395.074016"
+            timestampString = "589123162.158298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:)"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
+            landmarkName = "syncLocalDBWithiCloud(providedObject:sortKey:sortValue:cloudTable:saveParams:saveToBothDbHandler:fetchFromCloudHandler:compareChangeTagHandler:decideIfUpdateCloudOrDeleteHandler:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewControllerFlightExtension.swift"
-            timestampString = "588862395.074072"
+            timestampString = "589123162.158743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "fetchFlightsFromCloud(results:)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "deleteFlightsFromLocalDb(localResults:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewControllerFlightExtension.swift"
-            timestampString = "588862395.074638"
+            timestampString = "589123162.158821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "generateSeats(flight:flightRecord:)"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "fetchFlightsFromCloudWaitForResult(results:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,12 +106,92 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FlightRider/ViewControllers/ViewControllerFlightExtension.swift"
-            timestampString = "588862395.074874"
+            timestampString = "589123162.158998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "compareFlightsChangeTag(localResults:cloudResults:)"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "saveFlightDataToBothDb(params:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlightRider/ViewControllers/ViewControllerFlightExtension.swift"
+            timestampString = "589123162.159075"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "saveFlightDataToBothDb(params:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlightRider/ViewControllers/ViewController.swift"
+            timestampString = "589123162.15914"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
+            landmarkName = "submit(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlightRider/ViewControllers/ViewControllerFlightExtension.swift"
+            timestampString = "589123162.15964"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "saveFlightDataToBothDb(params:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlightRider/ViewControllers/ViewControllerFlightExtension.swift"
+            timestampString = "589123162.159722"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "saveFlightDataToBothDb(params:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlightRider/ViewControllers/ViewController.swift"
+            timestampString = "589123162.159804"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
+            landmarkName = "tableView(_:commit:forRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
