@@ -36,7 +36,7 @@ extension ViewController {
         self.user.changetag = results.first!.recordChangeTag!
         self.saveContext()
     }
-    //DIR DIR DIRI DURI KALAPIRU PURI
+    
     func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
         self.user = localResults.first! as! User
         self.userRecord = cloudResults.first!

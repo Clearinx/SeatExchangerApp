@@ -469,7 +469,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             if (!(jsonArray.isEmpty)){
                 let results = self.createStringsFromJson(json : jsonArray[0], flightCode: flightCode)
                 let flightCount = user.flights.count
-                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: results, saveToBothDbHandler: self.saveFlightDataToBothDb, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
+                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: results, saveToBothDbHandler: self.saveFlightDataToBothDb, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
                     if(flightCount < self.user.flights.count){
                         let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
                         let pred = NSPredicate(format: "iataNumber = %@", flightCode)
