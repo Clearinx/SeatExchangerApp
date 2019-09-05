@@ -126,10 +126,10 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         var result = [String]()
         result.append(flightCode)
         
-        var modifiedDate = departureDate
-        let departureDateTime = json["departureTime"].stringValue
+        let departureDateAndTime = "\(departureDate)  \(json["departureTime"].stringValue)"
         
-        //result.append(departureDate)
+        
+        result.append(departureDateAndTime)
         
         return result
         
@@ -339,7 +339,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
         cell.textLabel?.text = flights[indexPath.row].iataNumber
-        cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "HH:mm:ss")
+        cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss")
         if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
             cell.imageView?.image = UIImage(named: img)
         }
@@ -365,7 +365,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     func getDate(receivedDate : String) -> Date
     {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
+        formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         let date = formatter.date(from: receivedDate) ?? Date()
         return date
     }
@@ -432,12 +432,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             print(date)
             selectedDate = date
         }
-        /*let myDatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width:200, height: 216))
-        myDatePicker.backgroundColor = UIColor.white
-        myDatePicker.datePickerMode = .date*/
-        //myDatePicker.timeZone = NSTimeZone.
-        //myDatePicker.frame = CGRect(x: 0, y: 15, width: 270, height: 200)
-        //ac.view.addSubview(myDatePicker)
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned self, unowned ac] action in
             guard let flightCode = ac.textFields?[0].text else { return }
             self.submit(flightCode.uppercased(), selectedDate)

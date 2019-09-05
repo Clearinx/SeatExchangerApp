@@ -6,7 +6,6 @@ target 'FlightRider' do
   use_frameworks!
 
   pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
 
   target 'FlightRiderTests' do
     inherit! :search_paths
