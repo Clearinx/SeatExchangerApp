@@ -31,11 +31,13 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
         
-        loadUserData(){
+        loadUserData(){ [unowned self] in
             
             let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let pred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
+            print(self.user.flights)
             self.flights = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request) as! [Flight]
+            print(self.flights)
             DispatchQueue.main.async {
                     self.tableView.reloadData()
             }
@@ -80,6 +82,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     func loadUserData(completionHandler: @escaping () -> Void){
         syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){
                 self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
+                    print(self.user.flights)
                     completionHandler()
             }
         }
@@ -119,39 +122,17 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }*/
     
     
-    func createStringsFromJson(json : JSON, flightCode : String) -> [String]{
+    func createStringsFromJson(json : JSON, flightCode : String, departureDate : String) -> [String]{
         var result = [String]()
         result.append(flightCode)
         
-        let departureDate = json["departureTime"].stringValue
-        //let dateFormat = getDate(receivedDate: departureDate)
-        result.append(departureDate)
+        var modifiedDate = departureDate
+        let departureDateTime = json["departureTime"].stringValue
+        
+        //result.append(departureDate)
         
         return result
         
-        
-       /* let seat = Seat(context: self.container.viewContext)
-        seat.number = "13C"
-        seat.occupiedBy = "AAA"
-        
-        let seat2 = Seat(context: self.container.viewContext)
-        seat2.number = "13F"
-        seat2.occupiedBy = "BBB"
-        
-        if let idx = flights.firstIndex(where: {$0.iataNumber == flight.iataNumber }){
-            if (!flights[idx].seats.contains(where: {$0.number == seat.number })) && (!flights[idx].seats.contains(where: {$0.number == seat2.number })){
-                flight.seats.insert(seat)
-                flight.seats.insert(seat2)
-            }
-        }
-        else{
-            flight.seats.insert(seat)
-            flight.seats.insert(seat2)
-            flights.append(flight)
-            let indexPath = IndexPath(row: flights.count-1, section: 0)
-            tableView.insertRows(at: [indexPath], with: .automatic)
-            user.flights.append(flight.iataNumber)
-        }*/
     }
     
     
@@ -358,7 +339,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
         cell.textLabel?.text = flights[indexPath.row].iataNumber
-        cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate)
+        cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "HH:mm:ss")
         if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
             cell.imageView?.image = UIImage(named: img)
         }
@@ -389,10 +370,10 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         return date
     }
     
-    func getDateString(receivedDate : Date) -> String
+    func getDateString(receivedDate : Date, dateFormat: String) -> String
     {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
+        formatter.dateFormat = dateFormat
         let date = formatter.string(from: receivedDate)
         return date
     }
@@ -444,60 +425,55 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     @objc func addFlight(){
-        let ac = UIAlertController(title: "Enter a flight number", message: nil, preferredStyle: .alert)
+        let ac = UIAlertController(title: "Enter the departure date and the flight number", message: nil, preferredStyle: .alert)
+        var selectedDate = Date()
         ac.addTextField()
-        
-        let submitAction = UIAlertAction(title: "Submit", style: .default) { [weak self, weak ac] action in
-            guard let flightCode = ac?.textFields?[0].text else { return }
-            self?.submit(flightCode.uppercased())
+        ac.addDatePicker(mode: .date, date: Date(), minimumDate: Date(), maximumDate: Calendar.current.date(byAdding: .year, value:2, to: Date())){ date in
+            print(date)
+            selectedDate = date
         }
+        /*let myDatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width:200, height: 216))
+        myDatePicker.backgroundColor = UIColor.white
+        myDatePicker.datePickerMode = .date*/
+        //myDatePicker.timeZone = NSTimeZone.
+        //myDatePicker.frame = CGRect(x: 0, y: 15, width: 270, height: 200)
+        //ac.view.addSubview(myDatePicker)
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned self, unowned ac] action in
+            guard let flightCode = ac.textFields?[0].text else { return }
+            self.submit(flightCode.uppercased(), selectedDate)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
         
         ac.addAction(submitAction)
+        ac.addAction(cancelAction)
         present(ac, animated: true)
     }
     
-    func submit(_ flightCode: String) { //async download needed
-        let airlineIata = flightCode.prefix(2)
-        let flightNumber = flightCode.suffix(flightCode.count-2)
-        print(airlineIata)
-        print(flightNumber)
-        let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
-        do{
-            let data = try String(contentsOf: URL(string: urlString)!)
-            let jsonData = JSON(parseJSON: data)
-            let jsonArray = jsonData.arrayValue
-            if (!(jsonArray.isEmpty)){
-                let results = self.createStringsFromJson(json : jsonArray[0], flightCode: flightCode)
-                let flightCount = user.flights.count
-                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: results, saveToBothDbHandler: self.saveFlightDataToBothDb, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
-                    if(flightCount < self.user.flights.count){
-                        let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-                        let pred = NSPredicate(format: "iataNumber = %@", flightCode)
-                        let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request) as! [Flight]
-                        self.flights.append(newFlight.first!)
-                        DispatchQueue.main.async {
-                            let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
-                            self.tableView.insertRows(at: [indexPath], with: .automatic)
-                        }
-                    }
+    func submit(_ flightCode: String, _ selectedDate: Date) {
+        let flightCount = user.flights.count
+        let params = [flightCode, getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
+        self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: params, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
+            if(flightCount < self.user.flights.count){
+                let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+                let pred = NSPredicate(format: "iataNumber = %@", flightCode)
+                let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request) as! [Flight]
+                self.flights.append(newFlight.first!)
+                DispatchQueue.main.async {
+                    let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
+                    self.tableView.insertRows(at: [indexPath], with: .automatic)
                 }
             }
-            else{
-                flightNotFoundError()
-            }
-
-        }
-        catch{
-            flightNotFoundError()
-            
         }
     }
     
     func flightNotFoundError(){
-        let ac = UIAlertController(title: "Error", message: "Could not found flight", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "Could not found flight", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
+        }
     }
     
     

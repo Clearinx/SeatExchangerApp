@@ -23,6 +23,7 @@ extension ViewController {
         self.saveRecords(records: [userRecord]){
             self.user.changetag = self.userRecord.recordChangeTag!
             self.saveContext()
+            print(self.user.uid)
         }
         
     }
@@ -34,7 +35,13 @@ extension ViewController {
         self.user.email = results.first!["email"]!
         self.user.flights = results.first!["flights"] ?? [String]()
         self.user.changetag = results.first!.recordChangeTag!
+        print(self.user.uid)
         self.saveContext()
+        let pred = NSPredicate(format: "uid = %@", results.first!["uid"]! as String)
+        let request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        self.user = (makeLocalQuery(sortKey: "uid", predicate: pred, request: request) as! [User]).first!
+        print(self.user.uid)
+        
     }
     
     func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){

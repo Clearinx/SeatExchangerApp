@@ -48,9 +48,34 @@ extension ViewController {
             semaphore.signal()
         }
         semaphore.wait()
-        
-        
 }
+    
+    func saveFlightDataToBothDbAppendToFlightList(params: [String]?){
+        let flightCode = params![0]
+        let departureDate = params![1]
+        let airlineIata = flightCode.prefix(2)
+        let flightNumber = flightCode.suffix(flightCode.count-2)
+        let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
+        do{
+            let data = try String(contentsOf: URL(string: urlString)!)
+            let jsonData = JSON(parseJSON: data)
+            let jsonArray = jsonData.arrayValue
+            if (!(jsonArray.isEmpty)){
+                let results = self.createStringsFromJson(json : jsonArray[0], flightCode: flightCode, departureDate: departureDate)
+                saveFlightDataToBothDb(params: results)
+                
+            }
+            else{
+                flightNotFoundError()
+            }
+            
+        }
+        catch{
+            flightNotFoundError()
+            
+        }
+    }
+    
     func generateSeats(flight : Flight, flightRecord : CKRecord) -> [CKRecord]{
         //just dummy values right now
         let seat = Seat(context: self.container.viewContext)
@@ -240,10 +265,6 @@ extension ViewController {
             let sortedCloudResults = cloudResults.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
             if(localSeats.count == sortedCloudResults.count){
                 for i in 0...sortedCloudResults.count-1{
-                    print(localSeats[i].uid)
-                    print(sortedCloudResults[i].recordID.recordName)
-                    print(localSeats[i].changetag)
-                    print(sortedCloudResults[i].recordChangeTag!)
                     if(localSeats[i].changetag != sortedCloudResults[i].recordChangeTag){
                         let seat = Seat(context: self.container.viewContext)
                         seat.number = sortedCloudResults[i]["number"]!
