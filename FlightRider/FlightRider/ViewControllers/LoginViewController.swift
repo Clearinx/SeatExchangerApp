@@ -11,6 +11,8 @@ import FirebaseAuth
 import CloudKit
 import CoreData
 
+//var container: NSPersistentContainer!
+
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var PasswordField: UITextField!

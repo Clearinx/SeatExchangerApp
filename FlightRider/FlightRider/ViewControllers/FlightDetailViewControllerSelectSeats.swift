@@ -8,8 +8,9 @@
 
 import UIKit
 import CloudKit
+import CoreData
 
-class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, NSFetchedResultsControllerDelegate {
 
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
@@ -20,6 +21,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     var imageToLoad : UIImage!
     let maxElements = 10000
     var selectedSeatNumber : String?
+    var container: NSPersistentContainer!
     
     var flight : Flight!
     var user : User!
@@ -81,7 +83,23 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     }
     
     @IBAction func updateSeats(_ sender: Any) {
-        
+        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ flightResults in
+            let cloudFlight = flightResults.first!
+            let flightReference = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)
+            self.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND number = %@", flightReference, self.selectedSeatNumber!), cloudTable: "Seat"){ seatResults in
+                    let seatResult = seatResults.first!
+                    seatResult["occupiedBy"] = self.user.email as CKRecordValue
+                    self.saveRecords(records: [seatResult]){
+                        let seat = Seat(context: self.container.viewContext)
+                        seat.number = seatResult["number"]!
+                        seat.occupiedBy = self.user.email
+                        seat.uid = seatResult.recordID.recordName
+                        seat.changetag = seatResult.recordChangeTag!
+                        seat.flight = self.flight
+                        self.saveContext(container: self.container)
+                }
+            }
+        }
     }
     
 

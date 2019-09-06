@@ -147,6 +147,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 vc.flight = flight
                 vc.user = self.user
                 vc.userRecord = self.userRecord
+                vc.container = container
                 if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                     vc.imageToLoad = UIImage(named: img)
                 }
