@@ -74,20 +74,6 @@ BOOL GDTReachabilityFlagsContainWWAN(SCNetworkReachabilityFlags flags) {
                            selector:@selector(iOSApplicationWillTerminate:)
                                name:name
                              object:nil];
-
-#if defined(__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-    if (@available(iOS 13, tvOS 13.0, *)) {
-      [notificationCenter addObserver:self
-                             selector:@selector(iOSApplicationWillEnterForeground:)
-                                 name:UISceneWillEnterForegroundNotification
-                               object:nil];
-      [notificationCenter addObserver:self
-                             selector:@selector(iOSApplicationDidEnterBackground:)
-                                 name:UISceneWillDeactivateNotification
-                               object:nil];
-    }
-#endif  // defined(__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-
 #elif TARGET_OS_OSX
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self
@@ -105,9 +91,7 @@ BOOL GDTReachabilityFlagsContainWWAN(SCNetworkReachabilityFlags flags) {
 }
 
 - (void)endBackgroundTask:(GDTBackgroundIdentifier)bgID {
-  if (bgID != GDTBackgroundIdentifierInvalid) {
-    [[self sharedApplicationForBackgroundTask] endBackgroundTask:bgID];
-  }
+  [[self sharedApplicationForBackgroundTask] endBackgroundTask:bgID];
 }
 
 #pragma mark - App environment helpers

@@ -28,6 +28,9 @@
 		891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */; };
 		893652E62321380A003C9B56 /* DatePickerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893652E52321380A003C9B56 /* DatePickerExtension.swift */; };
 		893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */; };
+		8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002B2321647D00BA2BF4 /* DateExtension.swift */; };
+		8937002F232172C500BA2BF4 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002E232172C500BA2BF4 /* Time.swift */; };
+		89370031232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
@@ -91,6 +94,9 @@
 		891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerExchangeAggreement.swift; sourceTree = "<group>"; };
 		893652E52321380A003C9B56 /* DatePickerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerExtension.swift; sourceTree = "<group>"; };
 		893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
+		8937002B2321647D00BA2BF4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		8937002E232172C500BA2BF4 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerDatabaseExtension.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
@@ -188,10 +194,12 @@
 		890A4F8E22E20F2600FA7324 /* FlightRider */ = {
 			isa = PBXGroup;
 			children = (
+				8937002D232172B500BA2BF4 /* Models */,
 				FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */,
 				891990572303EFD5002D9074 /* LocalResources */,
 				891990562303EF00002D9074 /* CoreDataClasses */,
 				891990552303EDE1002D9074 /* ViewControllers */,
+				8937002A2321644200BA2BF4 /* Extensions */,
 				FF489CB422F88B75005FAE41 /* 3rd Party */,
 				890A4F8F22E20F2600FA7324 /* AppDelegate.swift */,
 				890A4F9322E20F2600FA7324 /* Main.storyboard */,
@@ -233,8 +241,6 @@
 				FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */,
 				891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */,
 				89EC5E062314331C00F24139 /* Spinner.swift */,
-				89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */,
-				89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -259,6 +265,25 @@
 				8913FB512301A7F30069DE41 /* test_flights.json */,
 			);
 			path = LocalResources;
+			sourceTree = "<group>";
+		};
+		8937002A2321644200BA2BF4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */,
+				89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */,
+				8937002B2321647D00BA2BF4 /* DateExtension.swift */,
+				89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8937002D232172B500BA2BF4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8937002E232172C500BA2BF4 /* Time.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		FF489CB422F88B75005FAE41 /* 3rd Party */ = {
@@ -511,10 +536,13 @@
 				FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */,
 				8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */,
 				89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift in Sources */,
+				89370031232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift in Sources */,
 				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
 				8919905D2303F171002D9074 /* Seat+CoreDataProperties.swift in Sources */,
+				8937002F232172C500BA2BF4 /* Time.swift in Sources */,
 				8919905F2303F171002D9074 /* Flight+CoreDataProperties.swift in Sources */,
 				89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */,
+				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */,
 				8919905E2303F171002D9074 /* Flight+CoreDataClass.swift in Sources */,

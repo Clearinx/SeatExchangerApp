@@ -7,27 +7,30 @@
 //
 
 import UIKit
+import CloudKit
 
 class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var seat1Picker: UIPickerView!
-    @IBOutlet weak var seat2Picker: UIPickerView!
     
     var pickerData: [[String]] = [[String]]()
     var pickerDataNumbers : [String] = [String]()
-    var flightNrString : String?
     var imageToLoad : UIImage!
-    private let maxElements = 10000
+    let maxElements = 10000
+    var selectedSeatNumber : String?
+    
+    var flight : Flight!
+    var user : User!
+    var userRecord : CKRecord!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if flightNrString != nil{
-            flightNr.text = flightNrString
-            flightLogo.image = imageToLoad
-        }
+        flightNr.text = flight.iataNumber
+        flightLogo.image = imageToLoad
         
         for i in 1...32{
             pickerDataNumbers.append((String(format: "%02d", i)))
@@ -38,10 +41,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
         seat1Picker.dataSource = self
         seat1Picker.selectRow((maxElements / 2) - 8, inComponent: 0, animated: false)
         seat1Picker.selectRow((maxElements / 2) - 2, inComponent: 1, animated: false)
-        seat2Picker.delegate = self
-        seat2Picker.dataSource = self
-        seat2Picker.selectRow((maxElements / 2) - 8, inComponent: 0, animated: false)
-        seat2Picker.selectRow((maxElements / 2) - 2, inComponent: 1, animated: false)
+        selectedSeatNumber = "\(pickerData[0][seat1Picker.selectedRow(inComponent: 0) % pickerData[0].count])\(pickerData[1][seat1Picker.selectedRow(inComponent: 1) % pickerData[1].count])"
     
     }
     
@@ -56,25 +56,33 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont(name: "Helvetica", size: 60)
+            pickerLabel?.font = UIFont(name: "Helvetica", size: 35)
             pickerLabel?.textAlignment = .center
         }
         let myRow = row % pickerData[component].count
         pickerLabel?.text = pickerData[component][myRow]
-        pickerLabel?.textColor = UIColor.blue
+        //pickerLabel?.textColor = UIColor.blue
         
         return pickerLabel!
     }
     
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 80 // you can calculate this based on your container view or window size
+        return 50 // you can calculate this based on your container view or window size
     }
     
-    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return 80
+    /*func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 50
+    }*/
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
+        selectedSeatNumber = "\(pickerData[0][pickerView.selectedRow(inComponent: 0) % pickerData[0].count])\(pickerData[1][pickerView.selectedRow(inComponent: 1) % pickerData[1].count])"
     }
     
+    @IBAction func updateSeats(_ sender: Any) {
+        
+    }
     
 
     

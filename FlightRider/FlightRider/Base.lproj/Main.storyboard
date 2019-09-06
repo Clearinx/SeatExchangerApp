@@ -372,6 +372,7 @@
                     <connections>
                         <outlet property="flightLogo" destination="bIB-zW-vcj" id="RG0-jL-cbg"/>
                         <outlet property="flightNr" destination="efO-8p-gii" id="uYy-XM-zwh"/>
+                        <outlet property="timeLeft" destination="cx8-fE-0td" id="Pgg-v0-dEv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bS9-Zb-Ell" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -405,7 +406,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FlightNr." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVA-CO-9BZ">
-                                <rect key="frame" x="32" y="88" width="139" height="42"/>
+                                <rect key="frame" x="32" y="88" width="139" height="40"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -414,7 +415,7 @@
                                 </variation>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="dFs-up-cOu">
-                                <rect key="frame" x="208" y="69" width="80" height="80"/>
+                                <rect key="frame" x="208" y="68" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="2Xu-gl-OvL">
                                         <variation key="heightClass=regular-widthClass=regular" constant="200"/>
@@ -424,26 +425,11 @@
                                     </constraint>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Members of group:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvA-LI-IE3">
-                                <rect key="frame" x="32" y="182" width="204.5" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AqJ-6i-cG0">
-                                <rect key="frame" x="240.5" y="182" width="15.5" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 1:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-9U-kki">
-                                <rect key="frame" x="32" y="254.5" width="87" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-9U-kki">
+                                <rect key="frame" x="20" y="246" width="74" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="cKy-gC-waT"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -451,68 +437,33 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 2:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1z-64-YWn">
-                                <rect key="frame" x="32" y="334" width="91" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                </variation>
-                            </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rrI-lH-Hu5">
-                                <rect key="frame" x="88" y="302" width="320" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="p8p-Cp-z9N">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                    </constraint>
-                                    <constraint firstAttribute="width" constant="85" id="zIY-oa-Bcm">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="120"/>
-                                    </constraint>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="zIY-oa-Bcm"/>
-                                    </mask>
-                                </variation>
+                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xpf-TP-kG7">
+                                <rect key="frame" x="119" y="215" width="182" height="100"/>
                             </pickerView>
-                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xpf-TP-kG7">
-                                <rect key="frame" x="88" y="222.5" width="320" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="85" id="FMC-xE-7RZ">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="120"/>
-                                    </constraint>
-                                    <constraint firstAttribute="height" constant="100" id="M1l-Ih-qeM">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                    </constraint>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="FMC-xE-7RZ"/>
-                                    </mask>
-                                </variation>
-                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnl-EV-UrM">
+                                <rect key="frame" x="135" y="467" width="51" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Update"/>
+                                <connections>
+                                    <action selector="updateSeats:" destination="LPR-cS-W7X" eventType="touchUpInside" id="fxY-Pz-Q3h"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="dvA-LI-IE3" firstAttribute="leading" secondItem="uVA-CO-9BZ" secondAttribute="leading" id="1fE-EB-Wfc"/>
-                            <constraint firstItem="AqJ-6i-cG0" firstAttribute="centerY" secondItem="dvA-LI-IE3" secondAttribute="centerY" id="2TD-Rm-tHQ"/>
-                            <constraint firstItem="Ecc-9U-kki" firstAttribute="leading" secondItem="dvA-LI-IE3" secondAttribute="leading" id="4pA-DC-0gQ"/>
-                            <constraint firstItem="J1z-64-YWn" firstAttribute="top" secondItem="Ecc-9U-kki" secondAttribute="bottom" multiplier="1.15" id="60u-GG-g9t"/>
+                            <constraint firstItem="xpf-TP-kG7" firstAttribute="top" secondItem="dFs-up-cOu" secondAttribute="bottom" constant="66" id="M0O-AX-ATI"/>
                             <constraint firstItem="uVA-CO-9BZ" firstAttribute="top" secondItem="OXJ-yh-SNc" secondAttribute="top" multiplier="2" id="OMd-6g-1kp">
                                 <variation key="heightClass=regular-widthClass=compact" constant="-40"/>
                             </constraint>
-                            <constraint firstItem="rrI-lH-Hu5" firstAttribute="centerX" secondItem="xpf-TP-kG7" secondAttribute="centerX" id="PkN-gJ-Sdx"/>
-                            <constraint firstItem="J1z-64-YWn" firstAttribute="leading" secondItem="Ecc-9U-kki" secondAttribute="leading" id="Qfw-Gg-gUY"/>
+                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="bottom" secondItem="Ecc-9U-kki" secondAttribute="bottom" constant="285" id="OhO-hd-nqw"/>
+                            <constraint firstItem="Ecc-9U-kki" firstAttribute="centerY" secondItem="xpf-TP-kG7" secondAttribute="centerY" id="PCi-aS-Y9K"/>
                             <constraint firstItem="uVA-CO-9BZ" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="0.2" id="agR-ck-E7V"/>
                             <constraint firstItem="dFs-up-cOu" firstAttribute="centerX" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="1.55" id="aqE-OD-ohU"/>
-                            <constraint firstItem="dvA-LI-IE3" firstAttribute="top" secondItem="uVA-CO-9BZ" secondAttribute="bottom" multiplier="1.4" id="g5m-Ms-fTg"/>
-                            <constraint firstItem="Ecc-9U-kki" firstAttribute="top" secondItem="dvA-LI-IE3" secondAttribute="bottom" multiplier="1.2" id="gWS-uI-Bar"/>
-                            <constraint firstItem="rrI-lH-Hu5" firstAttribute="centerY" secondItem="J1z-64-YWn" secondAttribute="centerY" id="lPd-90-WhK"/>
+                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="bottom" secondItem="xpf-TP-kG7" secondAttribute="bottom" constant="253" id="gYl-lk-fmv"/>
+                            <constraint firstItem="xpf-TP-kG7" firstAttribute="leading" secondItem="Ecc-9U-kki" secondAttribute="trailing" constant="25" id="kRJ-YO-D9G"/>
                             <constraint firstItem="dFs-up-cOu" firstAttribute="centerY" secondItem="uVA-CO-9BZ" secondAttribute="centerY" id="mCW-hL-ZuR"/>
-                            <constraint firstItem="AqJ-6i-cG0" firstAttribute="centerX" secondItem="dFs-up-cOu" secondAttribute="centerX" id="mzM-7h-sDC"/>
-                            <constraint firstItem="xpf-TP-kG7" firstAttribute="centerY" secondItem="Ecc-9U-kki" secondAttribute="centerY" id="org-M4-1lV"/>
-                            <constraint firstItem="xpf-TP-kG7" firstAttribute="centerX" secondItem="AqJ-6i-cG0" secondAttribute="centerX" id="tsz-Bm-uUL"/>
+                            <constraint firstItem="Ecc-9U-kki" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="leading" constant="20" id="qez-yY-hc1"/>
+                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="trailing" secondItem="xpf-TP-kG7" secondAttribute="trailing" constant="19" id="woY-Iz-5da"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OXJ-yh-SNc"/>
                     </view>
@@ -521,12 +472,11 @@
                         <outlet property="flightLogo" destination="dFs-up-cOu" id="fRw-OK-XQx"/>
                         <outlet property="flightNr" destination="uVA-CO-9BZ" id="RwP-YM-DhC"/>
                         <outlet property="seat1Picker" destination="xpf-TP-kG7" id="Pp8-qS-NZT"/>
-                        <outlet property="seat2Picker" destination="rrI-lH-Hu5" id="xMp-As-XzJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H2w-bU-fHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3553.1249999999995" y="867.49633967789157"/>
+            <point key="canvasLocation" x="3551.25" y="867.25352112676057"/>
         </scene>
         <!--Flight Detail View Controller Exchange Aggreement-->
         <scene sceneID="gce-vw-Hae">

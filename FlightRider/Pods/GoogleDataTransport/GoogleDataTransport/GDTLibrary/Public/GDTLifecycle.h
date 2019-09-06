@@ -34,14 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)appWillTerminate:(GDTApplication *)app;
 
-/** Indicates that the app is moving to background and eventual suspension or the current UIScene is
- * deactivating.
+/** Indicates that the app is moving to background and eventual suspension.
  *
  * @param app The GDTApplication instance.
  */
 - (void)appWillBackground:(GDTApplication *)app;
 
-/** Indicates that the app is resuming operation or a UIScene is activating.
+/** Indicates that the app is resuming operation.
  *
  * @param app The GDTApplication instance.
  */

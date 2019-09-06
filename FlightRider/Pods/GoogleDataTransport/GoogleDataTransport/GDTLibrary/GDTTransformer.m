@@ -51,10 +51,7 @@
   __block GDTBackgroundIdentifier bgID = GDTBackgroundIdentifierInvalid;
   if (_runningInBackground) {
     bgID = [[GDTApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-      if (bgID != GDTBackgroundIdentifierInvalid) {
-        [[GDTApplication sharedApplication] endBackgroundTask:bgID];
-        bgID = GDTBackgroundIdentifierInvalid;
-      }
+      [[GDTApplication sharedApplication] endBackgroundTask:bgID];
     }];
   }
   dispatch_async(_eventWritingQueue, ^{
@@ -74,7 +71,6 @@
     [self.storageInstance storeEvent:transformedEvent];
     if (self->_runningInBackground) {
       [[GDTApplication sharedApplication] endBackgroundTask:bgID];
-      bgID = GDTBackgroundIdentifierInvalid;
     }
   });
 }
@@ -90,16 +86,10 @@
 - (void)appWillBackground:(GDTApplication *)app {
   // Create an immediate background task to run until the end of the current queue of work.
   __block GDTBackgroundIdentifier bgID = [app beginBackgroundTaskWithExpirationHandler:^{
-    if (bgID != GDTBackgroundIdentifierInvalid) {
-      [app endBackgroundTask:bgID];
-      bgID = GDTBackgroundIdentifierInvalid;
-    }
+    [app endBackgroundTask:bgID];
   }];
   dispatch_async(_eventWritingQueue, ^{
-    if (bgID != GDTBackgroundIdentifierInvalid) {
-      [app endBackgroundTask:bgID];
-      bgID = GDTBackgroundIdentifierInvalid;
-    }
+    [app endBackgroundTask:bgID];
   });
 }
 

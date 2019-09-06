@@ -79,10 +79,7 @@ static NSString *GDTStoragePath() {
   __block GDTBackgroundIdentifier bgID = GDTBackgroundIdentifierInvalid;
   if (_runningInBackground) {
     bgID = [[GDTApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-      if (bgID != GDTBackgroundIdentifierInvalid) {
-        [[GDTApplication sharedApplication] endBackgroundTask:bgID];
-        bgID = GDTBackgroundIdentifierInvalid;
-      }
+      [[GDTApplication sharedApplication] endBackgroundTask:bgID];
     }];
   }
 
@@ -112,24 +109,10 @@ static NSString *GDTStoragePath() {
       [self.uploadCoordinator forceUploadForTarget:target];
     }
 
-    // Write state to disk.
-    if (self->_runningInBackground) {
-      if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, *)) {
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self
-                                             requiringSecureCoding:YES
-                                                             error:nil];
-        [data writeToFile:[GDTStorage archivePath] atomically:YES];
-      } else {
-#if !defined(TARGET_OS_MACCATALYST)
-        [NSKeyedArchiver archiveRootObject:self toFile:[GDTStorage archivePath]];
-#endif
-      }
-    }
-
     // If running in the background, save state to disk and end the associated background task.
     if (bgID != GDTBackgroundIdentifierInvalid) {
+      [NSKeyedArchiver archiveRootObject:self toFile:[GDTStorage archivePath]];
       [[GDTApplication sharedApplication] endBackgroundTask:bgID];
-      bgID = GDTBackgroundIdentifierInvalid;
     }
   });
 }
@@ -210,57 +193,24 @@ static NSString *GDTStoragePath() {
 #pragma mark - GDTLifecycleProtocol
 
 - (void)appWillForeground:(GDTApplication *)app {
-  if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, *)) {
-    NSData *data = [NSData dataWithContentsOfFile:[GDTStorage archivePath]];
-    [NSKeyedUnarchiver unarchivedObjectOfClass:[GDTStorage class] fromData:data error:nil];
-  } else {
-#if !defined(TARGET_OS_MACCATALYST)
-    [NSKeyedUnarchiver unarchiveObjectWithFile:[GDTStorage archivePath]];
-#endif
-  }
+  [NSKeyedUnarchiver unarchiveObjectWithFile:[GDTStorage archivePath]];
+  self->_runningInBackground = NO;
 }
 
 - (void)appWillBackground:(GDTApplication *)app {
   self->_runningInBackground = YES;
-  dispatch_async(_storageQueue, ^{
-    if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, *)) {
-      NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self
-                                           requiringSecureCoding:YES
-                                                           error:nil];
-      [data writeToFile:[GDTStorage archivePath] atomically:YES];
-    } else {
-#if !defined(TARGET_OS_MACCATALYST)
-      [NSKeyedArchiver archiveRootObject:self toFile:[GDTStorage archivePath]];
-#endif
-    }
-  });
-
+  [NSKeyedArchiver archiveRootObject:self toFile:[GDTStorage archivePath]];
   // Create an immediate background task to run until the end of the current queue of work.
   __block GDTBackgroundIdentifier bgID = [app beginBackgroundTaskWithExpirationHandler:^{
-    if (bgID != GDTBackgroundIdentifierInvalid) {
-      [app endBackgroundTask:bgID];
-      bgID = GDTBackgroundIdentifierInvalid;
-    }
+    [app endBackgroundTask:bgID];
   }];
   dispatch_async(_storageQueue, ^{
-    if (bgID != GDTBackgroundIdentifierInvalid) {
-      [app endBackgroundTask:bgID];
-      bgID = GDTBackgroundIdentifierInvalid;
-    }
+    [app endBackgroundTask:bgID];
   });
 }
 
 - (void)appWillTerminate:(GDTApplication *)application {
-  if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, *)) {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self
-                                         requiringSecureCoding:YES
-                                                         error:nil];
-    [data writeToFile:[GDTStorage archivePath] atomically:YES];
-  } else {
-#if !defined(TARGET_OS_MACCATALYST)
-    [NSKeyedArchiver archiveRootObject:self toFile:[GDTStorage archivePath]];
-#endif
-  }
+  [NSKeyedArchiver archiveRootObject:self toFile:[GDTStorage archivePath]];
 }
 
 #pragma mark - NSSecureCoding
@@ -282,14 +232,11 @@ static NSString *const kGDTStorageUploadCoordinatorKey = @"GDTStorageUploadCoord
   // Create the singleton and populate its ivars.
   GDTStorage *sharedInstance = [self.class sharedInstance];
   dispatch_sync(sharedInstance.storageQueue, ^{
-    NSSet *classes =
-        [NSSet setWithObjects:[NSMutableOrderedSet class], [GDTStoredEvent class], nil];
-    sharedInstance->_storedEvents = [aDecoder decodeObjectOfClasses:classes
-                                                             forKey:kGDTStorageStoredEventsKey];
-    classes = [NSSet setWithObjects:[NSMutableDictionary class], [NSMutableSet class],
-                                    [GDTStoredEvent class], nil];
+    sharedInstance->_storedEvents = [aDecoder decodeObjectOfClass:[NSMutableOrderedSet class]
+                                                           forKey:kGDTStorageStoredEventsKey];
     sharedInstance->_targetToEventSet =
-        [aDecoder decodeObjectOfClasses:classes forKey:kGDTStorageTargetToEventSetKey];
+        [aDecoder decodeObjectOfClass:[NSMutableDictionary class]
+                               forKey:kGDTStorageTargetToEventSetKey];
     sharedInstance->_uploadCoordinator =
         [aDecoder decodeObjectOfClass:[GDTUploadCoordinator class]
                                forKey:kGDTStorageUploadCoordinatorKey];
@@ -299,19 +246,25 @@ static NSString *const kGDTStorageUploadCoordinatorKey = @"GDTStorageUploadCoord
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
   GDTStorage *sharedInstance = [self.class sharedInstance];
-  NSMutableOrderedSet<GDTStoredEvent *> *storedEvents = sharedInstance->_storedEvents;
-  if (storedEvents) {
-    [aCoder encodeObject:storedEvents forKey:kGDTStorageStoredEventsKey];
+  dispatch_queue_t storageQueue = sharedInstance.storageQueue;
+  if (!storageQueue) {
+    return;
   }
-  NSMutableDictionary<NSNumber *, NSMutableSet<GDTStoredEvent *> *> *targetToEventSet =
-      sharedInstance->_targetToEventSet;
-  if (targetToEventSet) {
-    [aCoder encodeObject:targetToEventSet forKey:kGDTStorageTargetToEventSetKey];
-  }
-  GDTUploadCoordinator *uploadCoordinator = sharedInstance->_uploadCoordinator;
-  if (uploadCoordinator) {
-    [aCoder encodeObject:uploadCoordinator forKey:kGDTStorageUploadCoordinatorKey];
-  }
+  dispatch_sync(storageQueue, ^{
+    NSMutableOrderedSet<GDTStoredEvent *> *storedEvents = sharedInstance->_storedEvents;
+    if (storedEvents) {
+      [aCoder encodeObject:storedEvents forKey:kGDTStorageStoredEventsKey];
+    }
+    NSMutableDictionary<NSNumber *, NSMutableSet<GDTStoredEvent *> *> *targetToEventSet =
+        sharedInstance->_targetToEventSet;
+    if (targetToEventSet) {
+      [aCoder encodeObject:targetToEventSet forKey:kGDTStorageTargetToEventSetKey];
+    }
+    GDTUploadCoordinator *uploadCoordinator = sharedInstance->_uploadCoordinator;
+    if (uploadCoordinator) {
+      [aCoder encodeObject:uploadCoordinator forKey:kGDTStorageUploadCoordinatorKey];
+    }
+  });
 }
 
 @end

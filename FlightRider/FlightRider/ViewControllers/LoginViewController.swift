@@ -21,19 +21,8 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupContainer()
+        container = setupContainer()
         
-    }
-    func setupContainer(){
-        container = NSPersistentContainer(name: "FlightRider")
-        
-        container.loadPersistentStores { storeDescription, error in
-            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
-            if let error = error {
-                print("Unresolved error \(error)")
-            }
-        }
     }
     
     @IBAction func LoginButtonPressed(_ sender: Any) {
