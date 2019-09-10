@@ -2,7 +2,7 @@
 //  Flight+CoreDataProperties.swift
 //  FlightRider
 //
-//  Created by Tomi on 2019. 08. 29..
+//  Created by Tomi on 2019. 09. 09..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 //
@@ -21,6 +21,7 @@ extension Flight {
     @NSManaged public var iataNumber: String
     @NSManaged public var uid: String
     @NSManaged public var changetag: String
+    @NSManaged public var airplaneType: String
     @NSManaged public var seats: Set<Seat>
 
 }

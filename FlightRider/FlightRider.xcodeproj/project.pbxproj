@@ -19,6 +19,8 @@
 		890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */; };
 		890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */; };
 		890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */; };
+		8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913DA102326768100F94C1B /* AirplaneModel.swift */; };
+		8913DA132326795700F94C1B /* AirplaneModels.json in Resources */ = {isa = PBXBuildFile; fileRef = 8913DA122326795700F94C1B /* AirplaneModels.json */; };
 		8913FB522301A7F30069DE41 /* test_flights.json in Resources */ = {isa = PBXBuildFile; fileRef = 8913FB512301A7F30069DE41 /* test_flights.json */; };
 		8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913FB532301A8150069DE41 /* SwiftyJSON.swift */; };
 		8919905C2303F171002D9074 /* Seat+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891990582303F171002D9074 /* Seat+CoreDataClass.swift */; };
@@ -85,6 +87,8 @@
 		890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlightRiderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRiderUITests.swift; sourceTree = "<group>"; };
 		890A4FB422E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8913DA102326768100F94C1B /* AirplaneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirplaneModel.swift; sourceTree = "<group>"; };
+		8913DA122326795700F94C1B /* AirplaneModels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AirplaneModels.json; sourceTree = "<group>"; };
 		8913FB512301A7F30069DE41 /* test_flights.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_flights.json; sourceTree = "<group>"; };
 		8913FB532301A8150069DE41 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		891990582303F171002D9074 /* Seat+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -282,6 +286,8 @@
 			isa = PBXGroup;
 			children = (
 				8937002E232172C500BA2BF4 /* Time.swift */,
+				8913DA102326768100F94C1B /* AirplaneModel.swift */,
+				8913DA122326795700F94C1B /* AirplaneModels.json */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -412,6 +418,7 @@
 			files = (
 				8913FB522301A7F30069DE41 /* test_flights.json in Resources */,
 				FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */,
+				8913DA132326795700F94C1B /* AirplaneModels.json in Resources */,
 				890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */,
 				890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */,
 				890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */,
@@ -545,6 +552,7 @@
 				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */,
+				8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */,
 				8919905E2303F171002D9074 /* Flight+CoreDataClass.swift in Sources */,
 				FFA03FF32312D94C009A3D3F /* LoginViewController.swift in Sources */,
 				893652E62321380A003C9B56 /* DatePickerExtension.swift in Sources */,

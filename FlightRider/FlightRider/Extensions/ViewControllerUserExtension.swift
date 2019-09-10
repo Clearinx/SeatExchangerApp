@@ -45,7 +45,7 @@ extension ViewController {
     }
     
     func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
-        self.user = localResults.first! as! User
+        self.user = localResults.first! as? User
         self.userRecord = cloudResults.first!
         if(self.user.changetag != cloudResults.first!.recordChangeTag){
             fetchUserFromCloud(results : cloudResults)

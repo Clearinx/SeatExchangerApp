@@ -13,27 +13,31 @@ import CloudKit
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var flights = [Flight]()
-    var user = User()
+    var user : User!
     var userRecord = CKRecord(recordType: "AppUsers")
     var container: NSPersistentContainer!
-    var fetchedResultsController: NSFetchedResultsController<Flight>!
-    var fetchedUser: NSFetchedResultsController<User>!
-    var uid : String = ""
-    var email : String = ""
+    var uid : String!
+    var email : String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let starttime = CFAbsoluteTimeGetCurrent()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
         
         loadUserData(){ [unowned self] in
             
-            let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-            let pred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
-            print(self.user.flights)
-            self.flights = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self) as! [Flight]
+            let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+            let flightPred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
+            self.flights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
             print(self.flights)
+            
+            /*let seatRequest = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+            let seatPred = NSPredicate(format: "ANY flight IN %@ AND occupiedBy = %@", self.flights, self.user.email)
+            self.occupiedSeats = self.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.container, delegate: self) as? [Seat]
+            print(self.occupiedSeats!)*/
+            let elapsedTime = CFAbsoluteTimeGetCurrent() - starttime
+            print(elapsedTime)
             DispatchQueue.main.async {
                     self.tableView.reloadData()
             }
@@ -78,7 +82,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     func loadUserData(completionHandler: @escaping () -> Void){
         syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){
             self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, container: self.container, delegate: self, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
-                    print(self.user.flights)
                     completionHandler()
             }
         }
@@ -142,25 +145,35 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let flight = flights[indexPath.row]
-        if(Calendar.current.date(byAdding: .day, value:2, to: Date())! > flight.departureDate){
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
-                vc.flight = flight
-                vc.user = self.user
-                vc.userRecord = self.userRecord
-                vc.container = container
-                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                    vc.imageToLoad = UIImage(named: img)
+        let seatRequest = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        let seatPred = NSPredicate(format: "flight = %@ AND occupiedBy = %@", flight, self.user.email)
+        let occupiedSeats = (self.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.container, delegate: self) as? [Seat]) ?? [Seat]()
+        if(occupiedSeats.isEmpty){
+            if(Calendar.current.date(byAdding: .day, value:2, to: Date())! > flight.departureDate){
+                if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
+                    vc.flight = flight
+                    vc.user = self.user
+                    vc.userRecord = self.userRecord
+                    vc.container = container
+                    if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                        vc.imageToLoad = UIImage(named: img)
+                    }
+                    navigationController?.pushViewController(vc, animated: true)
                 }
-                navigationController?.pushViewController(vc, animated: true)
+            }
+            else{
+                if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailCannotCheckin") as? FlightDetailViewControllerCannotCheckin{
+                    vc.flightNrString = flight.iataNumber
+                    vc.departureDate = flight.departureDate
+                    if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                        vc.imageToLoad = UIImage(named: img)
+                    }
+                    navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
         else{
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailCannotCheckin") as? FlightDetailViewControllerCannotCheckin{
-                vc.flightNrString = flight.iataNumber
-                vc.departureDate = flight.departureDate
-                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                    vc.imageToLoad = UIImage(named: img)
-                }
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

@@ -22,12 +22,14 @@ extension ViewController {
         let departureDate = params![1]
         let dateFormat = getDate(receivedDate: departureDate)
         flight.departureDate = dateFormat
+        flight.airplaneType = "dummy"
         flight.seats = Set<Seat>()
         var recordsToSave = generateSeats(flight: flight, flightRecord: flightRecord)
         
         flightRecord["uid"] = flightRecord.recordID.recordName
         flightRecord["iataNumber"] = flight.iataNumber as CKRecordValue
         flightRecord["departureDate"] = flight.departureDate as CKRecordValue
+        flightRecord["airplaneType"] = flight.airplaneType as CKRecordValue
         recordsToSave.append(flightRecord)
         user.flights = userRecord["flights"] ?? [String]()
         user.flights.append(flight.iataNumber)
@@ -78,7 +80,51 @@ extension ViewController {
     
     func generateSeats(flight : Flight, flightRecord : CKRecord) -> [CKRecord]{
         //just dummy values right now
-        let seat = Seat(context: self.container.viewContext)
+        let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
+        var seatReferences = [CKRecord.Reference]()
+        var seatRecords = [CKRecord]()
+        do{
+            let data = try String(contentsOf: URL(fileURLWithPath: path))
+            let jsonData = JSON(parseJSON: data)
+            let jsonArray = jsonData.arrayValue
+            
+            var types = [AirplaneModel]()
+            for json in jsonArray {
+                types.append(AirplaneModel(modelName: json["modelName"].stringValue, numberOfSeats: json["numberOfSeats"].intValue, latestColumn: json["columns"].stringValue))
+            }
+            
+            
+            let actualType = types.filter{$0.modelName == flight.airplaneType}.first!
+            for letter in actualType.columns{
+                for num in 1...actualType.numberOfSeats{
+                    let seat = Seat(context: self.container.viewContext)
+                    seat.number = "\(String(format: "%02d", num))\(letter)"
+                    print("\(String(format: "%02d", num))\(letter)")
+                    seat.occupiedBy = ""
+                    seat.flight = flight
+                    
+                    let seatRecord = CKRecord(recordType: "Seat")
+                    seatRecord["number"] = seat.number as CKRecordValue
+                    seatRecord["occupiedBy"] = seat.occupiedBy as CKRecordValue
+                    seatRecord["flight"] = CKRecord.Reference(recordID: flightRecord.recordID, action: .none)
+                    
+                    seat.uid = seatRecord.recordID.recordName
+                    
+                    flight.seats.insert(seat)
+                    seatRecords.append(seatRecord)
+                    seatReferences.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
+                }
+            }
+            
+        }
+        catch{
+            print("Could not get the flight types")
+        }
+        
+        flightRecord["seats"] = seatReferences
+        
+        return seatRecords
+        /*let seat = Seat(context: self.container.viewContext)
         seat.number = "13C"
         seat.occupiedBy = "AAA"
         seat.flight = flight
@@ -111,8 +157,7 @@ extension ViewController {
         
         var seatRecords = [CKRecord]()
         seatRecords.append(seatRecord)
-        seatRecords.append(seat2Record)
-        return seatRecords
+        seatRecords.append(seat2Record)*/
         
     }
 
@@ -124,16 +169,12 @@ extension ViewController {
                 flight.iataNumber = result["iataNumber"]!
                 flight.departureDate = result["departureDate"]!
                 flight.changetag = result.recordChangeTag!
+                flight.airplaneType = result["airplaneType"]!
                 
                 var seatReferences = [CKRecord.Reference]()
                 seatReferences = result["seats"]!
-                var recordIDs = [CKRecord.ID]()
-
-                for seatReference in seatReferences{
-                    recordIDs.append(seatReference.recordID)
-                    
-                }
-                let predicate = NSPredicate(format: "ANY %@ = recordID" ,recordIDs)
+                
+                let predicate = NSPredicate(format: "ANY %@ = recordID" ,seatReferences)
                 let semaphore = DispatchSemaphore(value: 0)
                 makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
                     for seatResult in cloudResults{
@@ -158,17 +199,14 @@ extension ViewController {
             flight.uid = result["uid"]!
             flight.iataNumber = result["iataNumber"]!
             flight.departureDate = result["departureDate"]!
+            flight.airplaneType = result["airplaneType"]!
             flight.changetag = result.recordChangeTag!
             
+            //let flightReference = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)
             var seatReferences = [CKRecord.Reference]()
             seatReferences = result["seats"]!
-            var recordIDs = [CKRecord.ID]()
             
-            for seatReference in seatReferences{
-                recordIDs.append(seatReference.recordID)
-                
-            }
-            let predicate = NSPredicate(format: "ANY %@ = recordID" ,recordIDs)
+            let predicate = NSPredicate(format: "ANY %@ = recordName" ,seatReferences)
             
             makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
                 for seatResult in cloudResults{
