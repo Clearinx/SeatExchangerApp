@@ -29,6 +29,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             
             let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let flightPred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
+            print(self.user.flights)
             self.flights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
             print(self.flights)
             
@@ -41,11 +42,12 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             DispatchQueue.main.async {
                     self.tableView.reloadData()
             }
-            /*//usres in local DB
+            //usres in local DB
             var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             var pred = NSPredicate(value: true)
-            var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request)
+            var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
             for result in results!{
+                print("\nUser:\n")
                 let localuser = result as! User
                 print(localuser.uid)
                 print(localuser.email)
@@ -55,8 +57,9 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             //flights in local DB
             request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             pred = NSPredicate(value: true)
-            results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request)
+            results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
             for result in results!{
+                print("\nFlight:\n")
                 let localflight = result as! Flight
                 print(localflight.uid)
                 print(localflight.changetag)
@@ -66,14 +69,15 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             
             request = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             pred = NSPredicate(value: true)
-            results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request)
+            results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
             for result in results!{
+                print("\nSeat:\n")
                 let localseat = result as! Seat
                 print(localseat.uid)
                 print(localseat.changetag)
                 print(localseat.number)
                 print(localseat.occupiedBy)
-            }*/
+            }
             
         }
 

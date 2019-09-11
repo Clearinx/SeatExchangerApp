@@ -34,10 +34,28 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
         flightNr.text = flight.iataNumber
         flightLogo.image = imageToLoad
         
-        for i in 1...32{
+        let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
+        let data = try? String(contentsOf: URL(fileURLWithPath: path))
+        let jsonData = JSON(parseJSON: data!)
+        let jsonArray = jsonData.arrayValue
+        
+        var types = [AirplaneModel]()
+        for json in jsonArray {
+            types.append(AirplaneModel(modelName: json["modelName"].stringValue, numberOfSeats: json["numberOfSeats"].intValue, latestColumn: json["columns"].stringValue))
+        }
+        
+        let actualType = types.filter{$0.modelName == self.flight.airplaneType}.first!
+        
+        for i in 1...actualType.numberOfSeats{
             pickerDataNumbers.append((String(format: "%02d", i)))
         }
-        pickerData = [pickerDataNumbers, ["A", "B", "C", "D", "E", "F"]]
+        
+        let charArr : [Character] = Array(actualType.columns)
+        var strArr = [String]()
+        for char in charArr{
+            strArr.append(String(char))
+        }
+        pickerData = [pickerDataNumbers, strArr]
         
         seat1Picker.delegate = self
         seat1Picker.dataSource = self
@@ -85,19 +103,25 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     @IBAction func updateSeats(_ sender: Any) {
         makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ flightResults in
             let cloudFlight = flightResults.first!
-            let flightReference = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)
-            self.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND number = %@", flightReference, self.selectedSeatNumber!), cloudTable: "Seat"){ seatResults in
-                    let seatResult = seatResults.first!
-                    seatResult["occupiedBy"] = self.user.email as CKRecordValue
-                    self.saveRecords(records: [seatResult]){
-                        let seat = Seat(context: self.container.viewContext)
-                        seat.number = seatResult["number"]!
-                        seat.occupiedBy = self.user.email
-                        seat.uid = seatResult.recordID.recordName
-                        seat.changetag = seatResult.recordChangeTag!
-                        seat.flight = self.flight
-                        self.saveContext(container: self.container)
-                }
+            
+            let seatRecord = CKRecord(recordType: "Seat")
+            seatRecord["number"] = self.selectedSeatNumber! as CKRecordValue
+            seatRecord["occupiedBy"] = self.user.email as CKRecordValue
+            seatRecord["flight"] = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)
+                
+            var existingSeats = cloudFlight["seats"] as! [CKRecord.Reference]
+            existingSeats.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
+            cloudFlight["seats"] = existingSeats
+                
+            self.saveRecords(records: [seatRecord, cloudFlight]){
+                let seat = Seat(context: self.container.viewContext)
+                seat.number = self.selectedSeatNumber!
+                seat.occupiedBy = self.user.email
+                seat.flight = self.flight
+                seat.uid = seatRecord.recordID.recordName
+                seat.changetag = seatRecord.recordChangeTag!
+                self.flight.seats.insert(seat)
+                self.saveContext(container: self.container)
             }
         }
     }

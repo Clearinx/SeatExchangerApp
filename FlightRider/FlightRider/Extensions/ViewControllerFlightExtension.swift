@@ -39,25 +39,27 @@ extension ViewController {
         self.saveRecords(records: recordsToSave){
             self.user.changetag = self.userRecord.recordChangeTag!
             flight.changetag = flightRecord.recordChangeTag!
-            recordsToSave.remove(at: recordsToSave.count-1)
+            /*recordsToSave.remove(at: recordsToSave.count-1)
             recordsToSave.remove(at: recordsToSave.count-1)//removing last 2 records(flight and user), only the seats remain
             for i in 0...flight.seats.count-1{
                 let seatsArray = flight.seats.sorted(by: { $0.uid > $1.uid })
                 let sortedRecords = recordsToSave.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
                 seatsArray[i].changetag = sortedRecords[i].recordChangeTag!
-            }
+            }*/
             self.saveContext(container: self.container)
             semaphore.signal()
         }
         semaphore.wait()
 }
     
-    func saveFlightDataToBothDbAppendToFlightList(params: [String]?){
+    func saveFlightDataToBothDbAppendToFlightList(params: [String]?){ //flight validity check disabled for testing
         let flightCode = params![0]
-        let departureDate = params![1]
+        /*let departureDate = params![1]
         let airlineIata = flightCode.prefix(2)
-        let flightNumber = flightCode.suffix(flightCode.count-2)
-        let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
+        let flightNumber = flightCode.suffix(flightCode.count-2)*/
+        let results = [flightCode, "2019-09-11  11:20:00"]
+        saveFlightDataToBothDb(params: results)
+        /*let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
         do{
             let data = try String(contentsOf: URL(string: urlString)!)
             let jsonData = JSON(parseJSON: data)
@@ -75,12 +77,12 @@ extension ViewController {
         catch{
             flightNotFoundError()
             
-        }
+        }*/
     }
     
     func generateSeats(flight : Flight, flightRecord : CKRecord) -> [CKRecord]{
         //just dummy values right now
-        let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
+        /*let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
         var seatReferences = [CKRecord.Reference]()
         var seatRecords = [CKRecord]()
         do{
@@ -119,8 +121,10 @@ extension ViewController {
         }
         catch{
             print("Could not get the flight types")
-        }
-        
+        }*/
+        //seats will not be generated and stored unnecessarily, they will be added by users
+        let seatReferences = [CKRecord.Reference]()
+        let seatRecords = [CKRecord]()
         flightRecord["seats"] = seatReferences
         
         return seatRecords
@@ -301,7 +305,7 @@ extension ViewController {
         let semaphore = DispatchSemaphore(value: 0)
         makeCloudQuery(sortKey: "number", predicate: cloudPred, cloudTable: "Seat"){ cloudResults in
             let sortedCloudResults = cloudResults.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
-            if(localSeats.count == sortedCloudResults.count){
+            if(localSeats.count == sortedCloudResults.count && localSeats.count != 0){
                 for i in 0...sortedCloudResults.count-1{
                     if(localSeats[i].changetag != sortedCloudResults[i].recordChangeTag){
                         let seat = Seat(context: self.container.viewContext)
