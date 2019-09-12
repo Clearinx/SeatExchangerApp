@@ -29,8 +29,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             
             let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let flightPred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
-            print(self.user.flights)
-            self.flights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
+            self.flights = self.makeLocalQuery(sortKey: "iataNumber", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
             print(self.flights)
             
             /*let seatRequest = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
@@ -43,7 +42,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     self.tableView.reloadData()
             }
             //usres in local DB
-            var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+            /*var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             var pred = NSPredicate(value: true)
             var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
             for result in results!{
@@ -65,6 +64,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 print(localflight.changetag)
                 print(localflight.departureDate)
                 print(localflight.iataNumber)
+                print(localflight.airplaneType)
+                print(localflight.seats.count)
             }
             
             request = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
@@ -77,7 +78,9 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 print(localseat.changetag)
                 print(localseat.number)
                 print(localseat.occupiedBy)
+                print(localseat.flight.iataNumber)
             }
+            print(results?.count)*/
             
         }
 
@@ -178,6 +181,9 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         else{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
+                vc.flight = flight
+                vc.user = user
+                vc.justSelectedSeat = false
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

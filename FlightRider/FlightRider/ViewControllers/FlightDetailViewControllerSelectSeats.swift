@@ -26,10 +26,13 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     var flight : Flight!
     var user : User!
     var userRecord : CKRecord!
+    var justSelectedSeat : Bool = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(proceedToCheckSeats))
         
         flightNr.text = flight.iataNumber
         flightLogo.image = imageToLoad
@@ -39,12 +42,8 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
         let jsonData = JSON(parseJSON: data!)
         let jsonArray = jsonData.arrayValue
         
-        var types = [AirplaneModel]()
-        for json in jsonArray {
-            types.append(AirplaneModel(modelName: json["modelName"].stringValue, numberOfSeats: json["numberOfSeats"].intValue, latestColumn: json["columns"].stringValue))
-        }
-        
-        let actualType = types.filter{$0.modelName == self.flight.airplaneType}.first!
+        let jsonValue = jsonArray.filter{$0["modelName"].stringValue == self.flight.airplaneType}.first!
+        let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
         
         for i in 1...actualType.numberOfSeats{
             pickerDataNumbers.append((String(format: "%02d", i)))
@@ -123,6 +122,16 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
                 self.flight.seats.insert(seat)
                 self.saveContext(container: self.container)
             }
+        }
+        justSelectedSeat = true
+    }
+    
+    @objc func proceedToCheckSeats(){
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
+            vc.flight = flight
+            vc.user = user
+            vc.justSelectedSeat = justSelectedSeat
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     

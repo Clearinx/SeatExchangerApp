@@ -178,23 +178,24 @@ extension ViewController {
                 var seatReferences = [CKRecord.Reference]()
                 seatReferences = result["seats"]!
                 
-                let predicate = NSPredicate(format: "ANY %@ = recordID" ,seatReferences)
-                let semaphore = DispatchSemaphore(value: 0)
-                makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
-                    for seatResult in cloudResults{
-                        let seat = Seat(context: self.container.viewContext)
-                        seat.number = seatResult["number"]!
-                        seat.occupiedBy = seatResult["occupiedBy"]!
-                        seat.uid = seatResult.recordID.recordName
-                        seat.changetag = seatResult.recordChangeTag!
-                        seat.flight = flight
+                if !seatReferences.isEmpty{
+                    let predicate = NSPredicate(format: "ANY %@ = recordID" ,seatReferences)
+                    let semaphore = DispatchSemaphore(value: 0)
+                    makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
+                        for seatResult in cloudResults{
+                            let seat = Seat(context: self.container.viewContext)
+                            seat.number = seatResult["number"]!
+                            seat.occupiedBy = seatResult["occupiedBy"]!
+                            seat.uid = seatResult.recordID.recordName
+                            seat.changetag = seatResult.recordChangeTag!
+                            seat.flight = flight
+                        }
+                        semaphore.signal()
                     }
-                    semaphore.signal()
+                    semaphore.wait()
                 }
-                semaphore.wait()
-                
          }
-            saveContext(container: container)
+       saveContext(container: container)
     }
     
     func fetchFlightsFromCloudWaitForResult(results : [CKRecord], completionHandler: @escaping (Flight) -> Void){
@@ -210,20 +211,21 @@ extension ViewController {
             var seatReferences = [CKRecord.Reference]()
             seatReferences = result["seats"]!
             
-            let predicate = NSPredicate(format: "ANY %@ = recordName" ,seatReferences)
-            
-            makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
-                for seatResult in cloudResults{
-                    let seat = Seat(context: self.container.viewContext)
-                    seat.number = seatResult["number"]!
-                    seat.occupiedBy = seatResult["occupiedBy"]!
-                    seat.uid = seatResult.recordID.recordName
-                    seat.changetag = seatResult.recordChangeTag!
-                    seat.flight = flight
+            if !seatReferences.isEmpty{
+                let predicate = NSPredicate(format: "ANY %@ = recordName" ,seatReferences)
+                
+                makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
+                    for seatResult in cloudResults{
+                        let seat = Seat(context: self.container.viewContext)
+                        seat.number = seatResult["number"]!
+                        seat.occupiedBy = seatResult["occupiedBy"]!
+                        seat.uid = seatResult.recordID.recordName
+                        seat.changetag = seatResult.recordChangeTag!
+                        seat.flight = flight
+                    }
+                    completionHandler(flight)
                 }
-                completionHandler(flight)
             }
-
         }
         
     }
@@ -301,36 +303,38 @@ extension ViewController {
             recordIDs.append(seatReference.recordID)
             
         }
-        let cloudPred = NSPredicate(format: "ANY %@ = recordID" ,recordIDs)
-        let semaphore = DispatchSemaphore(value: 0)
-        makeCloudQuery(sortKey: "number", predicate: cloudPred, cloudTable: "Seat"){ cloudResults in
-            let sortedCloudResults = cloudResults.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
-            if(localSeats.count == sortedCloudResults.count && localSeats.count != 0){
-                for i in 0...sortedCloudResults.count-1{
-                    if(localSeats[i].changetag != sortedCloudResults[i].recordChangeTag){
+        if !seatReferences.isEmpty{
+            let cloudPred = NSPredicate(format: "ANY %@ = recordID" ,recordIDs)
+            let semaphore = DispatchSemaphore(value: 0)
+            makeCloudQuery(sortKey: "number", predicate: cloudPred, cloudTable: "Seat"){ cloudResults in
+                let sortedCloudResults = cloudResults.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
+                if(localSeats.count == sortedCloudResults.count && localSeats.count != 0){
+                    for i in 0...sortedCloudResults.count-1{
+                        if(localSeats[i].changetag != sortedCloudResults[i].recordChangeTag){
+                            let seat = Seat(context: self.container.viewContext)
+                            seat.number = sortedCloudResults[i]["number"]!
+                            seat.occupiedBy = sortedCloudResults[i]["occupiedBy"]!
+                            seat.uid = sortedCloudResults[i].recordID.recordName
+                            seat.changetag = sortedCloudResults[i].recordChangeTag!
+                            seat.flight = flight
+                        }
+                    }
+                }
+                else{
+                    for seatResult in cloudResults{
                         let seat = Seat(context: self.container.viewContext)
-                        seat.number = sortedCloudResults[i]["number"]!
-                        seat.occupiedBy = sortedCloudResults[i]["occupiedBy"]!
-                        seat.uid = sortedCloudResults[i].recordID.recordName
-                        seat.changetag = sortedCloudResults[i].recordChangeTag!
+                        seat.number = seatResult["number"]!
+                        seat.occupiedBy = seatResult["occupiedBy"]!
+                        seat.uid = seatResult.recordID.recordName
+                        seat.changetag = seatResult.recordChangeTag!
                         seat.flight = flight
                     }
                 }
+                
+                semaphore.signal()
             }
-            else{
-                for seatResult in cloudResults{
-                    let seat = Seat(context: self.container.viewContext)
-                    seat.number = seatResult["number"]!
-                    seat.occupiedBy = seatResult["occupiedBy"]!
-                    seat.uid = seatResult.recordID.recordName
-                    seat.changetag = seatResult.recordChangeTag!
-                    seat.flight = flight
-                }
-            }
-
-            semaphore.signal()
+            semaphore.wait()
         }
-        semaphore.wait()
     }
     
     func deleteFlightsFromLocalDb(localResults : [NSManagedObject]){

@@ -12,22 +12,25 @@ class CheckSeatsViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     
+    var flight : Flight!
+    var user : User!
+    var justSelectedSeat : Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(flight.iataNumber)
         createSeats()
-
         // Do any additional setup after loading the view.
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        if(justSelectedSeat == true){
+            self.navigationController?.popViewController(animated: false)
+        }
+        super.viewWillDisappear(animated)
     }
     
     func createSeats() {
-        
-        print(contentView.frame.width)
-        print(contentView.frame.height)
-        
-        print(view.frame.width)
-        print(view.frame.height)
-        
-        
+
         let viewSize = contentView.frame.width*0.0966
         let viewSpacing = contentView.frame.width*0.0169
         let lettersSpacing = contentView.frame.width*0.0724
@@ -49,22 +52,6 @@ class CheckSeatsViewController: UIViewController {
         leftLetters.spacing = lettersSpacing
         leftLetters.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        let lblA = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        lblA.text = "A"
-        lblA.font = UIFont(name: "Helvetica", size: fontSize)
-        leftLetters.addArrangedSubview(lblA)
-        
-        let lblB  = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        lblB.text = "B"
-        lblB.font = UIFont(name: "Helvetica", size: fontSize)
-        leftLetters.addArrangedSubview(lblB)
-        
-        let lblC = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        lblC.text = "C"
-        lblC.font = UIFont(name: "Helvetica", size: fontSize)
-        leftLetters.addArrangedSubview(lblC)
-        
         let rightLetters = UIStackView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         rightLetters.axis = .horizontal
         rightLetters.distribution = .fill
@@ -72,20 +59,26 @@ class CheckSeatsViewController: UIViewController {
         rightLetters.spacing = lettersSpacing
         rightLetters.translatesAutoresizingMaskIntoConstraints = false
         
-        let lblD = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        lblD.text = "D"
-        lblD.font = UIFont(name: "Helvetica", size: fontSize)
-        rightLetters.addArrangedSubview(lblD)
+        let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
+        let data = try? String(contentsOf: URL(fileURLWithPath: path))
+        let jsonData = JSON(parseJSON: data!)
+        let jsonArray = jsonData.arrayValue
         
-        let lblE  = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        lblE.text = "E"
-        lblE.font = UIFont(name: "Helvetica", size: fontSize)
-        rightLetters.addArrangedSubview(lblE)
+        let jsonValue = jsonArray.filter{$0["modelName"].stringValue == self.flight.airplaneType}.first!
+        let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
         
-        let lblF = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        lblF.text = "F"
-        lblF.font = UIFont(name: "Helvetica", size: fontSize)
-        rightLetters.addArrangedSubview(lblF)
+       for i in 0...Array(actualType.columns).count - 1{
+            let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+            lbl.text = String(Array(actualType.columns)[i])
+            lbl.font = UIFont(name: "Helvetica", size: fontSize)
+            if(i <= 2){
+                leftLetters.addArrangedSubview(lbl)
+            }
+            else{
+                rightLetters.addArrangedSubview(lbl)
+            }
+
+        }
         
         contentView.addSubview(leftLetters)
         contentView.addSubview(rightLetters)
@@ -112,9 +105,9 @@ class CheckSeatsViewController: UIViewController {
 
         
         
-        for i in 1...32{
+        for number in 1...actualType.numberOfSeats{
             let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-            lbl.text = String(i)
+            lbl.text = String(number)
             lbl.font = UIFont(name: "Helvetica", size: fontSize)
             seatNumbersView.addArrangedSubview(lbl)
             
@@ -125,23 +118,6 @@ class CheckSeatsViewController: UIViewController {
             stackViewABC.spacing = viewSpacing
             stackViewABC.translatesAutoresizingMaskIntoConstraints = false
             
-            for _ in 0...2{
-                let seatview = UIView(frame: CGRect(x: 0, y: 0, width: viewSize, height: viewSize))
-                seatview.backgroundColor = .blue
-                seatview.layer.cornerRadius = cornerRadius
-                seatview.translatesAutoresizingMaskIntoConstraints = false
-                stackViewABC.addArrangedSubview(seatview)
-                NSLayoutConstraint(item: seatview, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
-                NSLayoutConstraint(item: seatview, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
-                Tap.on(view: seatview){
-                    self.viewTapped(view: seatview)
-                }
-            }
-            contentView.addSubview(stackViewABC)
-            
-            NSLayoutConstraint(item: stackViewABC, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
-            NSLayoutConstraint(item: stackViewABC, attribute: .centerX, relatedBy: .equal, toItem: leftLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
-            NSLayoutConstraint(item: stackViewABC, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
             
             let stackViewDEF = UIStackView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
             stackViewDEF.axis = .horizontal
@@ -150,7 +126,41 @@ class CheckSeatsViewController: UIViewController {
             stackViewDEF.spacing = viewSpacing
             stackViewDEF.translatesAutoresizingMaskIntoConstraints = false
             
-            for _ in 0...2{
+            for i in 0...Array(actualType.columns).count - 1{
+                let seatview = UIView(frame: CGRect(x: 0, y: 0, width: viewSize, height: viewSize))
+                let result = flight.seats.filter{ $0.number == "\(String(format: "%02d", number))\(Array(actualType.columns)[i])" }
+                if result.isEmpty{
+                    seatview.backgroundColor = .blue
+                }
+                else if(result.first!.occupiedBy == user.email){
+                    seatview.backgroundColor = .green
+                }
+                else{
+                    seatview.backgroundColor = .red
+                }
+                
+                seatview.layer.cornerRadius = cornerRadius
+                seatview.translatesAutoresizingMaskIntoConstraints = false
+                if(i <= 2){
+                    stackViewABC.addArrangedSubview(seatview)
+                }
+                else{
+                    stackViewDEF.addArrangedSubview(seatview)
+                }
+
+                NSLayoutConstraint(item: seatview, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
+                NSLayoutConstraint(item: seatview, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
+                Tap.on(view: seatview){
+                    self.viewTapped(view: seatview)
+                }
+            }
+            contentView.addSubview(stackViewABC)
+            NSLayoutConstraint(item: stackViewABC, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
+            NSLayoutConstraint(item: stackViewABC, attribute: .centerX, relatedBy: .equal, toItem: leftLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+            NSLayoutConstraint(item: stackViewABC, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
+        
+            
+            /*for char in "DEF"{
                 let seatview = UIView(frame: CGRect(x: 0, y: 0, width: viewSize, height: viewSize))
                 seatview.backgroundColor = .blue
                 seatview.layer.cornerRadius = cornerRadius
@@ -161,10 +171,9 @@ class CheckSeatsViewController: UIViewController {
                 Tap.on(view: seatview){
                     self.viewTapped(view: seatview)
                 }
-            }
-            contentView.addSubview(stackViewDEF)
+            }*/
             
-
+            contentView.addSubview(stackViewDEF)
             NSLayoutConstraint(item: stackViewDEF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
             NSLayoutConstraint(item: stackViewDEF, attribute: .centerX, relatedBy: .equal, toItem: rightLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
             NSLayoutConstraint(item: stackViewDEF, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
