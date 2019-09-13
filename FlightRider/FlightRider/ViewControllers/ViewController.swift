@@ -18,28 +18,32 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     var container: NSPersistentContainer!
     var uid : String!
     var email : String!
+    
+    var spinnerView : UIView!
+    var ai : UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        spinnerView = UIView.init(frame: self.view.bounds)
+        ai = UIActivityIndicatorView.init(style: .whiteLarge)
         let starttime = CFAbsoluteTimeGetCurrent()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
         title = "Flights"
-        
+        self.showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
         loadUserData(){ [unowned self] in
             
             let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let flightPred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
             self.flights = self.makeLocalQuery(sortKey: "iataNumber", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
             print(self.flights)
-            
-            /*let seatRequest = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-            let seatPred = NSPredicate(format: "ANY flight IN %@ AND occupiedBy = %@", self.flights, self.user.email)
-            self.occupiedSeats = self.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.container, delegate: self) as? [Seat]
-            print(self.occupiedSeats!)*/
             let elapsedTime = CFAbsoluteTimeGetCurrent() - starttime
             print(elapsedTime)
             DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    let range = NSMakeRange(0, self.tableView.numberOfSections)
+                    let sections = NSIndexSet(indexesIn: range)
+                    self.tableView.reloadSections(sections as IndexSet, with: .automatic) 
+                    self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
             }
             //usres in local DB
             /*var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>

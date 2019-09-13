@@ -15,29 +15,63 @@ import CoreData
 
 class LoginViewController: UIViewController {
 
+    @IBOutlet weak var rememberMeSwitch: UISwitch!
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var EmailFiled: UITextField!
     var uid : String = ""
     var email : String = ""
     var container: NSPersistentContainer!
+    var spinnerView : UIView!
+    var ai : UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         container = setupContainer()
+        spinnerView = UIView.init(frame: self.view.bounds)
+        ai = UIActivityIndicatorView.init(style: .whiteLarge)
         
+        rememberMeSwitch.addTarget(self, action: #selector(self.stateChanged), for: .valueChanged)
+        let defaults: UserDefaults? = UserDefaults.standard
+        
+        if (defaults?.bool(forKey: "ISRemember")) ?? false{
+            EmailFiled.text = defaults?.value(forKey: "SavedUserName") as? String
+            PasswordField.text = defaults?.value(forKey: "SavedPassword") as? String
+            rememberMeSwitch.setOn(true, animated: false)
+        }
+        else {
+            rememberMeSwitch.setOn(false, animated: false)
+        }
+    }
+    
+    @objc func stateChanged(_ switchState: UISwitch) {
+        
+        let defaults: UserDefaults? = UserDefaults.standard
+        if switchState.isOn {
+            defaults?.set(true, forKey: "ISRemember")
+            defaults?.set(EmailFiled.text, forKey: "SavedUserName")
+            defaults?.set(PasswordField.text, forKey: "SavedPassword")
+        }
+        else {
+            defaults?.set(false, forKey: "ISRemember")
+        }
     }
     
     @IBAction func LoginButtonPressed(_ sender: Any) {
         if(EmailFiled.text != nil && PasswordField.text != nil){
-            self.showSpinner(onView: self.view)
+            
+            showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
             Auth.auth().signIn(withEmail: EmailFiled.text!, password: PasswordField.text!) { authResult, error in
-                self.removeSpinner()
                 guard let user = authResult?.user, error == nil else {
                     self.LoginError()
                     return
                 }
                 self.uid = user.uid
                 self.email = self.EmailFiled.text!
+                /*DispatchQueue.main.async {
+                    self.ai?.stopAnimating()
+                    self.spinnerView!.removeFromSuperview()
+                }*/
+                self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
                 self.ToFlightList()
             }
         }
@@ -48,6 +82,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func SignupButtonPressed(_ sender: Any) {
             if(EmailFiled.text != nil && PasswordField.text != nil){
+                showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
                 Auth.auth().createUser(withEmail: EmailFiled.text!, password: PasswordField.text!) { authResult, error in
                      guard let user = authResult?.user, error == nil else {
                             self.LoginError()
@@ -55,6 +90,7 @@ class LoginViewController: UIViewController {
                          }
                     self.uid = user.uid
                     self.email = self.EmailFiled.text!
+                    self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
                     self.ToFlightList()
             }
         }
@@ -64,6 +100,7 @@ class LoginViewController: UIViewController {
         
     }
     func LoginError(){
+        self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
         let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
         ac.addAction(cancelAction)
@@ -78,29 +115,6 @@ class LoginViewController: UIViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-        
-    @IBAction func Test(_ sender: Any) {
-        let testRecord = CKRecord(recordType: "Flights")
-        testRecord["iataNumber"] = "ABCD" as CKRecordValue
-        testRecord["departureDate"] = Date() as CKRecordValue
-        let seat1Record = CKRecord(recordType: "Seat")
-        seat1Record["number"] = "05FF"
-        seat1Record["occupiedBy"] = "AAA"
-        let seat2Record = CKRecord(recordType: "Seat")
-        seat2Record["number"] = "18CC"
-        seat2Record["occupiedBy"] = "BBB"
-        let reference = CKRecord.Reference(recordID: testRecord.recordID, action: .none)
-        
-        seat1Record["flight"] = reference
-        seat2Record["flight"] = reference
-        
-        let records = [testRecord, seat1Record, seat2Record]
-        
-        self.showSpinner(onView: self.view)
-        saveRecords(records: records)
-        self.removeSpinner()
-        
-    }
     
     func saveRecords(records : [CKRecord]){
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
@@ -110,38 +124,5 @@ class LoginViewController: UIViewController {
         
     }
     
-    @IBAction func iCloudRead(_ sender: Any) {
-        let pred = NSPredicate(value: true)
-        let sort = NSSortDescriptor(key: "iataNumber", ascending: true)
-        let query = CKQuery(recordType: "Flights", predicate: pred)
-        query.sortDescriptors = [sort]
-
-        self.showSpinner(onView: self.view)
-        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil){ results, error in
-            self.removeSpinner()
-            if let error = error {
-                print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
-                return
-            }
-            for result in results!{
-                print(result["departureDate"] ?? "Nil value")
-                print(result["iataNumber"] ?? "Nil value")
-                let flightID = result.recordID
-                let recordToMatch = CKRecord.Reference(recordID: flightID, action: .none)
-                let predicate = NSPredicate(format: "flight == %@", recordToMatch.recordID)
-                let query2 = CKQuery(recordType: "Seat", predicate: predicate)
-                CKContainer.default().publicCloudDatabase.perform(query2, inZoneWith: nil){results2, error in
-                    if let error = error {
-                        print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
-                        return
-                    }
-                    for result2 in results2!{
-                        print(result2["number"] ?? "Nil value")
-                        print(result2["occupiedBy"] ?? "Nil value")
-                    }
-                }
-            }
-            
-        }
-    }
+    
 }

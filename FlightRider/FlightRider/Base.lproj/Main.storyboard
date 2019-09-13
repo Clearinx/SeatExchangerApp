@@ -219,68 +219,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ttest.mail@testprovider.com" borderStyle="roundedRect" placeholder="E-mail" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VPb-Ag-Ofb">
-                                <rect key="frame" x="52" y="186" width="216" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VPb-Ag-Ofb">
+                                <rect key="frame" x="52" y="126" width="216" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8c-HS-aMJ">
-                                <rect key="frame" x="140" y="398" width="38" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8c-HS-aMJ">
+                                <rect key="frame" x="136" y="255" width="38" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="LoginButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="OhV-C7-DA1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2D-iU-LfJ">
-                                <rect key="frame" x="134" y="474" width="52" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2D-iU-LfJ">
+                                <rect key="frame" x="129" y="316" width="52" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sign up"/>
                                 <connections>
                                     <action selector="SignupButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="sRs-nx-089"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xgd-ob-6fA">
-                                <rect key="frame" x="52" y="246" width="216" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xgd-ob-6fA">
+                                <rect key="frame" x="52" y="195" width="216" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QvW-4C-cie">
-                                <rect key="frame" x="107" y="296" width="107" height="30"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfT-Ja-QON">
+                                <rect key="frame" x="132" y="384" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="testiCloudWrite"/>
-                                <connections>
-                                    <action selector="Test:" destination="VFj-wt-fBu" eventType="touchUpInside" id="Nf9-vH-jSy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PKt-Tn-Uqm">
-                                <rect key="frame" x="107" y="342" width="105" height="30"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remember me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbR-zZ-n8z">
+                                <rect key="frame" x="99" y="432" width="112" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="testiCloudRead"/>
-                                <connections>
-                                    <action selector="iCloudRead:" destination="VFj-wt-fBu" eventType="touchUpInside" id="lgk-76-sOT"/>
-                                </connections>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Y2D-iU-LfJ" firstAttribute="top" secondItem="v8c-HS-aMJ" secondAttribute="bottom" constant="46" id="2eB-P7-uOO"/>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="centerX" secondItem="Crr-2X-DWt" secondAttribute="centerX" id="Kee-ns-fef"/>
-                            <constraint firstItem="QEO-uN-hVE" firstAttribute="bottom" secondItem="Y2D-iU-LfJ" secondAttribute="bottom" constant="64" id="TVO-87-u2e"/>
-                            <constraint firstItem="xgd-ob-6fA" firstAttribute="centerX" secondItem="v8c-HS-aMJ" secondAttribute="centerX" constant="1" id="VMW-Tn-zEX"/>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="leading" secondItem="xgd-ob-6fA" secondAttribute="leading" id="WZP-I2-Dsb"/>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="top" secondItem="QEO-uN-hVE" secondAttribute="top" constant="122" id="ajg-dO-fZ9"/>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="trailing" secondItem="xgd-ob-6fA" secondAttribute="trailing" id="jpU-QB-nYA"/>
-                            <constraint firstItem="xgd-ob-6fA" firstAttribute="top" secondItem="VPb-Ag-Ofb" secondAttribute="bottom" constant="30" id="kcR-ao-WbC"/>
-                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="centerX" secondItem="Y2D-iU-LfJ" secondAttribute="centerX" constant="-1" id="nKB-e3-Ba3"/>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="leading" secondItem="QEO-uN-hVE" secondAttribute="leading" constant="52" id="uYp-q4-lyn"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="QEO-uN-hVE"/>
                     </view>
                     <navigationItem key="navigationItem" id="xon-33-IzT"/>
                     <connections>
                         <outlet property="EmailFiled" destination="VPb-Ag-Ofb" id="1DB-Yu-c7X"/>
                         <outlet property="PasswordField" destination="xgd-ob-6fA" id="m4D-nh-tv2"/>
+                        <outlet property="rememberMeSwitch" destination="VfT-Ja-QON" id="z7O-yN-GX1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zmh-eC-JYH" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -246,7 +246,6 @@
 				FFA03FF22312D94C009A3D3F /* LoginViewController.swift */,
 				FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */,
 				891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */,
-				89EC5E062314331C00F24139 /* Spinner.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -281,6 +280,7 @@
 				8937002B2321647D00BA2BF4 /* DateExtension.swift */,
 				89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */,
 				89B46C87232A43020000F5F1 /* StringExtension.swift */,
+				89EC5E062314331C00F24139 /* Spinner.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";

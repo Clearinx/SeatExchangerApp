@@ -18,15 +18,22 @@ class CheckSeatsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(customBack))
+        self.navigationItem.leftBarButtonItem = newBackButton
         print(flight.iataNumber)
         createSeats()
         // Do any additional setup after loading the view.
     }
-    override func viewWillDisappear(_ animated: Bool) {
+    
+    @objc func customBack(){
         if(justSelectedSeat == true){
-            self.navigationController?.popViewController(animated: false)
+            let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+            self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
         }
-        super.viewWillDisappear(animated)
+        else{
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func createSeats() {
@@ -137,6 +144,9 @@ class CheckSeatsViewController: UIViewController {
                 }
                 else{
                     seatview.backgroundColor = .red
+                    Tap.on(view: seatview){
+                        self.viewTapped(view: seatview, email: result.first!.occupiedBy)
+                    }
                 }
                 
                 seatview.layer.cornerRadius = cornerRadius
@@ -150,28 +160,12 @@ class CheckSeatsViewController: UIViewController {
 
                 NSLayoutConstraint(item: seatview, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
                 NSLayoutConstraint(item: seatview, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
-                Tap.on(view: seatview){
-                    self.viewTapped(view: seatview)
-                }
             }
             contentView.addSubview(stackViewABC)
             NSLayoutConstraint(item: stackViewABC, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
             NSLayoutConstraint(item: stackViewABC, attribute: .centerX, relatedBy: .equal, toItem: leftLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
             NSLayoutConstraint(item: stackViewABC, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
         
-            
-            /*for char in "DEF"{
-                let seatview = UIView(frame: CGRect(x: 0, y: 0, width: viewSize, height: viewSize))
-                seatview.backgroundColor = .blue
-                seatview.layer.cornerRadius = cornerRadius
-                seatview.translatesAutoresizingMaskIntoConstraints = false
-                stackViewDEF.addArrangedSubview(seatview)
-                NSLayoutConstraint(item: seatview, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
-                NSLayoutConstraint(item: seatview, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
-                Tap.on(view: seatview){
-                    self.viewTapped(view: seatview)
-                }
-            }*/
             
             contentView.addSubview(stackViewDEF)
             NSLayoutConstraint(item: stackViewDEF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: viewSize).isActive = true
@@ -181,9 +175,23 @@ class CheckSeatsViewController: UIViewController {
     }
     
     
-    func viewTapped(view : UIView){
-        print("Yay!")
-        view.backgroundColor = .red
+    func viewTapped(view : UIView, email: String){
+        let ac = UIAlertController(title: "User reserved this seat:", message: nil, preferredStyle: .alert)
+        ac.message = email
+        
+        let contactAction = UIAlertAction(title: "Contact", style: .default) { /*[unowned self, unowned ac]*/ action in
+            print("Not implemented yet. This will open the chat")
+        }
+        let exchangeAggreementAction = UIAlertAction(title: "Exchange Agreement", style: .default) { /*[unowned self, unowned ac]*/ action in
+            print("Not implemented yet. This will open the Exchange Agreement tab")
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        
+        ac.addAction(contactAction)
+        ac.addAction(exchangeAggreementAction)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
     }
 
 }
