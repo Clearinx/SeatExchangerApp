@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import CloudKit
+import CoreSpotlight
+import MobileCoreServices
 
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
@@ -264,10 +266,24 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 let pred = NSPredicate(format: "iataNumber = %@", flightCode)
                 let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self) as! [Flight]
                 self.flights.append(newFlight.first!)
+                self.createSearchableText(flight: newFlight.first!)
                 DispatchQueue.main.async {
                     let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
                     self.tableView.insertRows(at: [indexPath], with: .automatic)
                 }
+            }
+        }
+    }
+    
+    func createSearchableText(flight : Flight){
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+        attributeSet.title = flight.iataNumber
+        let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
+            if let error = error {
+                print("Indexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully indexed!")
             }
         }
     }

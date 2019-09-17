@@ -151,6 +151,7 @@ class CheckSeatsViewController: UIViewController {
                 
                 seatview.layer.cornerRadius = cornerRadius
                 seatview.translatesAutoresizingMaskIntoConstraints = false
+                seatview.accessibilityIdentifier = "\(number)\(Array(actualType.columns)[i])"
                 if(i <= 2){
                     stackViewABC.addArrangedSubview(seatview)
                 }

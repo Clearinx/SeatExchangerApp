@@ -108,7 +108,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
             seatRecord["occupiedBy"] = self.user.email as CKRecordValue
             seatRecord["flight"] = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)
                 
-            var existingSeats = cloudFlight["seats"] as! [CKRecord.Reference]
+            var existingSeats = cloudFlight["seats"] as? [CKRecord.Reference] ?? [CKRecord.Reference]()
             existingSeats.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
             cloudFlight["seats"] = existingSeats
                 

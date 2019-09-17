@@ -54,10 +54,10 @@ extension ViewController {
     
     func saveFlightDataToBothDbAppendToFlightList(params: [String]?){ //flight validity check disabled for testing
         let flightCode = params![0]
-        /*let departureDate = params![1]
-        let airlineIata = flightCode.prefix(2)
+        let departureDate = params![1]
+        /*let airlineIata = flightCode.prefix(2)
         let flightNumber = flightCode.suffix(flightCode.count-2)*/
-        let results = [flightCode, "2019-09-11  11:20:00"]
+        let results = [flightCode, "\(departureDate)  11:20:00"]
         saveFlightDataToBothDb(params: results)
         /*let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
         do{
@@ -176,7 +176,7 @@ extension ViewController {
                 flight.airplaneType = result["airplaneType"]!
                 
                 var seatReferences = [CKRecord.Reference]()
-                seatReferences = result["seats"]!
+                seatReferences = result["seats"] ?? [CKRecord.Reference]()
                 
                 if !seatReferences.isEmpty{
                     let predicate = NSPredicate(format: "ANY %@ = recordID" ,seatReferences)
@@ -296,7 +296,7 @@ extension ViewController {
         var localSeats = Array(flight.seats)
         localSeats.sort(by: { $0.uid > $1.uid })
         var seatReferences = [CKRecord.Reference]()
-        seatReferences = flightRecord["seats"]!
+        seatReferences = flightRecord["seats"] ?? [CKRecord.Reference]()
         var recordIDs = [CKRecord.ID]()
         
         for seatReference in seatReferences{

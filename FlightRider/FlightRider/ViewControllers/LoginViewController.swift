@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseAuth
+import Firebase
 import CloudKit
 import CoreData
 
@@ -58,7 +58,18 @@ class LoginViewController: UIViewController {
     
     @IBAction func LoginButtonPressed(_ sender: Any) {
         if(EmailFiled.text != nil && PasswordField.text != nil){
-            
+            if rememberMeSwitch.isOn {
+                let defaults: UserDefaults? = UserDefaults.standard
+                let savedName = defaults?.string(forKey: "SavedUserName")
+                let savedPass = defaults?.string(forKey: "SavedPassword")
+                
+                if (savedName != EmailFiled.text){
+                    defaults?.set(EmailFiled.text, forKey: "SavedUserName")
+                }
+                if (savedPass != PasswordField.text){
+                    defaults?.set(PasswordField.text, forKey: "SavedPassword")
+                }
+            }
             showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
             Auth.auth().signIn(withEmail: EmailFiled.text!, password: PasswordField.text!) { authResult, error in
                 guard let user = authResult?.user, error == nil else {

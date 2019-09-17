@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import CoreSpotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UIGestureRecognizerDelegate {
@@ -88,6 +89,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIGestureRecognizerDelega
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if userActivity.activityType == CSSearchableItemActionType {
+            if (userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String) != nil {
+                if let navigationController = window?.rootViewController as? UINavigationController {
+                    if (navigationController.topViewController as? LoginViewController) != nil {
+                        _ = LoginViewController()
+                    }
+                }
+            }
+        }
+        
+        return true
     }
 
 }
