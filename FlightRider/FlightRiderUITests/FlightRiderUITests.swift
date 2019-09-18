@@ -27,7 +27,6 @@ class FlightRiderUITests: XCTestCase {
         app.textFields["Password"].typeText("Password")
         app.buttons["Login"].tap()
         
-        let table = app.tables
         print("start")
         sleep(3)
         print("finish")
@@ -61,7 +60,6 @@ class FlightRiderUITests: XCTestCase {
             app.navigationBars["Flights"].buttons["Add"].tap()
             
             let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
-            enterTheDepartureDateAndTheFlightNumberAlert.datePickers.pickerWheels["18"]
             
             let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
             textField.typeText("AAA\(i)\(i)\(i)")
@@ -88,7 +86,6 @@ class FlightRiderUITests: XCTestCase {
         app.navigationBars["Flights"].buttons["Add"].tap()
         
         let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
-        enterTheDepartureDateAndTheFlightNumberAlert.datePickers.pickerWheels["18"]
         
         let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
         textField.typeText("AAA111")
@@ -100,13 +97,6 @@ class FlightRiderUITests: XCTestCase {
         sleep(2)
         print("finish")
         app.tables.cells.element(boundBy:0).tap()
-        
-        /*app.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: "15")
-        app.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: "F")
-
-
-        let updateButton = app.buttons["Update"]
-        updateButton.tap()*/
         
         app.navigationBars["FlightRider.FlightDetailView"].buttons["Done"].tap()
         
@@ -123,7 +113,6 @@ class FlightRiderUITests: XCTestCase {
         app.navigationBars["Flights"].buttons["Add"].tap()
         
         let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
-        enterTheDepartureDateAndTheFlightNumberAlert.datePickers.pickerWheels["18"]
         
         let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
         textField.typeText("AAA111")
@@ -170,104 +159,8 @@ class FlightRiderUITests: XCTestCase {
         sleep(2)
         print("finish")
         app.tables.cells.element(boundBy:0).tap()
-        sleep(5)
+        XCTAssertEqual(app.pickerWheels.count, 0, "Date too far, cannot select flight yet")
+        app.navigationBars["FlightRider.FlightDetailView"].buttons["Flights"].tap()
     }
 
-    /*func testInitialStateIsCorrect() {
-        let table = XCUIApplication().tables
-        XCTAssertEqual(table.cells.count, 0, "There should be 0 rows initially")
-    }
-    
-    func testAddItemsToList() {
-        /*let table = XCUIApplication().tables
-        let app = XCUIApplication()
-        app.navigationBars["FlightRider.View"].buttons["Add"].tap()
-        app.typeText("a")
-        app.alerts["Enter a flight number"].buttons["Submit"].tap()
-        XCTAssertEqual(table.cells.count, 1, "There should be 0 rows initially")*/
-        
-        
-        
-        let app = XCUIApplication()
-        let table = XCUIApplication().tables
-        
-        app.navigationBars["Flights"].buttons["Add"].tap()
-    
-        let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        textField.tap()
-        textField.typeText("some text")
-        app.alerts["Enter a flight number"].buttons["Submit"].tap()
-        
-        for i in 1...5{
-        app.navigationBars["Flights"].buttons["Add"].tap()
-        
-        let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        textField.tap()
-        textField.typeText(String(i))
-        app.alerts["Enter a flight number"].buttons["Submit"].tap()
-        
-        
-        }
-        let cell = table.cells.element(boundBy:0).staticTexts["some text"]
-        XCTAssertTrue(cell.exists)
-        
-        let cell2 = table.cells.element(boundBy:4).staticTexts["4"]
-        XCTAssertTrue(cell2.exists)
-        let cell3 = table.cells.element(boundBy:2).staticTexts["dummy"]
-        XCTAssertFalse(cell3.exists)
-        XCTAssertEqual(table.cells.count, 6, "There should be 5 rows")
-    }
-    
-    func testAddAndRemoveItemsToList() {
-        let app = XCUIApplication()
-        let table = XCUIApplication().tables
-        let flightriderViewNavigationBar = app.navigationBars["Flights"]
-        
-        for i in 1...3{
-        app.navigationBars["Flights"].buttons["Add"].tap()
-            
-            let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-            textField.tap()
-            textField.typeText(String(i))
-            app.alerts["Enter a flight number"].buttons["Submit"].tap()
-            
-            
-        }
-        app.tables/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".cells.staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        flightriderViewNavigationBar.buttons["Delete"].tap()
-        XCTAssertEqual(table.cells.count, 2, "There should be  rows")
-        
-        
-        
-    }
-    func testIfImageViewAndSubtitleExists() {
-        let app = XCUIApplication()
-        let table = XCUIApplication().tables
-        
-        app.navigationBars["Flights"].buttons["Add"].tap()
-        
-        let textField = app.alerts["Enter a flight number"].collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        textField.tap()
-        textField.typeText("FR1234")
-        app.alerts["Enter a flight number"].buttons["Submit"].tap()
-        
-        let cell = table.cells.element(boundBy:0)
-        let txt = cell.staticTexts["FR1234"]
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let date = formatter.string(from: Date())
-        
-        let subt = cell.staticTexts[date]
-        let img = cell.images.element(boundBy: 0)
-        
-        XCTAssertTrue(cell.exists)
-        XCTAssertTrue(txt.exists)
-        XCTAssertTrue(subt.exists)
-        XCTAssertTrue(img.exists)
-        
-    
-        
-        
-    }*/
 }

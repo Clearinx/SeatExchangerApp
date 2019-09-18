@@ -72,10 +72,11 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        print(self.view.frame.height)
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont(name: "Helvetica", size: 35)
+            pickerLabel?.font = UIFont(name: "Helvetica", size: (self.view.frame.height * 0.0616))
             pickerLabel?.textAlignment = .center
         }
         let myRow = row % pickerData[component].count
@@ -87,7 +88,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 50 // you can calculate this based on your container view or window size
+        return self.view.frame.height * 0.088// you can calculate this based on your container view or window size
     }
     
     /*func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {

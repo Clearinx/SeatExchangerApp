@@ -26,19 +26,25 @@
                                     <rect key="frame" x="0.0" y="0.0" width="730" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" id="y5c-ow-jeR">
-                                            <rect key="frame" x="20" y="-4" width="48.5" height="31.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="y5c-ow-jeR">
+                                            <rect key="frame" x="20" y="-29" width="710" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                            </variation>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lwO-k9-kbY">
-                                            <rect key="frame" x="20" y="27.5" width="59" height="20.5"/>
+                                            <rect key="frame" x="20" y="31" width="115" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                            </variation>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -219,11 +225,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VPb-Ag-Ofb">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="center" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="VPb-Ag-Ofb">
                                 <rect key="frame" x="52" y="126" width="216" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8c-HS-aMJ">
@@ -244,12 +250,12 @@
                                     <action selector="SignupButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="sRs-nx-089"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xgd-ob-6fA">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="xgd-ob-6fA">
                                 <rect key="frame" x="52" y="195" width="216" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfT-Ja-QON">
                                 <rect key="frame" x="132" y="384" width="49" height="31"/>
@@ -400,7 +406,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FlightNr." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVA-CO-9BZ">
-                                <rect key="frame" x="77" y="140" width="336.5" height="728"/>
+                                <rect key="frame" x="77" y="191.5" width="336.5" height="104"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -408,19 +414,8 @@
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="87"/>
                                 </variation>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="dFs-up-cOu">
-                                <rect key="frame" x="495" y="404" width="200" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="2Xu-gl-OvL">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                    </constraint>
-                                    <constraint firstAttribute="width" constant="80" id="cTq-qU-rff">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
-                                    </constraint>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-9U-kki">
-                                <rect key="frame" x="20" y="702" width="143.5" height="37"/>
+                                <rect key="frame" x="77" y="528.5" width="143.5" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="37" id="cKy-gC-waT"/>
                                 </constraints>
@@ -431,32 +426,50 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 </variation>
                             </label>
-                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xpf-TP-kG7">
-                                <rect key="frame" x="119" y="215" width="182" height="100"/>
+                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xpf-TP-kG7">
+                                <rect key="frame" x="245.5" y="412" width="503.5" height="270"/>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnl-EV-UrM">
-                                <rect key="frame" x="135" y="467" width="51" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnl-EV-UrM">
+                                <rect key="frame" x="305" y="890" width="158" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="5PF-7M-6xB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Update"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                </variation>
                                 <connections>
                                     <action selector="updateSeats:" destination="LPR-cS-W7X" eventType="touchUpInside" id="fxY-Pz-Q3h"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="dFs-up-cOu">
+                                <rect key="frame" x="495" y="143.5" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="2Xu-gl-OvL">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" constant="80" id="cTq-qU-rff">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    </constraint>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xpf-TP-kG7" firstAttribute="top" secondItem="dFs-up-cOu" secondAttribute="bottom" constant="66" id="M0O-AX-ATI"/>
-                            <constraint firstItem="uVA-CO-9BZ" firstAttribute="top" secondItem="OXJ-yh-SNc" secondAttribute="top" multiplier="2" id="OMd-6g-1kp">
-                                <variation key="heightClass=regular-widthClass=compact" constant="-40"/>
+                            <constraint firstItem="Ecc-9U-kki" firstAttribute="centerY" secondItem="OXJ-yh-SNc" secondAttribute="centerY" id="9Sn-pk-SjG"/>
+                            <constraint firstItem="xpf-TP-kG7" firstAttribute="top" secondItem="dFs-up-cOu" secondAttribute="bottom" multiplier="1.2" id="M0O-AX-ATI"/>
+                            <constraint firstItem="uVA-CO-9BZ" firstAttribute="top" secondItem="OXJ-yh-SNc" secondAttribute="centerY" multiplier="0.35" id="OMd-6g-1kp">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
-                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="bottom" secondItem="Ecc-9U-kki" secondAttribute="bottom" constant="285" id="OhO-hd-nqw"/>
                             <constraint firstItem="Ecc-9U-kki" firstAttribute="centerY" secondItem="xpf-TP-kG7" secondAttribute="centerY" id="PCi-aS-Y9K"/>
+                            <constraint firstItem="mnl-EV-UrM" firstAttribute="bottom" secondItem="OXJ-yh-SNc" secondAttribute="bottom" multiplier="0.91" id="V0D-0d-rDX"/>
                             <constraint firstItem="uVA-CO-9BZ" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="0.2" id="agR-ck-E7V"/>
                             <constraint firstItem="dFs-up-cOu" firstAttribute="centerX" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="1.55" id="aqE-OD-ohU"/>
-                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="bottom" secondItem="xpf-TP-kG7" secondAttribute="bottom" constant="253" id="gYl-lk-fmv"/>
                             <constraint firstItem="xpf-TP-kG7" firstAttribute="leading" secondItem="Ecc-9U-kki" secondAttribute="trailing" constant="25" id="kRJ-YO-D9G"/>
                             <constraint firstItem="dFs-up-cOu" firstAttribute="centerY" secondItem="uVA-CO-9BZ" secondAttribute="centerY" id="mCW-hL-ZuR"/>
-                            <constraint firstItem="Ecc-9U-kki" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="leading" constant="20" id="qez-yY-hc1"/>
+                            <constraint firstItem="Ecc-9U-kki" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="0.2" id="qez-yY-hc1"/>
+                            <constraint firstItem="mnl-EV-UrM" firstAttribute="centerX" secondItem="OXJ-yh-SNc" secondAttribute="centerX" id="stZ-3J-65r"/>
                             <constraint firstItem="OXJ-yh-SNc" firstAttribute="trailing" secondItem="xpf-TP-kG7" secondAttribute="trailing" constant="19" id="woY-Iz-5da"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OXJ-yh-SNc"/>

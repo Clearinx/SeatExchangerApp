@@ -14,9 +14,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "274"
-            endingLineNumber = "274"
-            landmarkName = "compareSeats(localFlight:flightRecord:)"
-            landmarkType = "7">
+            endingLineNumber = "274">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -31,7 +29,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "269"
             endingLineNumber = "269"
-            landmarkName = "compareSeats(localFlight:flightRecord:)"
+            landmarkName = "doNothing(params:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
