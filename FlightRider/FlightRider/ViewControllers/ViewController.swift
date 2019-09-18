@@ -9,8 +9,6 @@
 import UIKit
 import CoreData
 import CloudKit
-import CoreSpotlight
-import MobileCoreServices
 
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
@@ -93,7 +91,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     func loadUserData(completionHandler: @escaping () -> Void){
-        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){
+        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){ [unowned self] in
             self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, container: self.container, delegate: self, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
                     completionHandler()
             }
@@ -130,6 +128,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         for seat in flight.seats{
             container.viewContext.delete(seat)
         }
+        deindex(flight: flight)
+        
         container.viewContext.delete(flight)
         user.flights.removeAll{$0 == flight.iataNumber}
         flights.remove(at: indexPath.row)
@@ -258,39 +258,40 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     func submit(_ flightCode: String, _ selectedDate: Date) {
-        let flightCount = user.flights.count
-        let params = [flightCode, getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
-        self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: params, container: container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
-            if(flightCount < self.user.flights.count){
-                let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-                let pred = NSPredicate(format: "iataNumber = %@", flightCode)
-                let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self) as! [Flight]
-                self.flights.append(newFlight.first!)
-                self.createSearchableText(flight: newFlight.first!)
-                DispatchQueue.main.async {
-                    let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
-                    self.tableView.insertRows(at: [indexPath], with: .automatic)
+        if (!user.flights.contains(flightCode)){
+            let flightCount = user.flights.count
+            let params = [flightCode, getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
+            self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: params, container: container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
+                if(flightCount < self.user.flights.count){
+                    let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+                    let pred = NSPredicate(format: "iataNumber = %@", flightCode)
+                    let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self) as! [Flight]
+                    self.flights.append(newFlight.first!)
+                    self.index(flight: newFlight.first!)
+                    DispatchQueue.main.async {
+                        let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
+                        self.tableView.insertRows(at: [indexPath], with: .automatic)
+                    }
                 }
             }
         }
-    }
-    
-    func createSearchableText(flight : Flight){
-        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
-        attributeSet.title = flight.iataNumber
-        let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
-        CSSearchableIndex.default().indexSearchableItems([item]) { error in
-            if let error = error {
-                print("Indexing error: \(error.localizedDescription)")
-            } else {
-                print("Search item successfully indexed!")
-            }
+        else{
+            flightAlreadyAdded()
         }
     }
     
     func flightNotFoundError(){
         DispatchQueue.main.async {
             let ac = UIAlertController(title: "Error", message: "Could not found flight", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
+        }
+    }
+    
+    func flightAlreadyAdded(){
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "The flight is already contained by the list", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
             ac.addAction(cancelAction)
             self.present(ac, animated: true)

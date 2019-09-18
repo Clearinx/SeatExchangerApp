@@ -71,7 +71,7 @@ class LoginViewController: UIViewController {
                 }
             }
             showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
-            Auth.auth().signIn(withEmail: EmailFiled.text!, password: PasswordField.text!) { authResult, error in
+            Auth.auth().signIn(withEmail: EmailFiled.text!, password: PasswordField.text!) { [unowned self] authResult, error in
                 guard let user = authResult?.user, error == nil else {
                     self.LoginError()
                     return
@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
     @IBAction func SignupButtonPressed(_ sender: Any) {
             if(EmailFiled.text != nil && PasswordField.text != nil){
                 showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
-                Auth.auth().createUser(withEmail: EmailFiled.text!, password: PasswordField.text!) { authResult, error in
+                Auth.auth().createUser(withEmail: EmailFiled.text!, password: PasswordField.text!) { [unowned self] authResult, error in
                      guard let user = authResult?.user, error == nil else {
                             self.LoginError()
                             return

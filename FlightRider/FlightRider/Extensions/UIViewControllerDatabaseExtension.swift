@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import CoreData
 import CloudKit
+import CoreSpotlight
+import MobileCoreServices
 
 extension UIViewController {
     
@@ -54,7 +56,7 @@ extension UIViewController {
         if let localResults = makeLocalQuery(sortKey: sortKey, predicate: pred, request: request, container: container, delegate: delegate){
             if(!(localResults.isEmpty)){
                 let pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
-                makeCloudQuery(sortKey: sortKey, predicate: pred, cloudTable: cloudTable){ cloudResults in
+                makeCloudQuery(sortKey: sortKey, predicate: pred, cloudTable: cloudTable){cloudResults in
                     if(!(cloudResults.isEmpty)){
                         compareChangeTagHandler(localResults, cloudResults)
                     }
@@ -137,6 +139,29 @@ extension UIViewController {
                 try container.viewContext.save()
             } catch {
                 print("An error occurred while saving: \(error)")
+            }
+        }
+    }
+    
+    func deindex(flight: Flight) {
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: ["\(flight.iataNumber)"]) { error in
+            if let error = error {
+                print("Deindexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully removed!")
+            }
+        }
+    }
+    
+    func index(flight : Flight){
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+        attributeSet.title = flight.iataNumber
+        let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
+            if let error = error {
+                print("Indexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully indexed!")
             }
         }
     }

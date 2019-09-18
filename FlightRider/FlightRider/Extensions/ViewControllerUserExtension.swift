@@ -20,7 +20,7 @@ extension ViewController {
         self.user.uid = params![0]
         self.user.email = params![1]
         self.user.flights = [String]()
-        self.saveRecords(records: [userRecord]){
+        self.saveRecords(records: [userRecord]){ [unowned self] in
             self.user.changetag = self.userRecord.recordChangeTag!
             self.saveContext(container: self.container)
             print(self.user.uid)

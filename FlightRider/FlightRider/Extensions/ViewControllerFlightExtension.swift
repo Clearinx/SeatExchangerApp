@@ -36,16 +36,9 @@ extension ViewController {
         userRecord["flights"] = user.flights as CKRecordValue
         recordsToSave.append(userRecord)
         let semaphore = DispatchSemaphore(value: 0)
-        self.saveRecords(records: recordsToSave){
+        self.saveRecords(records: recordsToSave){ [unowned self] in
             self.user.changetag = self.userRecord.recordChangeTag!
             flight.changetag = flightRecord.recordChangeTag!
-            /*recordsToSave.remove(at: recordsToSave.count-1)
-            recordsToSave.remove(at: recordsToSave.count-1)//removing last 2 records(flight and user), only the seats remain
-            for i in 0...flight.seats.count-1{
-                let seatsArray = flight.seats.sorted(by: { $0.uid > $1.uid })
-                let sortedRecords = recordsToSave.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
-                seatsArray[i].changetag = sortedRecords[i].recordChangeTag!
-            }*/
             self.saveContext(container: self.container)
             semaphore.signal()
         }
@@ -81,87 +74,11 @@ extension ViewController {
     }
     
     func generateSeats(flight : Flight, flightRecord : CKRecord) -> [CKRecord]{
-        //just dummy values right now
-        /*let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
-        var seatReferences = [CKRecord.Reference]()
-        var seatRecords = [CKRecord]()
-        do{
-            let data = try String(contentsOf: URL(fileURLWithPath: path))
-            let jsonData = JSON(parseJSON: data)
-            let jsonArray = jsonData.arrayValue
-            
-            var types = [AirplaneModel]()
-            for json in jsonArray {
-                types.append(AirplaneModel(modelName: json["modelName"].stringValue, numberOfSeats: json["numberOfSeats"].intValue, latestColumn: json["columns"].stringValue))
-            }
-            
-            
-            let actualType = types.filter{$0.modelName == flight.airplaneType}.first!
-            for letter in actualType.columns{
-                for num in 1...actualType.numberOfSeats{
-                    let seat = Seat(context: self.container.viewContext)
-                    seat.number = "\(String(format: "%02d", num))\(letter)"
-                    print("\(String(format: "%02d", num))\(letter)")
-                    seat.occupiedBy = ""
-                    seat.flight = flight
-                    
-                    let seatRecord = CKRecord(recordType: "Seat")
-                    seatRecord["number"] = seat.number as CKRecordValue
-                    seatRecord["occupiedBy"] = seat.occupiedBy as CKRecordValue
-                    seatRecord["flight"] = CKRecord.Reference(recordID: flightRecord.recordID, action: .none)
-                    
-                    seat.uid = seatRecord.recordID.recordName
-                    
-                    flight.seats.insert(seat)
-                    seatRecords.append(seatRecord)
-                    seatReferences.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
-                }
-            }
-            
-        }
-        catch{
-            print("Could not get the flight types")
-        }*/
-        //seats will not be generated and stored unnecessarily, they will be added by users
         let seatReferences = [CKRecord.Reference]()
         let seatRecords = [CKRecord]()
         flightRecord["seats"] = seatReferences
         
         return seatRecords
-        /*let seat = Seat(context: self.container.viewContext)
-        seat.number = "13C"
-        seat.occupiedBy = "AAA"
-        seat.flight = flight
-        
-        let seatRecord = CKRecord(recordType: "Seat")
-        seatRecord["number"] = seat.number as CKRecordValue
-        seatRecord["occupiedBy"] = seat.occupiedBy as CKRecordValue
-        seatRecord["flight"] = CKRecord.Reference(recordID: flightRecord.recordID, action: .none)
-        
-        let seat2 = Seat(context: self.container.viewContext)
-        seat2.number = "13F"
-        seat2.occupiedBy = "BBB"
-        seat2.flight = flight
-        
-        let seat2Record = CKRecord(recordType: "Seat")
-        seat2Record["number"] = seat2.number as CKRecordValue
-        seat2Record["occupiedBy"] = seat2.occupiedBy as CKRecordValue
-        seat2Record["flight"] = CKRecord.Reference(recordID: flightRecord.recordID, action: .none)
-        
-        seat.uid = seatRecord.recordID.recordName
-        seat2.uid = seat2Record.recordID.recordName
-        
-        flight.seats.insert(seat)
-        flight.seats.insert(seat2)
-        
-        var seatReferences = [CKRecord.Reference]()
-        seatReferences.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
-        seatReferences.append(CKRecord.Reference(recordID: seat2Record.recordID, action: .none))
-        flightRecord["seats"] = seatReferences
-        
-        var seatRecords = [CKRecord]()
-        seatRecords.append(seatRecord)
-        seatRecords.append(seat2Record)*/
         
     }
 
@@ -181,7 +98,7 @@ extension ViewController {
                 if !seatReferences.isEmpty{
                     let predicate = NSPredicate(format: "ANY %@ = recordID" ,seatReferences)
                     let semaphore = DispatchSemaphore(value: 0)
-                    makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
+                    makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ [unowned self] cloudResults in
                         for seatResult in cloudResults{
                             let seat = Seat(context: self.container.viewContext)
                             seat.number = seatResult["number"]!
@@ -214,7 +131,7 @@ extension ViewController {
             if !seatReferences.isEmpty{
                 let predicate = NSPredicate(format: "ANY %@ = recordName" ,seatReferences)
                 
-                makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
+                makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ [unowned self] cloudResults in
                     for seatResult in cloudResults{
                         let seat = Seat(context: self.container.viewContext)
                         seat.number = seatResult["number"]!
@@ -235,7 +152,7 @@ extension ViewController {
              self.user.flights = self.userRecord["flights"]!
              self.user.flights.append(flight.iataNumber)
              self.userRecord["flights"] = self.user.flights as CKRecordValue
-             self.saveRecords(records: [self.userRecord]){
+             self.saveRecords(records: [self.userRecord]){ [unowned self] in
                 self.user.changetag = self.userRecord.recordChangeTag!
                 self.saveContext(container: self.container)
             }
@@ -247,7 +164,7 @@ extension ViewController {
             self.user.flights = self.userRecord["flights"]!
             self.user.flights.append(cloudResults.first!["iataNumber"]!)
             self.userRecord["flights"] = self.user.flights as CKRecordValue
-            self.saveRecords(records: [self.userRecord]){
+            self.saveRecords(records: [self.userRecord]){ [unowned self] in
                 self.user.changetag = self.userRecord.recordChangeTag!
                 self.saveContext(container: self.container)
             }
@@ -306,7 +223,7 @@ extension ViewController {
         if !seatReferences.isEmpty{
             let cloudPred = NSPredicate(format: "ANY %@ = recordID" ,recordIDs)
             let semaphore = DispatchSemaphore(value: 0)
-            makeCloudQuery(sortKey: "number", predicate: cloudPred, cloudTable: "Seat"){ cloudResults in
+            makeCloudQuery(sortKey: "number", predicate: cloudPred, cloudTable: "Seat"){ [unowned self] cloudResults in
                 let sortedCloudResults = cloudResults.sorted(by: { $0.recordID.recordName > $1.recordID.recordName })
                 if(localSeats.count == sortedCloudResults.count && localSeats.count != 0){
                     for i in 0...sortedCloudResults.count-1{
@@ -344,6 +261,7 @@ extension ViewController {
                 container.viewContext.delete(seat)
             }
             container.viewContext.delete(result)
+            deindex(flight: flight)
         }
         saveContext(container: container)
 

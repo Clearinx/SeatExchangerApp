@@ -100,7 +100,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     }
     
     @IBAction func updateSeats(_ sender: Any) {
-        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ flightResults in
+        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ [unowned self] flightResults in
             let cloudFlight = flightResults.first!
             
             let seatRecord = CKRecord(recordType: "Seat")
@@ -112,7 +112,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
             existingSeats.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
             cloudFlight["seats"] = existingSeats
                 
-            self.saveRecords(records: [seatRecord, cloudFlight]){
+            self.saveRecords(records: [seatRecord, cloudFlight]){ [unowned self] in
                 let seat = Seat(context: self.container.viewContext)
                 seat.number = self.selectedSeatNumber!
                 seat.occupiedBy = self.user.email
