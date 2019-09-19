@@ -25,7 +25,7 @@ class FlightDetailViewControllerCannotCheckin: UIViewController {
         flightLogo.image = imageToLoad
         let deltaTime = Calendar.current.date(byAdding: .day, value:-2, to: departureDate)! - Date()
         let timeResult = convertToDaysHoursMinutes(interval: deltaTime)
-        timeLeft.text = "\(timeResult.days) days \(timeResult.hours) hours, \(timeResult.minutes) minutes"
+        timeLeft.text = "\(timeResult.days) days \(timeResult.hours) hours \(timeResult.minutes) minutes"
         
         // Do any additional setup after loading the view.
     }

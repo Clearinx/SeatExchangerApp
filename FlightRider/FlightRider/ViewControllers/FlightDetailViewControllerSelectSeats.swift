@@ -73,6 +73,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         print(self.view.frame.height)
+        print(self.view.frame.width)
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
@@ -88,12 +89,12 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return self.view.frame.height * 0.088// you can calculate this based on your container view or window size
+        return self.view.frame.width * 0.1562// you can calculate this based on your container view or window size
     }
     
-    /*func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return 50
-    }*/
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return self.view.frame.width * 0.1875
+    }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {

@@ -23,9 +23,15 @@ class LoginViewController: UIViewController {
     var container: NSPersistentContainer!
     var spinnerView : UIView!
     var ai : UIActivityIndicatorView!
+    let backgroundImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+        
         container = setupContainer()
         spinnerView = UIView.init(frame: self.view.bounds)
         ai = UIActivityIndicatorView.init(style: .whiteLarge)
@@ -41,6 +47,7 @@ class LoginViewController: UIViewController {
         else {
             rememberMeSwitch.setOn(false, animated: false)
         }
+        setBackground()
     }
     
     @objc func stateChanged(_ switchState: UISwitch) {
@@ -133,6 +140,28 @@ class LoginViewController: UIViewController {
         CKContainer.default().publicCloudDatabase.add(operation)
         print("success")
         
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func setBackground() {
+        view.addSubview(backgroundImageView)
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        backgroundImageView.image = UIImage(named: "background-wave")
+        view.sendSubviewToBack(backgroundImageView)
+        /*self.navigationController!.navigationBar.setBackgroundImage(UIImage(named: "background-wave"),
+                                                                    for: .default)*/
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
     }
     
     

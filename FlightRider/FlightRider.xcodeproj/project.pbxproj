@@ -22,7 +22,6 @@
 		890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */; };
 		8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913DA102326768100F94C1B /* AirplaneModel.swift */; };
 		8913DA132326795700F94C1B /* AirplaneModels.json in Resources */ = {isa = PBXBuildFile; fileRef = 8913DA122326795700F94C1B /* AirplaneModels.json */; };
-		8913FB522301A7F30069DE41 /* test_flights.json in Resources */ = {isa = PBXBuildFile; fileRef = 8913FB512301A7F30069DE41 /* test_flights.json */; };
 		8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913FB532301A8150069DE41 /* SwiftyJSON.swift */; };
 		8919905C2303F171002D9074 /* Seat+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891990582303F171002D9074 /* Seat+CoreDataClass.swift */; };
 		8919905D2303F171002D9074 /* Seat+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891990592303F171002D9074 /* Seat+CoreDataProperties.swift */; };
@@ -34,6 +33,8 @@
 		8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002B2321647D00BA2BF4 /* DateExtension.swift */; };
 		8937002F232172C500BA2BF4 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002E232172C500BA2BF4 /* Time.swift */; };
 		89370031232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */; };
+		89A8AA102333A08F00B673EE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA0E2333A08F00B673EE /* CustomButton.swift */; };
+		89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA0F2333A08F00B673EE /* CustomTextField.swift */; };
 		89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B46C87232A43020000F5F1 /* StringExtension.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
@@ -89,7 +90,6 @@
 		890A4FB422E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8913DA102326768100F94C1B /* AirplaneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirplaneModel.swift; sourceTree = "<group>"; };
 		8913DA122326795700F94C1B /* AirplaneModels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AirplaneModels.json; sourceTree = "<group>"; };
-		8913FB512301A7F30069DE41 /* test_flights.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_flights.json; sourceTree = "<group>"; };
 		8913FB532301A8150069DE41 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		891990582303F171002D9074 /* Seat+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+CoreDataClass.swift"; sourceTree = "<group>"; };
 		891990592303F171002D9074 /* Seat+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -101,6 +101,8 @@
 		8937002B2321647D00BA2BF4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		8937002E232172C500BA2BF4 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerDatabaseExtension.swift; sourceTree = "<group>"; };
+		89A8AA0E2333A08F00B673EE /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		89A8AA0F2333A08F00B673EE /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		89B46C87232A43020000F5F1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		890A4F8E22E20F2600FA7324 /* FlightRider */ = {
 			isa = PBXGroup;
 			children = (
+				89A8AA0D23339E2F00B673EE /* CustomControls */,
 				8937002D232172B500BA2BF4 /* Models */,
 				FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */,
 				891990572303EFD5002D9074 /* LocalResources */,
@@ -267,7 +270,6 @@
 			isa = PBXGroup;
 			children = (
 				FFFF37B222EDBC8C0014D999 /* Ryanair.png */,
-				8913FB512301A7F30069DE41 /* test_flights.json */,
 			);
 			path = LocalResources;
 			sourceTree = "<group>";
@@ -293,6 +295,15 @@
 				8913DA122326795700F94C1B /* AirplaneModels.json */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		89A8AA0D23339E2F00B673EE /* CustomControls */ = {
+			isa = PBXGroup;
+			children = (
+				89A8AA0E2333A08F00B673EE /* CustomButton.swift */,
+				89A8AA0F2333A08F00B673EE /* CustomTextField.swift */,
+			);
+			path = CustomControls;
 			sourceTree = "<group>";
 		};
 		FF489CB422F88B75005FAE41 /* 3rd Party */ = {
@@ -418,7 +429,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8913FB522301A7F30069DE41 /* test_flights.json in Resources */,
 				FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */,
 				8913DA132326795700F94C1B /* AirplaneModels.json in Resources */,
 				890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */,
@@ -523,6 +533,7 @@
 				893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */,
 				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,
 				FFA03FF12312D941009A3D3F /* User+CoreDataProperties.swift in Sources */,
+				89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */,
 				89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */,
 				FF489CB622F88B92005FAE41 /* Tap.swift in Sources */,
 				8919905C2303F171002D9074 /* Seat+CoreDataClass.swift in Sources */,
@@ -535,6 +546,7 @@
 				8937002F232172C500BA2BF4 /* Time.swift in Sources */,
 				8919905F2303F171002D9074 /* Flight+CoreDataProperties.swift in Sources */,
 				89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */,
+				89A8AA102333A08F00B673EE /* CustomButton.swift in Sources */,
 				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */,
