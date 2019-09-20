@@ -153,11 +153,11 @@ class LoginViewController: UIViewController {
         backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        backgroundImageView.contentMode = .scaleAspectFill
         
-        backgroundImageView.image = UIImage(named: "background-wave")
+        backgroundImageView.image = UIImage(named: "flight1")
         view.sendSubviewToBack(backgroundImageView)
-        /*self.navigationController!.navigationBar.setBackgroundImage(UIImage(named: "background-wave"),
-                                                                    for: .default)*/
+
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true

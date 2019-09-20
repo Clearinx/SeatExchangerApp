@@ -35,6 +35,7 @@
 		89370031232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */; };
 		89A8AA102333A08F00B673EE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA0E2333A08F00B673EE /* CustomButton.swift */; };
 		89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA0F2333A08F00B673EE /* CustomTextField.swift */; };
+		89A8AA132334B49000B673EE /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA122334B49000B673EE /* CustomLabel.swift */; };
 		89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B46C87232A43020000F5F1 /* StringExtension.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
@@ -103,6 +104,7 @@
 		89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerDatabaseExtension.swift; sourceTree = "<group>"; };
 		89A8AA0E2333A08F00B673EE /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		89A8AA0F2333A08F00B673EE /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		89A8AA122334B49000B673EE /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		89B46C87232A43020000F5F1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			children = (
 				89A8AA0E2333A08F00B673EE /* CustomButton.swift */,
 				89A8AA0F2333A08F00B673EE /* CustomTextField.swift */,
+				89A8AA122334B49000B673EE /* CustomLabel.swift */,
 			);
 			path = CustomControls;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */,
+				89A8AA132334B49000B673EE /* CustomLabel.swift in Sources */,
 				89EC5E072314331C00F24139 /* Spinner.swift in Sources */,
 				893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */,
 				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,

@@ -12,6 +12,7 @@ import CloudKit
 
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
+    //let backgroundImageView = UIImageView()
     var flights = [Flight]()
     var user : User!
     var userRecord = CKRecord(recordType: "AppUsers")
@@ -44,6 +45,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     let sections = NSIndexSet(indexesIn: range)
                     self.tableView.reloadSections(sections as IndexSet, with: .automatic) 
                     self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
+                    //self.setBackground()
             }
             //usres in local DB
             /*var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
@@ -296,6 +298,44 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             ac.addAction(cancelAction)
             self.present(ac, animated: true)
         }
+    }
+    
+    /*func setBackground() {
+        
+        backgroundImageView.image = UIImage(named: "flight1")
+        tableView.backgroundView = backgroundImageView
+        
+        /*tableView.backgroundView = backgroundImageView
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        backgroundImageView.contentMode = .scaleAspectFill
+        
+        backgroundImageView.image = UIImage(named: "flight1")
+        view.sendSubviewToBack(backgroundImageView)
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear*/
+    }*/
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
+        super.viewWillAppear(animated)
+        
+        // Add a background view to the table view
+        let backgroundImage = UIImage(named: "flight1")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
+        self.tableView.backgroundView = imageView
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
     }
     
     
