@@ -23,14 +23,23 @@ class FlightRiderUITests: XCTestCase {
         app.textFields["E-mail"].tap()
         app.textFields["E-mail"].typeText("a@a.hu")
         
-        app.textFields["Password"].tap()
-        app.textFields["Password"].typeText("Password")
+        app.secureTextFields["Password"].tap()
+        app.secureTextFields["Password"].typeText("Password")
         app.buttons["Login"].tap()
         
-        print("start")
         sleep(3)
-        print("finish")
         
+        let cells = XCUIApplication().tables.cells
+        print(cells.count)
+        var i = cells.count
+        while i != 0 {
+            cells.firstMatch.swipeLeft()
+            if(cells.firstMatch.buttons["Delete"].exists){
+                cells.firstMatch.buttons["Delete"].tap()
+                i -= 1
+            }
+        }
+        XCTAssertEqual(cells.count, 0, "Finished")
         
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
@@ -55,27 +64,92 @@ class FlightRiderUITests: XCTestCase {
         
         let app = XCUIApplication()
         let table = app.tables
+        let flightsArray = ["FR110", "FR114", "U2555"]
         XCTAssertEqual(table.cells.count, 0, "Empty")
-        for i in 1...3{
+        for flight in flightsArray{
             app.navigationBars["Flights"].buttons["Add"].tap()
             
             let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
             
             let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-            textField.typeText("AAA\(i)\(i)\(i)")
+            textField.typeText(flight)
             
             let submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
             submitButton.tap()
             
             print("start")
-            sleep(2)
+            sleep(5)
             print("finish")
         }
         
         XCTAssertEqual(table.cells.count, 3, "Finished")
-        XCTAssertTrue(table.cells.element(boundBy:0).staticTexts["AAA111"].exists)
-        XCTAssertTrue(table.cells.element(boundBy:1).staticTexts["AAA222"].exists)
-        XCTAssertTrue(table.cells.element(boundBy:2).staticTexts["AAA333"].exists)
+        XCTAssertTrue(table.cells.element(boundBy:0).staticTexts[flightsArray[0]].exists)
+        XCTAssertTrue(table.cells.element(boundBy:1).staticTexts[flightsArray[1]].exists)
+        XCTAssertTrue(table.cells.element(boundBy:2).staticTexts[flightsArray[2]].exists)
+        
+    }
+    
+    func testAddInvalidItemToList(){
+        
+        let app = XCUIApplication()
+        let table = app.tables
+        let flight = "IV999"
+        XCTAssertEqual(table.cells.count, 0, "Empty")
+        app.navigationBars["Flights"].buttons["Add"].tap()
+            
+        let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
+            
+        let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
+            textField.typeText(flight)
+            
+        let submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
+        submitButton.tap()
+            
+        print("start")
+        sleep(5)
+        print("finish")
+        
+        XCTAssertEqual(table.cells.count, 0, "Finished")
+        XCTAssert(app.alerts["Error"].exists)
+        app.alerts["Error"].buttons["Ok"].tap()
+        
+    }
+    
+    func testAddDuplicateItemToList(){
+        
+        let app = XCUIApplication()
+        let table = app.tables
+        let flight = "FR110"
+        XCTAssertEqual(table.cells.count, 0, "Empty")
+        app.navigationBars["Flights"].buttons["Add"].tap()
+        
+        var enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
+        
+        var textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
+        textField.typeText(flight)
+        
+        var submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
+        submitButton.tap()
+        
+        sleep(5)
+        
+        XCTAssertEqual(table.cells.count, 1, "Finished")
+        
+        app.navigationBars["Flights"].buttons["Add"].tap()
+        
+        enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
+        
+        textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
+        textField.typeText(flight)
+        
+        submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
+        submitButton.tap()
+        
+        sleep(5)
+        
+        XCTAssertEqual(table.cells.count, 1, "Finished")
+        XCTAssert(app.alerts["Error"].exists)
+        app.alerts["Error"].buttons["Ok"].tap()
         
     }
     

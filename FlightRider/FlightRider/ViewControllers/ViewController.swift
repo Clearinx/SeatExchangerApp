@@ -12,7 +12,6 @@ import CloudKit
 
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    //let backgroundImageView = UIImageView()
     var flights = [Flight]()
     var user : User!
     var userRecord = CKRecord(recordType: "AppUsers")
@@ -45,7 +44,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     let sections = NSIndexSet(indexesIn: range)
                     self.tableView.reloadSections(sections as IndexSet, with: .automatic) 
                     self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
-                    //self.setBackground()
             }
             //usres in local DB
             /*var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
@@ -132,11 +130,24 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         deindex(flight: flight)
         
+        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ [unowned self] cloudFlightResult in
+            let result = cloudFlightResult.first!
+            self.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND occupiedBy = %@", result.recordID, self.user.email), cloudTable: "Seat"){ [unowned self] cloudSeatResults in
+                let IDs = cloudSeatResults.map{$0.recordID}
+                let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: IDs)
+                CKContainer.default().publicCloudDatabase.add(operation)
+                var seats = result["seats"]! as? [CKRecord.Reference] ?? [CKRecord.Reference]()
+                seats = seats.filter{!(IDs.contains($0.recordID))}
+                print (seats)
+                result["seats"] = seats as CKRecordValue
+                self.saveRecords(records: [self.userRecord, result]){}
+                
+            }
+        }
         container.viewContext.delete(flight)
         user.flights.removeAll{$0 == flight.iataNumber}
         flights.remove(at: indexPath.row)
         userRecord["flights"] = user.flights as CKRecordValue
-        saveRecords(records: [userRecord]){}
         tableView.deleteRows(at: [indexPath], with: .fade)
         saveContext(container: container)
     }
@@ -300,29 +311,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
     }
     
-    /*func setBackground() {
-        
-        backgroundImageView.image = UIImage(named: "flight1")
-        tableView.backgroundView = backgroundImageView
-        
-        /*tableView.backgroundView = backgroundImageView
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        backgroundImageView.contentMode = .scaleAspectFill
-        
-        backgroundImageView.image = UIImage(named: "flight1")
-        view.sendSubviewToBack(backgroundImageView)
-        
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear*/
-    }*/
-    
-    override func viewWillAppear(_ animated: Bool) {
+    /*override func viewWillAppear(_ animated: Bool) {
         //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         super.viewWillAppear(animated)
         
@@ -336,7 +325,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
-    }
+    }*/
     
     
 

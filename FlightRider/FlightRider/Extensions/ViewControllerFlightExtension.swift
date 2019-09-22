@@ -48,11 +48,11 @@ extension ViewController {
     func saveFlightDataToBothDbAppendToFlightList(params: [String]?){ //flight validity check disabled for testing
         let flightCode = params![0]
         let departureDate = params![1]
-        /*let airlineIata = flightCode.prefix(2)
-        let flightNumber = flightCode.suffix(flightCode.count-2)*/
-        let results = [flightCode, "\(departureDate)  11:20:00"]
-        saveFlightDataToBothDb(params: results)
-        /*let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
+        let airlineIata = flightCode.prefix(2)
+        let flightNumber = flightCode.suffix(flightCode.count-2)
+        /*let results = [flightCode, "\(departureDate)  11:20:00"]
+        saveFlightDataToBothDb(params: results)*/
+        let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
         do{
             let data = try String(contentsOf: URL(string: urlString)!)
             let jsonData = JSON(parseJSON: data)
@@ -70,7 +70,7 @@ extension ViewController {
         catch{
             flightNotFoundError()
             
-        }*/
+        }
     }
     
     func generateSeats(flight : Flight, flightRecord : CKRecord) -> [CKRecord]{
