@@ -123,6 +123,13 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
                 seat.changetag = seatRecord.recordChangeTag!
                 self.flight.seats.insert(seat)
                 self.saveContext(container: self.container)
+                
+                DispatchQueue.main.async {
+                    let ac = UIAlertController(title: "Success", message: "Seat updated successfully", preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+                    ac.addAction(cancelAction)
+                    self.present(ac, animated: true)
+                }
             }
         }
         justSelectedSeat = true

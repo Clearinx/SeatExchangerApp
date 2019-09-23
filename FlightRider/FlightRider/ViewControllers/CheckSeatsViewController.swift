@@ -177,8 +177,8 @@ class CheckSeatsViewController: UIViewController {
     
     
     func viewTapped(view : UIView, email: String){
-        let ac = UIAlertController(title: "User reserved this seat:", message: nil, preferredStyle: .alert)
-        ac.message = email
+        let ac = UIAlertController(title: "This seat is reserved by \(email)", message: nil, preferredStyle: .alert)
+        ac.message = "Feel free to start a conversation with this user"
         
         let contactAction = UIAlertAction(title: "Contact", style: .default) { /*[unowned self, unowned ac]*/ action in
             print("Not implemented yet. This will open the chat")

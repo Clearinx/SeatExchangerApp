@@ -130,20 +130,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         deindex(flight: flight)
         
-        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ [unowned self] cloudFlightResult in
-            let result = cloudFlightResult.first!
-            self.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND occupiedBy = %@", result.recordID, self.user.email), cloudTable: "Seat"){ [unowned self] cloudSeatResults in
-                let IDs = cloudSeatResults.map{$0.recordID}
-                let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: IDs)
-                CKContainer.default().publicCloudDatabase.add(operation)
-                var seats = result["seats"]! as? [CKRecord.Reference] ?? [CKRecord.Reference]()
-                seats = seats.filter{!(IDs.contains($0.recordID))}
-                print (seats)
-                result["seats"] = seats as CKRecordValue
-                self.saveRecords(records: [self.userRecord, result]){}
-                
-            }
-        }
+        unregisterFromFlightOnCloudDb(flight: flight)
         container.viewContext.delete(flight)
         user.flights.removeAll{$0 == flight.iataNumber}
         flights.remove(at: indexPath.row)
