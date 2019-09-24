@@ -61,6 +61,7 @@ Basic info:
 
 - Multiple user accounts can be created, and users' data are handled separatley.
 - Only valid, existing flight numbers can be added. 
+- There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as well. As there is no offline feature implemented yet, offline mode is not available.
 
 In this phase basically you can do in the app is the following:
 
@@ -97,7 +98,7 @@ Of course, you can use other flightnumbers (to be exact, officially these are ca
 
 When you click on the + sign, you will be prompted for the flightcode, and the departure date. If you click on the Submit button, in the background, the following procedure will happen:
 
-<img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/Diagrams/Flowchart/Keeping%20flights%20and%20seats%20in%20local%20and%20cloud%20DB%20in%20sync.jpg" width="654" height="1248">
+<img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/Diagrams/Flowchart/Keeping%20flights%20and%20seats%20in%20local%20and%20cloud%20DB%20in%20sync.jpg" width="590" height="1062">
 
 As you can see from this diagram, in the current implementation the unique identifier of the flights is the iataNumber (flight number). This will be changed in the near future, because the iata number identifies a flight route, not an exact flight. This means that the iata number will be the same in case of the same flight routes in a different time. This it leads to the following things:
 
@@ -113,16 +114,24 @@ Every airline has different policy for checking-in with random seats. In this ve
 
 - It is too early, you cannot random seats are not available yet. You will see a screen showing the flight number and the days/hours/minutes left until random seats become available (48 hours before the departure date)
 
+<img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/notavailable.gif" width="247" height="417">
+
 - You are in time, and you haven't selected seat(s) yet. You will see a screen showing the flight number, and a pickerview, which you can use for selecting your randomly received seat. **At this point, the application assumes that you have already checked in using the airline's official application or website, and you have received your random seat(s). You are supposed to select these seats on this screen.** You can select any number of seats, by setting the picker to the desired value, and tapping on the update button. Every plane and every airline has different layout of seats, in the future this will be fetched from AviationEdge database (every module is prepared to handle more airplane types, only the data is missing). In the current version, it is assumed that the plane has 32 rows and 6 columns marked with ABCDEF letters. After selecting at least one seat, and you leave this screen by tapping the Done or Back button on the navigation bar, you won't be able to select seats again for this flight. This behaviour will be changed in the future. If you tap on the Done button, you will be navigated to a screen where you can check the seats of this flight. Check the details in the next bulletpoint.
+
+<img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/selectseats.gif" width="247" height="417">
 
 - You have already selected at least one seat. On this screen you can check the seats represented by squares with different colors (as mentioned above, 6x32 seats will be presented, as the data for current airplane types are not available yet). The meaning of the colors:
   - Blue: Empty seat. Non of the users of this application has this seat (but probably it will be occupied by someone).
   - Green: The seat is occupied by the current user.
   - Red: The seat is occupied by another user. If you tap on a red seat, an alert will pop up, and it offers you to contact the user. These functions will be implemented in the future.
   
+<img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/selectedseats.gif" width="247" height="417">
+  
 ### Delete a flight from your list
 
 You can delete a flight from your list by swiping left on a tableview item, and tapping the newly appeared delete button. You will see that the flight number disappears from your list. In the background, from iCloud only your seats will be deleted (there likely to be more users registered on that flight, so it cannot be deleted from iCloud). From the local database first the seats you occupied, after the flight will be deleted (as it is unlikely that more users will use the application from the same device, the flight can be deleted as well). 
+
+<img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/deleteflight.gif" width="247" height="417">
 
 ## Tests
 
