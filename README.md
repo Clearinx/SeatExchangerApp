@@ -1,5 +1,5 @@
 # Flight Rider
-As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app.
+As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app. If you are interested in more project related documents, you can check the **Docs** folder.
 
 ## Vision statement
 This application is designed for travelers, who usually travels with low-budget airlines. On these kinds of airlines you must pay for literally everything, almost nothing is included in the ticket, even if you want to sit next to the one(s) who you are travelling with you have to pay extra fee. 
@@ -42,6 +42,7 @@ between the documentation and the implementation.
 - Keeping the integrity of the local and cloud DB with syncronization
 - Firebase (Authentication)
 - AviationEdge API (to check flight number validity and fetch departure date)
+- UserDefaults
 - Async thread handling
 - CoreSpotlight
 - UIKit
@@ -57,23 +58,17 @@ between the documentation and the implementation.
 
 ## Basic info of the application/possible scenarios and use cases you may try
 
-Basic info:
-
-- Multiple user accounts can be created, and users' data are handled separatley.
-- Only valid, existing flight numbers can be added. 
-- There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as well. As there is no offline feature implemented yet, offline mode is not available.
-
 In this phase basically you can do in the app is the following:
 
 ### Create a new user
 
-Create a new user by entering an e-mail address (it doesn't have to be valid, it only has to look like an e-mail address. For example `x@x.com` is fine) and password, then clicking on the sign up button. In the background, this will try create a user in the project's firebase account, and if it gets positive response from firebase, it will use that data to sign in.
+Create a new user by entering an e-mail address (it doesn't have to be valid, it only has to look like an e-mail address. For example `x@x.com` is fine) and password, then tapping on the sign up button. In the background, this will try create a user in the project's firebase account, and if it gets positive response from firebase, it will use that data to sign in.
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/signup.gif" width="247" height="417">
 
 ### Login with an existing user
 
-Login with an existing user, using the e-mail and the password field, clicking on the login button. The scenario from the background side is the same, which is shown by the diagram below: 
+Login with an existing user, using the e-mail and the password field, tapping on the login button. The scenario from the background side is the same, which is shown by the diagram below: 
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/Diagrams/Flowchart/Keeping%20users%20in%20local%20and%20cloud%20DB%20in%20sync.jpg" width="464" height="642">
 
@@ -81,7 +76,7 @@ Login with an existing user, using the e-mail and the password field, clicking o
 
 ### Register on flights
 
-After you signed in, you can register on flights by clicking the + sign on the top-right corner of the screen. Only valid, existing flight numbers will be accepted. The validity of the flight will be chacked by a 3rd party website called AviationEdge through an API. Unfortunatley not all airlines are present in their database, so there may be cases when the flight number you enter is valid, but the app will reject your request. Some airlines that are confirmed to be present in the AviationEdge database: 
+After you signed in, you can register on flights by tapping the + sign on the top-right corner of the screen. Only valid, existing flight numbers will be accepted. The validity of the flight will be checked by a 3rd party website called AviationEdge through an API. Unfortunately not all airlines are present in their database, so there may be cases when the flight number you enter is valid, but the app will reject your request. Some airlines that are confirmed to be present in the AviationEdge database:
 
 - Ryaniar 
 - easyJet 
@@ -96,7 +91,7 @@ I'll leave some valid flightcodes here, so you can try the app:
 
 Of course, you can use other flightnumbers (to be exact, officially these are called iata numbers) as well, as long as the airline is supported by the AviationEdge database.
 
-When you click on the + sign, you will be prompted for the flightcode, and the departure date. If you click on the Submit button, in the background, the following procedure will happen:
+When you tap on the + sign, you will be prompted for the flightcode, and the departure date. If you tap on the Submit button, in the background, the following procedure will happen:
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/Diagrams/Flowchart/Keeping%20flights%20and%20seats%20in%20local%20and%20cloud%20DB%20in%20sync.jpg" width="590" height="1062">
 
@@ -112,7 +107,7 @@ After you registered on a flight successfully, it will appear on your screen, as
 
 Every airline has different policy for checking-in with random seats. In this version, the app uses Ryanair's policy, that means that it will allow you to select your randomly received seat at least 48 hours before the departure date. According to this, 3 possible scenarios can happen, when you tap on a tableview element:
 
-- It is too early, you cannot random seats are not available yet. You will see a screen showing the flight number and the days/hours/minutes left until random seats become available (48 hours before the departure date)
+- It is too early, random seats are not available yet. You will see a screen showing the flight number and the days/hours/minutes left until random seats become available (48 hours before the departure date)
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/notavailable.gif" width="247" height="417">
 
@@ -132,6 +127,12 @@ Every airline has different policy for checking-in with random seats. In this ve
 You can delete a flight from your list by swiping left on a tableview item, and tapping the newly appeared delete button. You will see that the flight number disappears from your list. In the background, from iCloud only your seats will be deleted (there likely to be more users registered on that flight, so it cannot be deleted from iCloud). From the local database first the seats you occupied, after the flight will be deleted (as it is unlikely that more users will use the application from the same device, the flight can be deleted as well). 
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/GIFs/deleteflight.gif" width="247" height="417">
+
+Some other basic info:
+
+- Multiple user accounts can be created, and users' data are handled separatley.
+- Only valid, existing flight numbers can be added. 
+- There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as only. As there are no offline features implemented yet, offline mode is not available.
 
 ## Tests
 
