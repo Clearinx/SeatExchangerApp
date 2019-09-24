@@ -254,6 +254,7 @@ extension ViewController {
         }
     }
     
+    // has to fix: very rare case, but when flight is present in local, but not in cloud while adding a new flight, obsolate flight will be just deleted from local db, and not added. Has to analyze, but maybe flight uid introduction will fix this?
     func deleteFlightsFromLocalDb(localResults : [NSManagedObject]){
         for result in localResults{
             let flight = result as! Flight

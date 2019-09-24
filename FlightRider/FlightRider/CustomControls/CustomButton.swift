@@ -26,7 +26,7 @@ class CustomButton: UIButton {
         backgroundColor     = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         alpha               = 0.9
         titleLabel?.font    = UIFont(name: "MarkerFelt-Thin", size: 30)
-        layer.cornerRadius  = frame.size.height/2
+        layer.cornerRadius  = frame.size.height * 0.25
         setTitleColor(.white, for: .normal)
     }
 }

@@ -38,18 +38,18 @@ class CheckSeatsViewController: UIViewController {
     
     func createSeats() {
 
-        let viewSize = contentView.frame.width*0.0966
-        let viewSpacing = contentView.frame.width*0.0169
-        let lettersSpacing = contentView.frame.width*0.0724
-        let fontSize = contentView.frame.width*0.0724
-        let distanceFromTop = contentView.frame.height*0.0258
-        let distanceFromLeading = contentView.frame.width*0.169
-        let distanceFromTrailing = contentView.frame.width*0.1207
-        let seatNumbersViewSpacing = contentView.frame.height*0.051
-        let seatnumbersViewWidth = contentView.frame.width*0.0845
-        let seatnumbersViewLeading = contentView.frame.width*0.0483
-        let seatnumbersViewTop = contentView.frame.height*0.115
-        let seatnumbersViewBottom = contentView.frame.height*0.06
+        let viewSize = self.view.frame.width*0.0966
+        let viewSpacing = self.view.frame.width*0.0169
+        let lettersSpacing = self.view.frame.width*0.0724
+        let fontSize = self.view.frame.width*0.0724
+        let distanceFromTop = self.view.frame.height*0.0258
+        let distanceFromLeading = self.view.frame.width*0.169
+        let distanceFromTrailing = self.view.frame.width*0.1207
+        let seatNumbersViewSpacing = self.view.frame.height*0.051
+        let seatnumbersViewWidth = self.view.frame.width*0.0845
+        let seatnumbersViewLeading = self.view.frame.width*0.0483
+        let seatnumbersViewTop = self.view.frame.height*0.115
+        let seatnumbersViewBottom = self.view.frame.height*0.06
         let cornerRadius = viewSize*0.25
         
         let leftLetters = UIStackView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))

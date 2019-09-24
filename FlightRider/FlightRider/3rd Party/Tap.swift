@@ -30,23 +30,3 @@ class Tap {
         action()
     }
 }
-
-/*class MyViewController : UIViewController {
-    var redView: UIView!
-    
-    override func loadView() {
-        view = UIView()
-        view.backgroundColor = .white
-        
-        redView = UIView()
-        redView.backgroundColor = .red
-        redView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
-        redView.center = view.center
-        redView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin, .flexibleBottomMargin]
-        view.addSubview(redView)
-        
-        Tap.on(view: redView) {
-            print("Tap on red view")
-        }
-    }
-}*/

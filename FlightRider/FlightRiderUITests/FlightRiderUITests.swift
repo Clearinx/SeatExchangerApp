@@ -27,7 +27,7 @@ class FlightRiderUITests: XCTestCase {
         app.secureTextFields["Password"].typeText("Password")
         app.buttons["Login"].tap()
         
-        sleep(3)
+        sleep(5)
         
         let cells = XCUIApplication().tables.cells
         print(cells.count)
@@ -37,8 +37,10 @@ class FlightRiderUITests: XCTestCase {
             if(cells.firstMatch.buttons["Delete"].exists){
                 cells.firstMatch.buttons["Delete"].tap()
                 i -= 1
+                sleep(3)
             }
         }
+        sleep(5)
         XCTAssertEqual(cells.count, 0, "Finished")
         
 
@@ -55,8 +57,10 @@ class FlightRiderUITests: XCTestCase {
             if(cells.firstMatch.buttons["Delete"].exists){
                 cells.firstMatch.buttons["Delete"].tap()
                 i -= 1
+                sleep(3)
             }
         }
+        sleep(5)
         XCTAssertEqual(cells.count, 0, "Finished")
     }
     
@@ -119,7 +123,7 @@ class FlightRiderUITests: XCTestCase {
         
         let app = XCUIApplication()
         let table = app.tables
-        let flight = "FR110"
+        let flight = "FR6752"
         XCTAssertEqual(table.cells.count, 0, "Empty")
         app.navigationBars["Flights"].buttons["Add"].tap()
         
@@ -162,7 +166,7 @@ class FlightRiderUITests: XCTestCase {
         let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
         
         let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        textField.typeText("AAA111")
+        textField.typeText("FR8417")
         
         let submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
         submitButton.tap()
@@ -189,7 +193,7 @@ class FlightRiderUITests: XCTestCase {
         let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
         
         let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        textField.typeText("AAA111")
+        textField.typeText("FR4090")
         
         let submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
         submitButton.tap()
@@ -212,19 +216,19 @@ class FlightRiderUITests: XCTestCase {
         XCTAssertEqual(app.tables.cells.count, 1, "We are on the flight list screen")
     }
     
-    func testInitialStateIsCorrect() {
+    func testDepartureDateTooFar() {
         let app = XCUIApplication()
         
         app.navigationBars["Flights"].buttons["Add"].tap()
         
         let enterTheDepartureDateAndTheFlightNumberAlert = app.alerts["Enter the departure date and the flight number"]
-        let date = Calendar.current.date(byAdding: .day, value: 3, to: Date())!
+        let date = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
         let cal = Calendar.current
-        let day = cal.component(.day, from:date)
-        enterTheDepartureDateAndTheFlightNumberAlert.datePickers.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: String(day))
+        let day = cal.component(.year, from:date)
+        enterTheDepartureDateAndTheFlightNumberAlert.datePickers.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: String(day))
         
         let textField = enterTheDepartureDateAndTheFlightNumberAlert.collectionViews.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .textField).element
-        textField.typeText("XXX222")
+        textField.typeText("EI155")
         
         let submitButton = enterTheDepartureDateAndTheFlightNumberAlert.buttons["Submit"]
         submitButton.tap()

@@ -45,46 +45,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     self.tableView.reloadSections(sections as IndexSet, with: .automatic) 
                     self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
             }
-            //usres in local DB
-            /*var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-            var pred = NSPredicate(value: true)
-            var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
-            for result in results!{
-                print("\nUser:\n")
-                let localuser = result as! User
-                print(localuser.uid)
-                print(localuser.email)
-                print(localuser.flights)
-                print(localuser.changetag)
-            }
-            //flights in local DB
-            request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-            pred = NSPredicate(value: true)
-            results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
-            for result in results!{
-                print("\nFlight:\n")
-                let localflight = result as! Flight
-                print(localflight.uid)
-                print(localflight.changetag)
-                print(localflight.departureDate)
-                print(localflight.iataNumber)
-                print(localflight.airplaneType)
-                print(localflight.seats.count)
-            }
-            
-            request = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-            pred = NSPredicate(value: true)
-            results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self)
-            for result in results!{
-                print("\nSeat:\n")
-                let localseat = result as! Seat
-                print(localseat.uid)
-                print(localseat.changetag)
-                print(localseat.number)
-                print(localseat.occupiedBy)
-                print(localseat.flight.iataNumber)
-            }
-            print(results?.count)*/
             
         }
 
@@ -193,48 +153,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
-        /*if indexPath.row == 0{
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetail") as? FlightDetailViewController{
-                vc.flightNrString = flights[indexPath.row].iataNumber
-                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                    vc.imageToLoad = UIImage(named: img)
-                }
-                navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-        else if indexPath.row == 1{
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
-                vc.flightNrString = flights[indexPath.row].iataNumber
-                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                    vc.imageToLoad = UIImage(named: img)
-                }
-                navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-        else if indexPath.row == 2{
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailCannotCheckin") as? FlightDetailViewControllerCannotCheckin{
-                vc.flightNrString = flights[indexPath.row].iataNumber
-                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                    vc.imageToLoad = UIImage(named: img)
-                }
-                navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-        else if indexPath.row == 3{
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
-                navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-        else if indexPath.row == 4{
-            if let vc = storyboard?.instantiateViewController(withIdentifier: "ExchangeAggreement") as? FlightDetailViewControllerExchangeAggreement{
-                vc.flightNrString = flights[indexPath.row].iataNumber
-                if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                    vc.imageToLoad = UIImage(named: img)
-                }
-                navigationController?.pushViewController(vc, animated: true)
-            }
-        }*/
-        
     }
     
     @objc func addFlight(){
@@ -297,24 +215,5 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             self.present(ac, animated: true)
         }
     }
-    
-    /*override func viewWillAppear(_ animated: Bool) {
-        //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
-        super.viewWillAppear(animated)
-        
-        // Add a background view to the table view
-        let backgroundImage = UIImage(named: "flight1")
-        let imageView = UIImageView(image: backgroundImage)
-        imageView.contentMode = .scaleAspectFill
-        self.tableView.backgroundView = imageView
-        
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
-    }*/
-    
-    
-
 }
 
