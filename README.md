@@ -61,8 +61,8 @@ between the documentation and the implementation.
 Basic info:
 
 - Multiple user accounts can be created, and users' data are handled separatley.
-- Only valid, existing flight numbers can be added. 
--There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as well. As there isn't any offline feature implemented yet, offline mode is not available.
+- Only valid, existing flight numbers can be added.
+- There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as well. As there isn't any offline feature implemented yet, offline mode is not available.
 
 In this phase basically you can do in the app is the following:
 
