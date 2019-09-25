@@ -1,10 +1,10 @@
 # Flight Rider
-As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app. If you are interested in more project related documents, you can check the **Docs** folder.
+Thank you for showing interest in my project. As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app. If you are interested in more project related documents, diagrams, flowcharts, you can check the **Docs** folder.
 
 ## Vision statement
-This application is designed for travelers, who usually travels with low-budget airlines. On these kinds of airlines you must pay for literally everything, almost nothing is included in the ticket, even if you want to sit next to the one(s) who you are travelling with you have to pay extra fee. 
+This application is designed for travelers, who usually travels with low-budget airlines. On these kind of airlines you must pay for literally everything, almost nothing is included in the ticket, even if you want to sit next to the one(s) who you are travelling with you have to pay extra fee. 
 
-This application helps to save this extra cost. With this application, people on the same flight can connect with each other from the moment they get their random seat given by the airline, but they can negotiate the seats even in flight. Unlike any other application on the market, this product is able to help people connect with each other, to be able to sit next to their travel mates without spending extra money, or just contact random people on the plane if they are bored in-flight using the app’s Bluetooth based chat.
+The application helps to save this extra cost. With this app, people on the same flight can connect with each other from the moment they get their random seat given by the airline, but they can negotiate the seats even in flight. Unlike any other application on the market, this software is able to help connecting people, to be able to sit next to their travel mates without spending extra money or just contact random people on the plane if they are bored in-flight using the app’s Bluetooth based chat.
 
 ## Installation and configuration
 
@@ -57,6 +57,12 @@ between the documentation and the implementation.
 - A server that handles some tasks like deleting obsolate flights from the cloud, handling push notifications, etc...
 
 ## Basic info of the application/possible scenarios and use cases you may try
+
+Basic info:
+
+- Multiple user accounts can be created, and users' data are handled separatley.
+- Only valid, existing flight numbers can be added. 
+-There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as well. As there isn't any offline feature implemented yet, offline mode is not available.
 
 In this phase basically you can do in the app is the following:
 
