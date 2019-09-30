@@ -41,7 +41,9 @@ class LoginViewController: UIViewController {
         
         if (defaults?.bool(forKey: "ISRemember")) ?? false{
             EmailFiled.text = defaults?.value(forKey: "SavedUserName") as? String
-            PasswordField.text = defaults?.value(forKey: "SavedPassword") as? String
+            if let retrievedString = KeychainWrapper.standard.string(forKey: "SavedPassword"){
+                PasswordField.text = retrievedString
+            }
             rememberMeSwitch.setOn(true, animated: false)
         }
         else {
@@ -54,9 +56,15 @@ class LoginViewController: UIViewController {
         
         let defaults: UserDefaults? = UserDefaults.standard
         if switchState.isOn {
-            defaults?.set(true, forKey: "ISRemember")
-            defaults?.set(EmailFiled.text, forKey: "SavedUserName")
-            defaults?.set(PasswordField.text, forKey: "SavedPassword")
+            if EmailFiled.text != nil && PasswordField.text != nil{
+                defaults?.set(true, forKey: "ISRemember")
+                defaults?.set(EmailFiled.text!, forKey: "SavedUserName")
+                let saveResult = KeychainWrapper.standard.set(PasswordField.text!, forKey: "SavedPassword")
+                if !saveResult{
+                    print("Password save to keychain was unsuccessful")
+                }
+            }
+
         }
         else {
             defaults?.set(false, forKey: "ISRemember")
@@ -68,13 +76,17 @@ class LoginViewController: UIViewController {
             if rememberMeSwitch.isOn {
                 let defaults: UserDefaults? = UserDefaults.standard
                 let savedName = defaults?.string(forKey: "SavedUserName")
-                let savedPass = defaults?.string(forKey: "SavedPassword")
+                //let savedPass = defaults?.string(forKey: "SavedPassword")
+                let savedPass = KeychainWrapper.standard.string(forKey: "SavedPassword")
                 
                 if (savedName != EmailFiled.text){
                     defaults?.set(EmailFiled.text, forKey: "SavedUserName")
                 }
                 if (savedPass != PasswordField.text){
-                    defaults?.set(PasswordField.text, forKey: "SavedPassword")
+                    let saveResult = KeychainWrapper.standard.set(PasswordField.text!, forKey: "SavedPassword")
+                    if !saveResult{
+                        print("Password save to keychain was unsuccessful")
+                    }
                 }
             }
             showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
@@ -85,10 +97,6 @@ class LoginViewController: UIViewController {
                 }
                 self.uid = user.uid
                 self.email = self.EmailFiled.text!
-                /*DispatchQueue.main.async {
-                    self.ai?.stopAnimating()
-                    self.spinnerView!.removeFromSuperview()
-                }*/
                 self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
                 self.ToFlightList()
             }
