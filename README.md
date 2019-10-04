@@ -1,5 +1,5 @@
 # Flight Rider
-Thank you for showing interest in my project. As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app. If you are interested in more project related documents, diagrams, flowcharts, you can check the **Docs** folder.
+Thank you for showing interest in my project. As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app. If you are interested in more project related documents, diagrams, flowcharts, you can check the **Docs** folder. This project is not finished yet, it is still under development.
 
 ## Vision statement
 This application is designed for travelers, who usually travels with low-budget airlines. On these kind of airlines you must pay for literally everything, almost nothing is included in the ticket, even if you want to sit next to the one(s) who you are travelling with you have to pay extra fee. 
