@@ -9,7 +9,7 @@
         <relationship name="seats" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Seat" inverseName="flight" inverseEntity="Seat" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="iataNumber"/>
+                <constraint value="uid"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
