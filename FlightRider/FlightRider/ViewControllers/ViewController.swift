@@ -34,8 +34,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         loadUserData(){ [unowned self] in
             
             let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-            let flightPred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
-            self.flights = self.makeLocalQuery(sortKey: "iataNumber", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
+            let flightPred = NSPredicate(format: "ANY uid IN %@", self.user.flights)
+            self.flights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
             print(self.flights)
             let elapsedTime = CFAbsoluteTimeGetCurrent() - starttime
             print(elapsedTime)
@@ -44,6 +44,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     let sections = NSIndexSet(indexesIn: range)
                     self.tableView.reloadSections(sections as IndexSet, with: .automatic) 
                     self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
+                print(self.user.flights)
             }
             
         }
@@ -190,9 +191,13 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             
             let flightPredicate = NSPredicate(format: "iataNumber = %@ AND departureDate >= %@ AND departureDate <= %@", flightCode, nsStartDate, nsFinishDate)
             makeCloudQuery(sortKey: "iataNumber", predicate: flightPredicate, cloudTable: "Flights"){[unowned self] results in
-                print(results.first!)
+                var flightUid : String?
+                if(results.count == 1){
+                    print(results.first!)
+                    flightUid = results.first!["uid"]
+                }
                 let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
-                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: [flightCode], cloudTable: "Flights", saveParams: params, container: self.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
+                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
                     if(flightCount < self.user.flights.count){
                         let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
                         let pred = NSPredicate(format: "iataNumber = %@", flightCode)

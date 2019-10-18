@@ -32,7 +32,7 @@ extension ViewController {
         flightRecord["airplaneType"] = flight.airplaneType as CKRecordValue
         recordsToSave.append(flightRecord)
         user.flights = userRecord["flights"] ?? [String]()
-        user.flights.append(flight.iataNumber)
+        user.flights.append(flight.uid)
         userRecord["flights"] = user.flights as CKRecordValue
         recordsToSave.append(userRecord)
         let semaphore = DispatchSemaphore(value: 0)

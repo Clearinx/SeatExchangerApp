@@ -44,7 +44,7 @@ extension ViewController
     func fetchFlightsFromCloudAndAppendToUserList(results : [CKRecord]){
         fetchFlightsFromCloudWaitForResult(results: results){ flight in
             self.user.flights = self.userRecord["flights"]!
-            self.user.flights.append(flight.iataNumber)
+            self.user.flights.append(flight.uid)
             self.userRecord["flights"] = self.user.flights as CKRecordValue
             self.saveRecords(records: [self.userRecord]){ [unowned self] in
                 self.user.changetag = self.userRecord.recordChangeTag!
@@ -56,7 +56,7 @@ extension ViewController
     func compareFlightsChangeTagAndAppendToUserList(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
         compareFlightsChangeTagWaitForResult(localResults: localResults, cloudResults: cloudResults){
             self.user.flights = self.userRecord["flights"]!
-            self.user.flights.append(cloudResults.first!["iataNumber"]!)
+            self.user.flights.append(cloudResults.first!["uid"]!)
             self.userRecord["flights"] = self.user.flights as CKRecordValue
             self.saveRecords(records: [self.userRecord]){ [unowned self] in
                 self.user.changetag = self.userRecord.recordChangeTag!
