@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIGestureRecognizerDelega
         return true
     }
 
+    //@tomy Remove xcode template code, AppDelegate
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -46,8 +47,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIGestureRecognizerDelega
         self.saveContext()
     }
 
+    //@tomy extract to an object that deals with this. Otherwise AppDelegate might become massive
     // MARK: - Core Data stack
 
+    //@tomy remove unnecessary comments. add //TODO: something if necessary
+    //@tomy integrate swiftlint to polish your code and add warnings for unresolved TODOs
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -92,6 +96,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIGestureRecognizerDelega
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        //@tomy avoid cascading if statements, these pyramid looking things
+        //@tomy use if let, guard let.
         if userActivity.activityType == CSSearchableItemActionType {
             if (userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String) != nil {
                 if let navigationController = window?.rootViewController as? UINavigationController {

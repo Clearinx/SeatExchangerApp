@@ -13,6 +13,7 @@ import CloudKit
 import CoreSpotlight
 import MobileCoreServices
 
+//@tomy this extension of UIViewcController deals with a ton of functionality and it looks like those don't belong here. Read about separation of concerns.
 extension UIViewController {
     
     typealias NSManagedObjectParameter = ([NSManagedObject]) -> Void
@@ -33,7 +34,8 @@ extension UIViewController {
         }
         return container
     }
-    
+
+    //@tomy the number of params should be less than 5 to make it understandable and usable. Create a struct or typealias to encapsulate the params
     func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String]?, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void){
         var request = NSFetchRequest<NSManagedObject>()
         switch providedObject{
@@ -46,6 +48,7 @@ extension UIViewController {
             break
         }
         var pred = NSPredicate()
+        //@tomy use the community staandards for identation and code-style (else is usuallt at the same level than the closing }
         if(sortValue.isEmpty){
             pred = NSPredicate(value: true)
         }

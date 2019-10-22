@@ -8,6 +8,7 @@
 
 import Foundation
 
+//@tomy it should be Codable
 struct AirplaneModel{
     var modelName : String
     var numberOfSeats : Int

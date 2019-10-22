@@ -114,6 +114,7 @@
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
+		9CD1F518235F55D600E664C1 /* Feedback.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Feedback.md; sourceTree = "<group>"; };
 		AC2065A8969282ABA87004A8 /* libPods-FlightRider.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRider.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE0D469740083BCE2734EA01 /* Pods-FlightRider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRider.debug.xcconfig"; path = "Target Support Files/Pods-FlightRider/Pods-FlightRider.debug.xcconfig"; sourceTree = "<group>"; };
 		D0CCD268A8AB0AB12FE0DDC3 /* Pods-FlightRider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRider.release.xcconfig"; path = "Target Support Files/Pods-FlightRider/Pods-FlightRider.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 		890A4F8322E20F2600FA7324 = {
 			isa = PBXGroup;
 			children = (
+				9CD1F518235F55D600E664C1 /* Feedback.md */,
 				890A4F8E22E20F2600FA7324 /* FlightRider */,
 				890A4FA622E20F2700FA7324 /* FlightRiderTests */,
 				890A4FB122E20F2700FA7324 /* FlightRiderUITests */,

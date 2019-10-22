@@ -70,7 +70,8 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return maxElements
     }
-    
+
+    //@tomy R.swift can help with managing fonts, colors, images, etc. strongly typing stuff
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         print(self.view.frame.height)
         print(self.view.frame.width)
@@ -115,6 +116,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
             cloudFlight["seats"] = existingSeats
                 
             self.saveRecords(records: [seatRecord, cloudFlight]){ [unowned self] in
+                //@tomy interview question: why unowned self?
                 let seat = Seat(context: self.container.viewContext)
                 seat.number = self.selectedSeatNumber!
                 seat.occupiedBy = self.user.email

@@ -11,7 +11,9 @@ import UIKit
 class CheckSeatsViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
-    
+
+
+    //@tomy should these be public? read about encapsulation
     var flight : Flight!
     var user : User!
     var justSelectedSeat : Bool!
@@ -35,7 +37,8 @@ class CheckSeatsViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
+
+    //@tomy huge method. Refactor
     func createSeats() {
 
         let viewSize = self.view.frame.width*0.0966

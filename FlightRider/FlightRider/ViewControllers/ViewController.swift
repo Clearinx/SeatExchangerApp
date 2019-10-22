@@ -10,8 +10,11 @@ import UIKit
 import CoreData
 import CloudKit
 
+//@tomy avoid generic names like ViewController. Naming is extremely important
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    
+
+    //@tomy it's better to do this: var flights : [Flight] = [] (it reads better, the community does it like this)
+    //@tomy sort variables alphabetically
     var flights = [Flight]()
     var user : User!
     var userRecord = CKRecord(recordType: "AppUsers")
@@ -32,7 +35,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         title = "Flights"
         self.showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
         loadUserData(){ [unowned self] in
-            
+
+            //@tomy you can create extensions to NSPredicate and to stuff like NSPredicate.flightRequest, and create all the queries in the same place
             let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let flightPred = NSPredicate(format: "ANY iataNumber IN %@", self.user.flights)
             self.flights = self.makeLocalQuery(sortKey: "iataNumber", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
@@ -94,6 +98,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         container.viewContext.delete(flight)
         user.flights.removeAll{$0 == flight.iataNumber}
         flights.remove(at: indexPath.row)
+        //@tomy avoid using magic strings. use constants instead
         userRecord["flights"] = user.flights as CKRecordValue
         tableView.deleteRows(at: [indexPath], with: .fade)
         saveContext(container: container)
@@ -115,13 +120,15 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         let date = formatter.string(from: receivedDate)
         return date
     }
-    
+
+    //@tomy this method is very large, refactor into smaller methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let flight = flights[indexPath.row]
         let seatRequest = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
         let seatPred = NSPredicate(format: "flight = %@ AND occupiedBy = %@", flight, self.user.email)
         let occupiedSeats = (self.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.container, delegate: self) as? [Seat]) ?? [Seat]()
         if(occupiedSeats.isEmpty){
+            //@tomy have you consider timezones, calendars, locales?
             if(Calendar.current.date(byAdding: .day, value:2, to: Date())! > flight.departureDate){
                 if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
                     vc.flight = flight

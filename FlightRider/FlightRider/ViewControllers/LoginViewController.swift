@@ -16,6 +16,7 @@ import CoreData
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var rememberMeSwitch: UISwitch!
+    //@tomy instance variables never start with capital letters. google swift code style
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var EmailFiled: UITextField!
     var uid : String = ""
@@ -70,7 +71,8 @@ class LoginViewController: UIViewController {
             defaults?.set(false, forKey: "ISRemember")
         }
     }
-    
+
+    //@tomy magic strings, get rid of them
     @IBAction func LoginButtonPressed(_ sender: Any) {
         if(EmailFiled.text != nil && PasswordField.text != nil){
             if rememberMeSwitch.isOn {
@@ -105,6 +107,9 @@ class LoginViewController: UIViewController {
             LoginError()
         }
     }
+
+
+    //@tomy format your code properly, just copy pasting the code will make xcode ident properly
     
     @IBAction func SignupButtonPressed(_ sender: Any) {
             if(EmailFiled.text != nil && PasswordField.text != nil){
@@ -125,6 +130,8 @@ class LoginViewController: UIViewController {
         }
         
     }
+
+    //@tomy methods are camelCase
     func LoginError(){
         self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
         let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
