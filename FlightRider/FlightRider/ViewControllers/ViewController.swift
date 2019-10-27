@@ -36,6 +36,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let flightPred = NSPredicate(format: "ANY uid IN %@", self.user.flights)
             self.flights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
+            self.flights.sort(by: { $1.departureDate > $0.departureDate })
             print(self.flights)
             let elapsedTime = CFAbsoluteTimeGetCurrent() - starttime
             print(elapsedTime)
@@ -93,7 +94,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         
         unregisterFromFlightOnCloudDb(flight: flight)
         container.viewContext.delete(flight)
-        user.flights.removeAll{$0 == flight.iataNumber}
+        user.flights.removeAll{$0 == flight.uid}
         flights.remove(at: indexPath.row)
         userRecord["flights"] = user.flights as CKRecordValue
         tableView.deleteRows(at: [indexPath], with: .fade)
@@ -177,43 +178,52 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     func submit(_ flightCode: String, _ selectedDate: Date) {
-        if (!user.flights.contains(flightCode)){
+        if (flightCode != ""){
+            
             let flightCount = user.flights.count
             
             let startDate = self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd 00:00:00 Z")
             let finishDate = self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd 23:59:59 Z")
+
             
             let formatter = DateFormatter()
             formatter.dateFormat = "YYYY-MM-dd HH:mm:ss Z"
             let nsStartDate = formatter.date(from: startDate)! as NSDate
             let nsFinishDate = formatter.date(from: finishDate)! as NSDate
             
+            let value = self.flights.filter{$0.iataNumber == flightCode && $0.departureDate >= (nsStartDate as Date) && $0.departureDate <= (nsFinishDate as Date)}
             
-            let flightPredicate = NSPredicate(format: "iataNumber = %@ AND departureDate >= %@ AND departureDate <= %@", flightCode, nsStartDate, nsFinishDate)
-            makeCloudQuery(sortKey: "iataNumber", predicate: flightPredicate, cloudTable: "Flights"){[unowned self] results in
-                var flightUid : String?
-                if(results.count == 1){
-                    print(results.first!)
-                    flightUid = results.first!["uid"]
-                }
-                let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
-                self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
-                    if(flightCount < self.user.flights.count){
-                        let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-                        let pred = NSPredicate(format: "iataNumber = %@", flightCode)
-                        let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.container, delegate: self) as! [Flight]
-                        self.flights.append(newFlight.first!)
-                        self.index(flight: newFlight.first!)
-                        DispatchQueue.main.async {
-                            let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
-                            self.tableView.insertRows(at: [indexPath], with: .automatic)
+            if(value.isEmpty){
+                let flightPredicate = NSPredicate(format: "iataNumber = %@ AND departureDate >= %@ AND departureDate <= %@", flightCode, nsStartDate, nsFinishDate)
+                makeCloudQuery(sortKey: "iataNumber", predicate: flightPredicate, cloudTable: "Flights"){[unowned self] results in
+                    var flightUid : String?
+                    if(results.count == 1){
+                        print(results.first!)
+                        flightUid = results.first!["uid"]
+                    }
+                    let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
+                    self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
+                        if(flightCount < self.user.flights.count){
+                            let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+                            //let pred = NSPredicate(format: "iataNumber = %@", flightCode)
+                            let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.container, delegate: self) as! [Flight]
+                            self.flights.append(newFlight.first!)
+                            self.index(flight: newFlight.first!)
+                            DispatchQueue.main.async {
+                                let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
+                                self.tableView.insertRows(at: [indexPath], with: .automatic)
+                            }
                         }
                     }
                 }
             }
+            else{
+                flightAlreadyAdded()
+            }
+            
         }
         else{
-            flightAlreadyAdded()
+            flightNumberIsEmpty()
         }
     }
     
@@ -229,6 +239,15 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     func flightAlreadyAdded(){
         DispatchQueue.main.async {
             let ac = UIAlertController(title: "Error", message: "The flight is already contained by the list", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
+        }
+    }
+    
+    func flightNumberIsEmpty(){
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "The flight you specified is empty!", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
             ac.addAction(cancelAction)
             self.present(ac, animated: true)

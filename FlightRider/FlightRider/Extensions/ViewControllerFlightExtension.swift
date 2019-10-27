@@ -219,7 +219,7 @@ extension ViewController {
     }
     
     func unregisterFromFlightOnCloudDb(flight : Flight){
-        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ [unowned self] cloudFlightResult in
+        makeCloudQuery(sortKey: "uid", predicate: NSPredicate(format: "uid = %@", flight.uid), cloudTable: "Flights"){ [unowned self] cloudFlightResult in
             let result = cloudFlightResult.first!
             self.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND occupiedBy = %@", result.recordID, self.user.email), cloudTable: "Seat"){ [unowned self] cloudSeatResults in
                 let IDs = cloudSeatResults.map{$0.recordID}
