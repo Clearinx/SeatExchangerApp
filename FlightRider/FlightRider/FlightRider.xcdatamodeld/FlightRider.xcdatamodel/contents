@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Flight" representedClassName="Flight" syncable="YES">
+    <entity name="ManagedFlight" representedClassName="ManagedFlight" syncable="YES">
         <attribute name="airplaneType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="changetag" attributeType="String" syncable="YES"/>
         <attribute name="departureDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="iataNumber" attributeType="String" syncable="YES"/>
         <attribute name="uid" attributeType="String" syncable="YES"/>
-        <relationship name="seats" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Seat" inverseName="flight" inverseEntity="Seat" syncable="YES"/>
+        <relationship name="seats" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedSeat" inverseName="flight" inverseEntity="ManagedSeat" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="uid"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="Seat" representedClassName="Seat" syncable="YES">
+    <entity name="ManagedSeat" representedClassName="ManagedSeat" syncable="YES">
         <attribute name="changetag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="number" attributeType="String" syncable="YES"/>
         <attribute name="occupiedBy" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="flight" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Flight" inverseName="seats" inverseEntity="Flight" syncable="YES"/>
+        <relationship name="flight" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedFlight" inverseName="seats" inverseEntity="ManagedFlight" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="uid"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES">
+    <entity name="ManagedUser" representedClassName="ManagedUser" syncable="YES">
         <attribute name="changetag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="flights" attributeType="Transformable" syncable="YES"/>
@@ -37,8 +37,8 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Flight" positionX="-45" positionY="0" width="128" height="135"/>
-        <element name="Seat" positionX="-18" positionY="54" width="128" height="120"/>
-        <element name="User" positionX="-27" positionY="54" width="128" height="105"/>
+        <element name="ManagedFlight" positionX="-45" positionY="0" width="128" height="135"/>
+        <element name="ManagedSeat" positionX="-18" positionY="54" width="128" height="120"/>
+        <element name="ManagedUser" positionX="-27" positionY="54" width="128" height="105"/>
     </elements>
 </model>

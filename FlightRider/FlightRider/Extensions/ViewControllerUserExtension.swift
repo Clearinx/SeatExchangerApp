@@ -16,10 +16,9 @@ extension ViewController {
         self.userRecord["uid"] = self.uid as CKRecordValue
         self.userRecord["email"] = self.email as CKRecordValue
         self.userRecord["flights"] = [String]() as CKRecordValue
-        self.user = User(context: self.container.viewContext)
-        self.user.uid = params![0]
-        self.user.email = params![1]
-        self.user.flights = [String]()
+        let user = User(email: params![1], flights: [String](), uid: params![0], changetag: "")
+        self.user = ManagedUser(context: container.viewContext)
+        self.user.fromUser(user: user)
         self.saveRecords(records: [userRecord]){ [unowned self] in
             self.user.changetag = self.userRecord.recordChangeTag!
             self.saveContext(container: self.container)
@@ -30,22 +29,22 @@ extension ViewController {
     
     func fetchUserFromCloud(results : [CKRecord]){
         self.userRecord = results.first!
-        self.user = User(context: self.container.viewContext)
-        self.user.uid = results.first!["uid"]!
-        self.user.email = results.first!["email"]!
-        self.user.flights = results.first!["flights"] ?? [String]()
-        self.user.changetag = results.first!.recordChangeTag!
-        print(self.user.uid)
+        
+        let user = User(email: results.first!["email"]!, flights: results.first!["flights"] ?? [String](), uid: results.first!["uid"]!, changetag: results.first!.recordChangeTag!)
+        self.user = ManagedUser(context: self.container.viewContext)
+        self.user.fromUser(user: user)
         self.saveContext(container: container)
+        
+        //maybe it is not neccessarry at all
         let pred = NSPredicate(format: "uid = %@", results.first!["uid"]! as String)
-        let request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-        self.user = (makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: self) as! [User]).first!
-        print(self.user.uid)
+        let request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        self.user = (makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: self) as! [ManagedUser]).first!
+        //until this point
         
     }
     
     func compareUserChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
-        self.user = localResults.first! as? User
+        self.user = localResults.first! as? ManagedUser
         self.userRecord = cloudResults.first!
         if(self.user.changetag != cloudResults.first!.recordChangeTag){
             fetchUserFromCloud(results : cloudResults)

@@ -23,8 +23,8 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     var selectedSeatNumber : String?
     var container: NSPersistentContainer!
     
-    var flight : Flight!
-    var user : User!
+    var flight : ManagedFlight!
+    var user : ManagedUser!
     var userRecord : CKRecord!
     var justSelectedSeat : Bool = false
     
@@ -115,7 +115,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
             cloudFlight["seats"] = existingSeats
                 
             self.saveRecords(records: [seatRecord, cloudFlight]){ [unowned self] in
-                let seat = Seat(context: self.container.viewContext)
+                let seat = ManagedSeat(context: self.container.viewContext)
                 seat.number = self.selectedSeatNumber!
                 seat.occupiedBy = self.user.email
                 seat.flight = self.flight

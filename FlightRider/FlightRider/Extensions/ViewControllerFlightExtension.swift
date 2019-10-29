@@ -16,14 +16,10 @@ extension ViewController {
         
         let flightRecord = CKRecord(recordType: "Flights")
 
-        let flight = Flight(context: self.container.viewContext)
-        flight.uid = flightRecord.recordID.recordName
-        flight.iataNumber = params![0]
+        //let flight = Flight(context: self.container.viewContext)
         let departureDate = params![1]
         let dateFormat = getDate(receivedDate: departureDate)
-        flight.departureDate = dateFormat
-        flight.airplaneType = "dummy"
-        flight.seats = Set<Seat>()
+        var flight = Flight(departureDate: dateFormat, iataNumber: params![0], uid: flightRecord.recordID.recordName, changetag: "", airplaneType: "dummy", seats: Set<ManagedSeat>())
         var recordsToSave = generateSeats(flight: flight, flightRecord: flightRecord)
         
         flightRecord["uid"] = flightRecord.recordID.recordName
@@ -39,6 +35,8 @@ extension ViewController {
         self.saveRecords(records: recordsToSave){ [unowned self] in
             self.user.changetag = self.userRecord.recordChangeTag!
             flight.changetag = flightRecord.recordChangeTag!
+            let managedFlight = ManagedFlight(context: self.container.viewContext)
+            managedFlight.fromFlight(flight: flight)
             self.saveContext(container: self.container)
             semaphore.signal()
         }
@@ -58,12 +56,10 @@ extension ViewController {
         func fetchFlightsFromCloud(results : [CKRecord]){
             for result in results{
                 
-                let flight = Flight(context: self.container.viewContext)
-                flight.uid = result["uid"]!
-                flight.iataNumber = result["iataNumber"]!
-                flight.departureDate = result["departureDate"]!
-                flight.changetag = result.recordChangeTag!
-                flight.airplaneType = result["airplaneType"]!
+                let flight = Flight(departureDate: result["departureDate"]!, iataNumber: result["iataNumber"]!, uid: result["uid"]!, changetag: result.recordChangeTag!, airplaneType: result["airplaneType"]!, seats: Set<ManagedSeat>())
+                
+                let managedFlight = ManagedFlight(context: self.container.viewContext)
+                managedFlight.fromFlight(flight: flight)
                 
                 var seatReferences = [CKRecord.Reference]()
                 seatReferences = result["seats"] ?? [CKRecord.Reference]()
@@ -71,15 +67,13 @@ extension ViewController {
                 if !seatReferences.isEmpty{
                     let predicate = NSPredicate(format: "ANY %@ = recordID" ,seatReferences)
                     let semaphore = DispatchSemaphore(value: 0)
-                    makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ [unowned self] cloudResults in
+                    makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){cloudResults in
                         for seatResult in cloudResults{
-                            let seat = Seat(context: self.container.viewContext)
-                            seat.number = seatResult["number"]!
-                            seat.occupiedBy = seatResult["occupiedBy"]!
-                            seat.uid = seatResult.recordID.recordName
-                            seat.changetag = seatResult.recordChangeTag!
-                            seat.flight = flight
+                            let seat = Seat(changetag: seatResult.recordChangeTag!, number: seatResult["number"]!, occupiedBy: seatResult["occupiedBy"]!, uid: seatResult.recordID.recordName, flight: managedFlight)
+                            let managedSeat = ManagedSeat(context: self.container.viewContext)
+                            managedSeat.fromSeat(seat: seat)
                         }
+
                         semaphore.signal()
                     }
                     semaphore.wait()
@@ -90,14 +84,11 @@ extension ViewController {
     
     func fetchFlightsFromCloudWaitForResult(results : [CKRecord], completionHandler: @escaping (Flight) -> Void){
         for result in results{
-            let flight = Flight(context: self.container.viewContext)
-            flight.uid = result["uid"]!
-            flight.iataNumber = result["iataNumber"]!
-            flight.departureDate = result["departureDate"]!
-            flight.airplaneType = result["airplaneType"]!
-            flight.changetag = result.recordChangeTag!
+            let flight = Flight(departureDate: result["departureDate"]!, iataNumber: result["iataNumber"]!, uid: result["uid"]!, changetag: result.recordChangeTag!, airplaneType: result["airplaneType"]!, seats: Set<ManagedSeat>())
             
-            //let flightReference = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)
+            let managedFlight = ManagedFlight(context: self.container.viewContext)
+            managedFlight.fromFlight(flight: flight)
+            
             var seatReferences = [CKRecord.Reference]()
             seatReferences = result["seats"]!
             
@@ -106,12 +97,9 @@ extension ViewController {
                 
                 makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ [unowned self] cloudResults in
                     for seatResult in cloudResults{
-                        let seat = Seat(context: self.container.viewContext)
-                        seat.number = seatResult["number"]!
-                        seat.occupiedBy = seatResult["occupiedBy"]!
-                        seat.uid = seatResult.recordID.recordName
-                        seat.changetag = seatResult.recordChangeTag!
-                        seat.flight = flight
+                        let seat = Seat(changetag: seatResult.recordChangeTag!, number: seatResult["number"]!, occupiedBy: seatResult["occupiedBy"]!, uid: seatResult.recordID.recordName, flight: managedFlight)
+                        let managedSeat = ManagedSeat(context: self.container.viewContext)
+                        managedSeat.fromSeat(seat: seat)
                     }
                     completionHandler(flight)
                 }
@@ -124,7 +112,7 @@ extension ViewController {
     func compareFlightsChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
         if localResults.count == cloudResults.count{
             for i in 0...localResults.count - 1{
-                let flight = localResults[i] as! Flight
+                let flight = localResults[i] as! ManagedFlight
                 if(flight.changetag != cloudResults[i].recordChangeTag){
                     fetchFlightsFromCloud(results: [cloudResults[i]])
                 }
@@ -142,7 +130,7 @@ extension ViewController {
     func compareFlightsChangeTagWaitForResult(localResults : [NSManagedObject],  cloudResults : [CKRecord], completionHandler: @escaping () -> Void){
         if localResults.count == cloudResults.count{
             for i in 0...localResults.count - 1{
-                let flight = localResults[i] as! Flight
+                let flight = localResults[i] as! ManagedFlight
                 if(flight.changetag != cloudResults[i].recordChangeTag){
                     fetchFlightsFromCloud(results: [cloudResults[i]])
                 }
@@ -159,7 +147,7 @@ extension ViewController {
     }
     
     func compareSeats(localFlight: NSManagedObject, flightRecord : CKRecord){
-        let flight = localFlight as! Flight
+        let flight = localFlight as! ManagedFlight
         var localSeats = Array(flight.seats)
         localSeats.sort(by: { $0.uid > $1.uid })
         var seatReferences = [CKRecord.Reference]()
@@ -178,23 +166,18 @@ extension ViewController {
                 if(localSeats.count == sortedCloudResults.count && localSeats.count != 0){
                     for i in 0...sortedCloudResults.count-1{
                         if(localSeats[i].changetag != sortedCloudResults[i].recordChangeTag){
-                            let seat = Seat(context: self.container.viewContext)
-                            seat.number = sortedCloudResults[i]["number"]!
-                            seat.occupiedBy = sortedCloudResults[i]["occupiedBy"]!
-                            seat.uid = sortedCloudResults[i].recordID.recordName
-                            seat.changetag = sortedCloudResults[i].recordChangeTag!
-                            seat.flight = flight
+                            let seat = Seat(changetag: sortedCloudResults[i].recordChangeTag!, number: sortedCloudResults[i]["number"]!, occupiedBy: sortedCloudResults[i]["occupiedBy"]!, uid: sortedCloudResults[i].recordID.recordName, flight: flight)
+                            let managedSeat = ManagedSeat(context: self.container.viewContext)
+                            managedSeat.fromSeat(seat: seat)
                         }
                     }
                 }
                 else{
                     for seatResult in cloudResults{
-                        let seat = Seat(context: self.container.viewContext)
-                        seat.number = seatResult["number"]!
-                        seat.occupiedBy = seatResult["occupiedBy"]!
-                        seat.uid = seatResult.recordID.recordName
-                        seat.changetag = seatResult.recordChangeTag!
-                        seat.flight = flight
+                        //let seat = Seat(context: self.container.viewContext)
+                        let seat = Seat(changetag: seatResult.recordChangeTag!, number: seatResult["number"]!, occupiedBy: seatResult["occupiedBy"]!, uid: seatResult.recordID.recordName, flight: flight)
+                        let managedSeat = ManagedSeat(context: self.container.viewContext)
+                        managedSeat.fromSeat(seat: seat)
                     }
                 }
                 
@@ -207,18 +190,22 @@ extension ViewController {
     // has to fix: very rare case, but when flight is present in local, but not in cloud while adding a new flight, obsolate flight will be just deleted from local db, and not added. Has to analyze, but maybe flight uid introduction will fix this?
     func deleteFlightsFromLocalDb(localResults : [NSManagedObject]){
         for result in localResults{
-            let flight = result as! Flight
-            for seat in flight.seats{
+            let managedFlight = result as! ManagedFlight
+            for seat in managedFlight.seats{
                 container.viewContext.delete(seat)
             }
             container.viewContext.delete(result)
-            deindex(flight: flight)
+            deindex(flight: managedFlight)
         }
         saveContext(container: container)
 
     }
     
+<<<<<<< HEAD
+    func unregisterFromFlightOnCloudDb(flight : ManagedFlight){
+=======
     func unregisterFromFlightOnCloudDb(flight : Flight){
+>>>>>>> 0aaebca8eeda9fc7aceaaba16408f7f672a5add2
         makeCloudQuery(sortKey: "uid", predicate: NSPredicate(format: "uid = %@", flight.uid), cloudTable: "Flights"){ [unowned self] cloudFlightResult in
             let result = cloudFlightResult.first!
             self.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND occupiedBy = %@", result.recordID, self.user.email), cloudTable: "Seat"){ [unowned self] cloudSeatResults in

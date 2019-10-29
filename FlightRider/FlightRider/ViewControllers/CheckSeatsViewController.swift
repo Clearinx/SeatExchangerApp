@@ -12,8 +12,8 @@ class CheckSeatsViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     
-    var flight : Flight!
-    var user : User!
+    var flight : ManagedFlight!
+    var user : ManagedUser!
     var justSelectedSeat : Bool!
     
     override func viewDidLoad() {

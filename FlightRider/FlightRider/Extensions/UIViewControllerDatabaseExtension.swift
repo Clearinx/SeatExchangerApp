@@ -37,11 +37,11 @@ extension UIViewController {
     func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String]?, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void){
         var request = NSFetchRequest<NSManagedObject>()
         switch providedObject{
-        case is User.Type:
-            request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        case is ManagedUser.Type:
+            request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             break
-        case is Flight.Type:
-            request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        case is ManagedFlight.Type:
+            request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
         default:
             break
         }
@@ -143,7 +143,7 @@ extension UIViewController {
         }
     }
     
-    func deindex(flight: Flight) {
+    func deindex(flight: ManagedFlight) {
         CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: ["\(flight.iataNumber)"]) { error in
             if let error = error {
                 print("Deindexing error: \(error.localizedDescription)")
@@ -153,7 +153,7 @@ extension UIViewController {
         }
     }
     
-    func index(flight : Flight){
+    func index(flight : ManagedFlight){
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
         attributeSet.title = flight.iataNumber
         let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
@@ -166,29 +166,29 @@ extension UIViewController {
         }
     }
     
-    func getLocalDatabase(container : NSPersistentContainer, delegate : NSFetchedResultsControllerDelegate){
+    /*func getLocalDatabase(container : NSPersistentContainer, delegate : NSFetchedResultsControllerDelegate){
         
         //commented code below is to check local DB content
         
         //usres in local DB
-        var request = User.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        var request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
          var pred = NSPredicate(value: true)
          var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
          for result in results!{
          print("\nUser:\n")
-         let localuser = result as! User
+         let localuser = result as! ManagedUser
          print(localuser.uid)
          print(localuser.email)
          print(localuser.flights)
          print(localuser.changetag)
          }
          //flights in local DB
-         request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+         request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
          pred = NSPredicate(value: true)
          results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
          for result in results!{
          print("\nFlight:\n")
-         let localflight = result as! Flight
+         let localflight = result as! ManagedFlight
          print(localflight.uid)
          print(localflight.changetag)
          print(localflight.departureDate)
@@ -197,18 +197,18 @@ extension UIViewController {
          print(localflight.seats.count)
          }
          
-         request = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+         request = ManagedSeat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
          pred = NSPredicate(value: true)
          results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
          for result in results!{
-         print("\nSeat:\n")
-         let localseat = result as! Seat
-         print(localseat.uid)
-         print(localseat.changetag)
-         print(localseat.number)
-         print(localseat.occupiedBy)
-         print(localseat.flight.iataNumber)
+             print("\nSeat:\n")
+             let localseat = result as! ManagedSeat
+             print(localseat.uid)
+             print(localseat.changetag)
+             print(localseat.number)
+             print(localseat.occupiedBy)
+            print(localseat.flight?.iataNumber)
          }
          print(results?.count)
-    }
+    }*/
 }

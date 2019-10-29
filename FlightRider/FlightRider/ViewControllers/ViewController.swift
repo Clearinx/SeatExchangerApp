@@ -12,8 +12,8 @@ import CloudKit
 
 class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    var flights = [Flight]()
-    var user : User!
+    var flights = [ManagedFlight]()
+    var user : ManagedUser!
     var userRecord = CKRecord(recordType: "AppUsers")
     var container: NSPersistentContainer!
     var uid : String!
@@ -33,9 +33,17 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         self.showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
         loadUserData(){ [unowned self] in
             
-            let flightRequest = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+            let flightRequest = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
             let flightPred = NSPredicate(format: "ANY uid IN %@", self.user.flights)
+<<<<<<< HEAD
+            let managedFlights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [ManagedFlight]
+            self.flights = [ManagedFlight]()
+            for managedFlight in managedFlights{
+                self.flights.append(managedFlight)
+            }
+=======
             self.flights = self.makeLocalQuery(sortKey: "uid", predicate: flightPred, request: flightRequest, container: self.container, delegate: self) as! [Flight]
+>>>>>>> 0aaebca8eeda9fc7aceaaba16408f7f672a5add2
             self.flights.sort(by: { $1.departureDate > $0.departureDate })
             print(self.flights)
             let elapsedTime = CFAbsoluteTimeGetCurrent() - starttime
@@ -53,8 +61,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     func loadUserData(completionHandler: @escaping () -> Void){
-        syncLocalDBWithiCloud(providedObject: User.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){ [unowned self] in
-            self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "iataNumber", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, container: self.container, delegate: self, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
+        syncLocalDBWithiCloud(providedObject: ManagedUser.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){ [unowned self] in
+            self.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "iataNumber", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, container: self.container, delegate: self, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
                     completionHandler()
             }
         }
@@ -120,9 +128,9 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let flight = flights[indexPath.row]
-        let seatRequest = Seat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        let seatRequest = ManagedSeat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
         let seatPred = NSPredicate(format: "flight = %@ AND occupiedBy = %@", flight, self.user.email)
-        let occupiedSeats = (self.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.container, delegate: self) as? [Seat]) ?? [Seat]()
+        let occupiedSeats = (self.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.container, delegate: self) as? [ManagedSeat]) ?? [ManagedSeat]()
         if(occupiedSeats.isEmpty){
             if(Calendar.current.date(byAdding: .day, value:2, to: Date())! > flight.departureDate){
                 if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
@@ -202,11 +210,18 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                         flightUid = results.first!["uid"]
                     }
                     let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
+<<<<<<< HEAD
+                    self.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
+                        if(flightCount < self.user.flights.count){
+                            let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+                            let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.container, delegate: self) as! [ManagedFlight]
+=======
                     self.syncLocalDBWithiCloud(providedObject: Flight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
                         if(flightCount < self.user.flights.count){
                             let request = Flight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
                             //let pred = NSPredicate(format: "iataNumber = %@", flightCode)
                             let newFlight = self.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.container, delegate: self) as! [Flight]
+>>>>>>> 0aaebca8eeda9fc7aceaaba16408f7f672a5add2
                             self.flights.append(newFlight.first!)
                             self.index(flight: newFlight.first!)
                             DispatchQueue.main.async {
