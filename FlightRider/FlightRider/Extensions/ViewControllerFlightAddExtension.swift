@@ -46,9 +46,9 @@ extension ViewController
             self.user.flights = self.userRecord["flights"]!
             self.user.flights.append(flight.uid)
             self.userRecord["flights"] = self.user.flights as CKRecordValue
-            self.saveRecords(records: [self.userRecord]){ [unowned self] in
+            self.databaseWorker.saveRecords(records: [self.userRecord]){ [unowned self] in
                 self.user.changetag = self.userRecord.recordChangeTag!
-                self.saveContext(container: self.container)
+                self.databaseWorker.saveContext(container: self.databaseWorker.container)
             }
         }
     }
@@ -58,9 +58,9 @@ extension ViewController
             self.user.flights = self.userRecord["flights"]!
             self.user.flights.append(cloudResults.first!["uid"]!)
             self.userRecord["flights"] = self.user.flights as CKRecordValue
-            self.saveRecords(records: [self.userRecord]){ [unowned self] in
+            self.databaseWorker.saveRecords(records: [self.userRecord]){ [unowned self] in
                 self.user.changetag = self.userRecord.recordChangeTag!
-                self.saveContext(container: self.container)
+                self.databaseWorker.saveContext(container: self.databaseWorker.container)
             }
         }
     }

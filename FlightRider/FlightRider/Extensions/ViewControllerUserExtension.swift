@@ -17,11 +17,11 @@ extension ViewController {
         self.userRecord["email"] = self.email as CKRecordValue
         self.userRecord["flights"] = [String]() as CKRecordValue
         let user = User(email: params![1], flights: [String](), uid: params![0], changetag: "")
-        self.user = ManagedUser(context: container.viewContext)
+        self.user = ManagedUser(context: self.databaseWorker.container.viewContext)
         self.user.fromUser(user: user)
-        self.saveRecords(records: [userRecord]){ [unowned self] in
+        self.databaseWorker.saveRecords(records: [userRecord]){ [unowned self] in
             self.user.changetag = self.userRecord.recordChangeTag!
-            self.saveContext(container: self.container)
+            self.databaseWorker.saveContext(container: self.databaseWorker.container)
             print(self.user.uid)
         }
         
@@ -31,14 +31,14 @@ extension ViewController {
         self.userRecord = results.first!
         
         let user = User(email: results.first!["email"]!, flights: results.first!["flights"] ?? [String](), uid: results.first!["uid"]!, changetag: results.first!.recordChangeTag!)
-        self.user = ManagedUser(context: self.container.viewContext)
+        self.user = ManagedUser(context: self.databaseWorker.container.viewContext)
         self.user.fromUser(user: user)
-        self.saveContext(container: container)
+        self.databaseWorker.saveContext(container: self.databaseWorker.container)
         
         //maybe it is not neccessarry at all
         let pred = NSPredicate(format: "uid = %@", results.first!["uid"]! as String)
         let request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-        self.user = (makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: self) as! [ManagedUser]).first!
+        self.user = (databaseWorker.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.databaseWorker.container, delegate: self) as! [ManagedUser]).first!
         //until this point
         
     }

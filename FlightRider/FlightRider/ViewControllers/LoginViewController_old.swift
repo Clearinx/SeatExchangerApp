@@ -13,18 +13,19 @@ import CoreData
 
 //var container: NSPersistentContainer!
 
-class LoginViewController: UIViewController {
+class LoginViewController_old: UIViewController {
 
-    @IBOutlet weak var rememberMeSwitch: UISwitch!
-    @IBOutlet weak var PasswordField: UITextField!
-    @IBOutlet weak var EmailFiled: UITextField!
-    var uid : String = ""
-    var email : String = ""
-    var container: NSPersistentContainer!
-    var spinnerView : UIView!
-    var ai : UIActivityIndicatorView!
-    let backgroundImageView = UIImageView()
-
+    @IBOutlet weak var rememberMeSwitch: UISwitch!//view
+    @IBOutlet weak var PasswordField: UITextField!//view
+    @IBOutlet weak var EmailFiled: UITextField!//view
+    var uid : String = ""//model
+    var email : String = ""//model
+    var spinnerView : UIView!//view
+    var ai : UIActivityIndicatorView!//view
+    let backgroundImageView = UIImageView()//view
+    let databaseWorker = DatabaseWorker()//view
+    
+    //view+interactor+worker
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +33,7 @@ class LoginViewController: UIViewController {
         
         view.addGestureRecognizer(tap)
         
-        container = setupContainer()
+        self.databaseWorker.setupContainer()
         spinnerView = UIView.init(frame: self.view.bounds)
         ai = UIActivityIndicatorView.init(style: .whiteLarge)
         
@@ -52,6 +53,7 @@ class LoginViewController: UIViewController {
         setBackground()
     }
     
+    //view + interactor + worker
     @objc func stateChanged(_ switchState: UISwitch) {
         
         let defaults: UserDefaults? = UserDefaults.standard
@@ -71,6 +73,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    //view + interactor
     @IBAction func LoginButtonPressed(_ sender: Any) {
         if(EmailFiled.text != nil && PasswordField.text != nil){
             if rememberMeSwitch.isOn {
@@ -106,6 +109,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    //view+interactor
     @IBAction func SignupButtonPressed(_ sender: Any) {
             if(EmailFiled.text != nil && PasswordField.text != nil){
                 showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
@@ -125,6 +129,8 @@ class LoginViewController: UIViewController {
         }
         
     }
+    
+    //view
     func LoginError(){
         self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
         let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
@@ -133,15 +139,18 @@ class LoginViewController: UIViewController {
         present(ac, animated: true)
     }
     
+    //router
     func ToFlightList(){
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
             vc.uid = self.uid
             vc.email = self.email
-            vc.container = container
+            //vc.container = container
+            vc.databaseWorker = self.databaseWorker
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
+    //worker
     func saveRecords(records : [CKRecord]){
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         operation.savePolicy = .ifServerRecordUnchanged
@@ -150,10 +159,12 @@ class LoginViewController: UIViewController {
         
     }
     
+    //view
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
+    //view
     func setBackground() {
         view.addSubview(backgroundImageView)
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false

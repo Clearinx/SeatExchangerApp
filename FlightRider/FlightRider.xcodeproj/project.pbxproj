@@ -37,7 +37,6 @@
 		893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */; };
 		8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002B2321647D00BA2BF4 /* DateExtension.swift */; };
 		8937002F232172C500BA2BF4 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002E232172C500BA2BF4 /* Time.swift */; };
-		89370031232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */; };
 		8962EED82358960E007731BE /* ViewControllerFlightAddExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */; };
 		89A8AA102333A08F00B673EE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA0E2333A08F00B673EE /* CustomButton.swift */; };
 		89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8AA0F2333A08F00B673EE /* CustomTextField.swift */; };
@@ -45,13 +44,20 @@
 		89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B46C87232A43020000F5F1 /* StringExtension.swift */; };
 		89C08BD9233A5965004A3055 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C08BD8233A5965004A3055 /* KeychainWrapper.swift */; };
 		89C08BDC233A5A9B004A3055 /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C08BDA233A5A9A004A3055 /* KeychainItemAccessibility.swift */; };
+		89C21F2B23684019002B8E05 /* CoreDataWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F2A23684019002B8E05 /* CoreDataWorker.swift */; };
+		89C21F3423686DB7002B8E05 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F2E23686DB7002B8E05 /* LoginPresenter.swift */; };
+		89C21F3523686DB7002B8E05 /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F2F23686DB7002B8E05 /* LoginWorker.swift */; };
+		89C21F3623686DB7002B8E05 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3023686DB7002B8E05 /* LoginRouter.swift */; };
+		89C21F3723686DB7002B8E05 /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3123686DB7002B8E05 /* LoginModels.swift */; };
+		89C21F3823686DB7002B8E05 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3223686DB7002B8E05 /* LoginViewController.swift */; };
+		89C21F3923686DB7002B8E05 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3323686DB7002B8E05 /* LoginInteractor.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
 		FF489CB322F887EF005FAE41 /* CheckSeatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */; };
 		FF489CB622F88B92005FAE41 /* Tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB522F88B92005FAE41 /* Tap.swift */; };
 		FF90B14323084EE10003E4D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */; };
-		FFA03FF32312D94C009A3D3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FF22312D94C009A3D3F /* LoginViewController.swift */; };
+		FFA03FF32312D94C009A3D3F /* LoginViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */; };
 		FFA03FF62312DB08009A3D3F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA03FF52312DB08009A3D3F /* CloudKit.framework */; };
 		FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFF37B222EDBC8C0014D999 /* Ryanair.png */; };
 		FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */; };
@@ -112,7 +118,6 @@
 		893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		8937002B2321647D00BA2BF4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		8937002E232172C500BA2BF4 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
-		89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerDatabaseExtension.swift; sourceTree = "<group>"; };
 		8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightAddExtension.swift; sourceTree = "<group>"; };
 		89A8AA0E2333A08F00B673EE /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		89A8AA0F2333A08F00B673EE /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -121,6 +126,13 @@
 		89C08BD8233A5965004A3055 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		89C08BDA233A5A9A004A3055 /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		89C08BDB233A5A9B004A3055 /* SwiftKeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftKeychainWrapper.h; sourceTree = "<group>"; };
+		89C21F2A23684019002B8E05 /* CoreDataWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataWorker.swift; sourceTree = "<group>"; };
+		89C21F2E23686DB7002B8E05 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		89C21F2F23686DB7002B8E05 /* LoginWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
+		89C21F3023686DB7002B8E05 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		89C21F3123686DB7002B8E05 /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
+		89C21F3223686DB7002B8E05 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		89C21F3323686DB7002B8E05 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
@@ -132,7 +144,7 @@
 		FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSeatsViewController.swift; sourceTree = "<group>"; };
 		FF489CB522F88B92005FAE41 /* Tap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tap.swift; sourceTree = "<group>"; };
 		FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FFA03FF22312D94C009A3D3F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController_old.swift; sourceTree = "<group>"; };
 		FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlightRider.entitlements; sourceTree = "<group>"; };
 		FFA03FF52312DB08009A3D3F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FFFF37B222EDBC8C0014D999 /* Ryanair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ryanair.png; sourceTree = "<group>"; };
@@ -217,6 +229,9 @@
 		890A4F8E22E20F2600FA7324 /* FlightRider */ = {
 			isa = PBXGroup;
 			children = (
+				89C21F2C236867FE002B8E05 /* Scenes */,
+				89C21F2923683FFF002B8E05 /* Workers */,
+				89C21F2823683E28002B8E05 /* Services */,
 				89A8AA0D23339E2F00B673EE /* CustomControls */,
 				8937002D232172B500BA2BF4 /* Models */,
 				FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */,
@@ -256,11 +271,11 @@
 		891990552303EDE1002D9074 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */,
 				890A4F9122E20F2600FA7324 /* ViewController.swift */,
 				FFFF37B422EDD9870014D999 /* FlightDetailViewController.swift */,
 				89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift */,
 				89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift */,
-				FFA03FF22312D94C009A3D3F /* LoginViewController.swift */,
 				FF489CB222F887EF005FAE41 /* CheckSeatsViewController.swift */,
 				891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */,
 			);
@@ -283,7 +298,6 @@
 				89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */,
 				8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */,
 				8937002B2321647D00BA2BF4 /* DateExtension.swift */,
-				89370030232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift */,
 				89B46C87232A43020000F5F1 /* StringExtension.swift */,
 				89EC5E062314331C00F24139 /* Spinner.swift */,
 			);
@@ -316,6 +330,42 @@
 				89A8AA122334B49000B673EE /* CustomLabel.swift */,
 			);
 			path = CustomControls;
+			sourceTree = "<group>";
+		};
+		89C21F2823683E28002B8E05 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		89C21F2923683FFF002B8E05 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				89C21F2A23684019002B8E05 /* CoreDataWorker.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
+		89C21F2C236867FE002B8E05 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				89C21F2D236869B2002B8E05 /* Login */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		89C21F2D236869B2002B8E05 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				89C21F2E23686DB7002B8E05 /* LoginPresenter.swift */,
+				89C21F2F23686DB7002B8E05 /* LoginWorker.swift */,
+				89C21F3023686DB7002B8E05 /* LoginRouter.swift */,
+				89C21F3123686DB7002B8E05 /* LoginModels.swift */,
+				89C21F3223686DB7002B8E05 /* LoginViewController.swift */,
+				89C21F3323686DB7002B8E05 /* LoginInteractor.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		FF489CB422F88B75005FAE41 /* 3rd Party */ = {
@@ -543,10 +593,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89C21F3823686DB7002B8E05 /* LoginViewController.swift in Sources */,
 				891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */,
 				89A8AA132334B49000B673EE /* CustomLabel.swift in Sources */,
+				89C21F3523686DB7002B8E05 /* LoginWorker.swift in Sources */,
 				89EC5E072314331C00F24139 /* Spinner.swift in Sources */,
 				893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */,
+				89C21F3423686DB7002B8E05 /* LoginPresenter.swift in Sources */,
 				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats.swift in Sources */,
 				89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */,
 				89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */,
@@ -555,7 +608,8 @@
 				8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */,
 				8934FBA223671422002A14F4 /* ManagedUser+CoreDataClass.swift in Sources */,
 				89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin.swift in Sources */,
-				89370031232197F100BA2BF4 /* UIViewControllerDatabaseExtension.swift in Sources */,
+				89C21F3723686DB7002B8E05 /* LoginModels.swift in Sources */,
+				89C21F3923686DB7002B8E05 /* LoginInteractor.swift in Sources */,
 				8934FBA5236714D8002A14F4 /* Flight.swift in Sources */,
 				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
 				89C08BD9233A5965004A3055 /* KeychainWrapper.swift in Sources */,
@@ -564,12 +618,13 @@
 				8934FBA323671422002A14F4 /* ManagedFlight+CoreDataClass.swift in Sources */,
 				8934FB9723670108002A14F4 /* Seat.swift in Sources */,
 				89A8AA102333A08F00B673EE /* CustomButton.swift in Sources */,
+				89C21F2B23684019002B8E05 /* CoreDataWorker.swift in Sources */,
 				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */,
 				8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */,
 				8934FBA023671422002A14F4 /* ManagedUser+CoreDataProperties.swift in Sources */,
-				FFA03FF32312D94C009A3D3F /* LoginViewController.swift in Sources */,
+				FFA03FF32312D94C009A3D3F /* LoginViewController_old.swift in Sources */,
 				8934FB9A236701C1002A14F4 /* ManagedSeat+CoreDataProperties.swift in Sources */,
 				893652E62321380A003C9B56 /* DatePickerExtension.swift in Sources */,
 				FFFF37B522EDD9870014D999 /* FlightDetailViewController.swift in Sources */,
@@ -578,6 +633,7 @@
 				8934FBA7236714ED002A14F4 /* User.swift in Sources */,
 				8962EED82358960E007731BE /* ViewControllerFlightAddExtension.swift in Sources */,
 				890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */,
+				89C21F3623686DB7002B8E05 /* LoginRouter.swift in Sources */,
 				8934FBA123671422002A14F4 /* ManagedFlight+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

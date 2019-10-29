@@ -21,7 +21,8 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     var imageToLoad : UIImage!
     let maxElements = 10000
     var selectedSeatNumber : String?
-    var container: NSPersistentContainer!
+    //var container: NSPersistentContainer!
+    var databaseWorker = DatabaseWorker()
     
     var flight : ManagedFlight!
     var user : ManagedUser!
@@ -102,7 +103,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
     }
     
     @IBAction func updateSeats(_ sender: Any) {
-        makeCloudQuery(sortKey: "iataNumber", predicate: NSPredicate(format: "iataNumber = %@", flight.iataNumber), cloudTable: "Flights"){ [unowned self] flightResults in
+        databaseWorker.makeCloudQuery(sortKey: "uid", predicate: NSPredicate(format: "uid = %@", flight.uid), cloudTable: "Flights"){ [unowned self] flightResults in
             let cloudFlight = flightResults.first!
             
             let seatRecord = CKRecord(recordType: "Seat")
@@ -114,15 +115,15 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
             existingSeats.append(CKRecord.Reference(recordID: seatRecord.recordID, action: .none))
             cloudFlight["seats"] = existingSeats
                 
-            self.saveRecords(records: [seatRecord, cloudFlight]){ [unowned self] in
-                let seat = ManagedSeat(context: self.container.viewContext)
+            self.databaseWorker.saveRecords(records: [seatRecord, cloudFlight]){ [unowned self] in
+                let seat = ManagedSeat(context: self.databaseWorker.container.viewContext)
                 seat.number = self.selectedSeatNumber!
                 seat.occupiedBy = self.user.email
                 seat.flight = self.flight
                 seat.uid = seatRecord.recordID.recordName
                 seat.changetag = seatRecord.recordChangeTag!
                 self.flight.seats.insert(seat)
-                self.saveContext(container: self.container)
+                self.databaseWorker.saveContext(container: self.databaseWorker.container)
                 
                 DispatchQueue.main.async {
                     let ac = UIAlertController(title: "Success", message: "Seat updated successfully", preferredStyle: .alert)

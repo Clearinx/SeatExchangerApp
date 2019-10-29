@@ -1,37 +1,66 @@
 //
-//  ViewControllerDatabaseExtension.swift
+//  CoreDataWorker.swift
 //  FlightRider
 //
-//  Created by Tomi on 2019. 09. 05..
+//  Created by Tomi on 2019. 10. 29..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
 import Foundation
-import UIKit
 import CoreData
 import CloudKit
 import CoreSpotlight
 import MobileCoreServices
 
-extension UIViewController {
+protocol CoreDataWorkerProtocol{
+    var container : NSPersistentContainer! { get set }
+    
+    func setupContainer() -> Void
+    func makeLocalQuery(sortKey : String, predicate: NSPredicate, request: NSFetchRequest<NSManagedObject>, container: NSPersistentContainer, delegate : NSFetchedResultsControllerDelegate) -> [NSManagedObject]?
+    func saveContext(container : NSPersistentContainer) -> Void
+    func getLocalDatabase(container : NSPersistentContainer, delegate : NSFetchedResultsControllerDelegate) -> Void
+    
+}
+
+protocol ICloudWorkerProtocol{
+    func makeCloudQuery(sortKey : String, predicate: NSPredicate, cloudTable: String, completionHandler: @escaping (_ records: [CKRecord]) -> Void) -> Void
+    func saveRecords(records : [CKRecord], completionHandler: @escaping () -> Void) -> Void
+}
+
+protocol DatabaseWorkerProtocol{
     
     typealias NSManagedObjectParameter = ([NSManagedObject]) -> Void
     typealias StringValuesParameter = ([String]?) -> Void
     typealias CKRecordParameter = ([CKRecord]) -> Void
     typealias NSManagedAndCkrecordParameter = ([NSManagedObject], [CKRecord]) -> Void
     
-    func setupContainer() -> NSPersistentContainer {
-        let container = NSPersistentContainer (name: "FlightRider")
+    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String]?, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void) -> Void
+    
+    func deindex(flight: ManagedFlight) -> Void
+    func index(flight : ManagedFlight) -> Void
+}
+
+class DatabaseWorker : CoreDataWorkerProtocol, ICloudWorkerProtocol, DatabaseWorkerProtocol {
+    var container: NSPersistentContainer!
+    
+    /*override init(){
+        func setupContainer()
+    }*/
+    init() {
+        setupContainer()
+    }
+    
+    func setupContainer() -> Void {
+        container = NSPersistentContainer (name: "FlightRider")
         
         container.loadPersistentStores { storeDescription, error in
-            container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let error = error {
                 print("Unresolved error \(error)")
             }
             
         }
-        return container
     }
     
     func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey : String, sortValue : [String], cloudTable : String, saveParams: [String]?, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void){
@@ -55,7 +84,7 @@ extension UIViewController {
         
         if let localResults = makeLocalQuery(sortKey: sortKey, predicate: pred, request: request, container: container, delegate: delegate){
             if(!(localResults.isEmpty)){
-                let pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
+                pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
                 makeCloudQuery(sortKey: sortKey, predicate: pred, cloudTable: cloudTable){cloudResults in
                     if(!(cloudResults.isEmpty)){
                         compareChangeTagHandler(localResults, cloudResults)
@@ -67,9 +96,9 @@ extension UIViewController {
                 }
             }
             else{
-                let pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
+                pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
                 makeCloudQuery(sortKey: sortKey, predicate: pred, cloudTable: cloudTable){ cloudResults in
-                    if(!(cloudResults.isEmpty)){
+                    if(!(cloudResults.isEmpty) && !(sortValue.isEmpty)){
                         fetchFromCloudHandler(cloudResults)
                     }
                     else{
@@ -83,7 +112,7 @@ extension UIViewController {
         
     }
     
-    func makeLocalQuery(sortKey : String, predicate: NSPredicate, request: NSFetchRequest<NSManagedObject>, container: NSPersistentContainer, delegate : NSFetchedResultsControllerDelegate) -> [NSManagedObject]?{
+    func makeLocalQuery(sortKey: String, predicate: NSPredicate, request: NSFetchRequest<NSManagedObject>, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate) -> [NSManagedObject]? {
         let sort = NSSortDescriptor(key: sortKey, ascending: true)
         request.sortDescriptors = [sort]
         let fetchedObject = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: sortKey, cacheName: nil)
@@ -98,7 +127,7 @@ extension UIViewController {
         }
     }
     
-    func makeCloudQuery(sortKey : String, predicate: NSPredicate, cloudTable: String, completionHandler: @escaping (_ records: [CKRecord]) -> Void){
+    func makeCloudQuery(sortKey: String, predicate: NSPredicate, cloudTable: String, completionHandler: @escaping ([CKRecord]) -> Void) {
         let sort = NSSortDescriptor(key: sortKey, ascending: true)
         let query = CKQuery(recordType: cloudTable, predicate: predicate)
         query.sortDescriptors = [sort]
@@ -115,10 +144,9 @@ extension UIViewController {
                 }
             }
         }
-        
     }
     
-    func saveRecords(records : [CKRecord], completionHandler: @escaping () -> Void){
+    func saveRecords(records: [CKRecord], completionHandler: @escaping () -> Void) {
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordID, error in
             if let error = error{
@@ -130,10 +158,9 @@ extension UIViewController {
             }
         }
         CKContainer.default().publicCloudDatabase.add(operation)
-        
     }
     
-    func saveContext(container : NSPersistentContainer) {
+    func saveContext(container: NSPersistentContainer) {
         if container.viewContext.hasChanges {
             do {
                 try container.viewContext.save()
@@ -153,7 +180,7 @@ extension UIViewController {
         }
     }
     
-    func index(flight : ManagedFlight){
+    func index(flight: ManagedFlight) {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
         attributeSet.title = flight.iataNumber
         let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
@@ -166,49 +193,45 @@ extension UIViewController {
         }
     }
     
-    /*func getLocalDatabase(container : NSPersistentContainer, delegate : NSFetchedResultsControllerDelegate){
-        
-        //commented code below is to check local DB content
-        
-        //usres in local DB
+    func getLocalDatabase(container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate) {
         var request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-         var pred = NSPredicate(value: true)
-         var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
-         for result in results!{
-         print("\nUser:\n")
-         let localuser = result as! ManagedUser
-         print(localuser.uid)
-         print(localuser.email)
-         print(localuser.flights)
-         print(localuser.changetag)
-         }
-         //flights in local DB
-         request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-         pred = NSPredicate(value: true)
-         results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
-         for result in results!{
-         print("\nFlight:\n")
-         let localflight = result as! ManagedFlight
-         print(localflight.uid)
-         print(localflight.changetag)
-         print(localflight.departureDate)
-         print(localflight.iataNumber)
-         print(localflight.airplaneType)
-         print(localflight.seats.count)
-         }
-         
-         request = ManagedSeat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-         pred = NSPredicate(value: true)
-         results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
-         for result in results!{
-             print("\nSeat:\n")
-             let localseat = result as! ManagedSeat
-             print(localseat.uid)
-             print(localseat.changetag)
-             print(localseat.number)
-             print(localseat.occupiedBy)
+        var pred = NSPredicate(value: true)
+        var results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
+        for result in results!{
+            print("\nUser:\n")
+            let localuser = result as! ManagedUser
+            print(localuser.uid)
+            print(localuser.email)
+            print(localuser.flights)
+            print(localuser.changetag)
+        }
+        //flights in local DB
+        request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        pred = NSPredicate(value: true)
+        results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
+        for result in results!{
+            print("\nFlight:\n")
+            let localflight = result as! ManagedFlight
+            print(localflight.uid)
+            print(localflight.changetag)
+            print(localflight.departureDate)
+            print(localflight.iataNumber)
+            print(localflight.airplaneType)
+            print(localflight.seats.count)
+        }
+        
+        request = ManagedSeat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        pred = NSPredicate(value: true)
+        results = self.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: container, delegate: delegate)
+        for result in results!{
+            print("\nSeat:\n")
+            let localseat = result as! ManagedSeat
+            print(localseat.uid)
+            print(localseat.changetag)
+            print(localseat.number)
+            print(localseat.occupiedBy)
             print(localseat.flight?.iataNumber)
-         }
-         print(results?.count)
-    }*/
+        }
+        print(results?.count)
+    }
 }
