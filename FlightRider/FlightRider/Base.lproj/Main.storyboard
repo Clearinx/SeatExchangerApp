@@ -369,10 +369,10 @@
             </objects>
             <point key="canvasLocation" x="3641.25" y="136.26760563380282"/>
         </scene>
-        <!--Flight Detail View Controller Cannot Checkin-->
+        <!--Cannot Check In View Controller-->
         <scene sceneID="lY8-FT-A4B">
             <objects>
-                <viewController storyboardIdentifier="FlightDetailCannotCheckin" id="0Dp-DZ-a7x" customClass="FlightDetailViewControllerCannotCheckin" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CannotCheckin" id="0Dp-DZ-a7x" customClass="CannotCheckInViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4TY-PA-ZnU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -462,10 +462,10 @@
             </objects>
             <point key="canvasLocation" x="2645" y="1560"/>
         </scene>
-        <!--Flight Detail View Controller Select Seats-->
+        <!--Select Seats View Controller-->
         <scene sceneID="fUW-Gd-qLN">
             <objects>
-                <viewController storyboardIdentifier="FlightDetailSelectSeats" id="LPR-cS-W7X" customClass="FlightDetailViewControllerSelectSeats" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelectSeats" id="LPR-cS-W7X" customClass="SelectSeatsViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I7r-0Z-p5G">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

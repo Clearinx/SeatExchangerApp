@@ -6,7 +6,7 @@
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class FlightDetailViewControllerCannotCheckin: UIViewController {
     
@@ -30,6 +30,7 @@ class FlightDetailViewControllerCannotCheckin: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    //presenter
     func convertToDaysHoursMinutes(interval: TimeInterval) -> Time{
         let daysFraction = interval / 86400
         let days = Double(Int(daysFraction))
@@ -42,4 +43,4 @@ class FlightDetailViewControllerCannotCheckin: UIViewController {
     
 
 
-}
+}*/

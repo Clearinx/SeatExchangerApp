@@ -14,28 +14,53 @@ import UIKit
 
 protocol LoginPresentationLogic
 {
-  func presentSomething(response: Login.LoginFields.Response)
-    //func setSwitchState(loginData : LoginData)
+    func fetchLoginData(response: Login.LoginFields.Response)
+    func fetchLoginProcessResults(response: Login.LoginProcess.Response)
+    func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response)
+    func setLoginError()
 }
 
 class LoginPresenter: LoginPresentationLogic
 {
-    /*func setSwitchState(loginData: LoginData) {
-        if(loginData.switchedOn){
-            viewController!.setRememberMeOn()
-        }
-        else{
-            viewController!.setRememberMeOff()
-        }
-    }*/
+    
     
   weak var viewController: LoginDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentSomething(response: Login.LoginFields.Response)
-  {
-    let viewModel = Login.LoginFields.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
+
+    // MARK: - Fetch functions
+    
+    func fetchLoginData(response: Login.LoginFields.Response){
+        if(response.switchedOn){
+            viewController?.setRememberMeOn()
+        }
+        else{
+            viewController?.setRememberMeOff()
+        }
+        let viewModel = Login.LoginFields.ViewModel(email: response.email, password: response.password, switchedOn: response.switchedOn)
+        viewController?.displayLoginData(viewModel: viewModel)
+    }
+    
+    func fetchLoginProcessResults(response: Login.LoginProcess.Response){
+        if(!response.success){
+            setLoginError()
+        }
+        else{
+            viewController?.routeToFlightList(response: response)
+        }
+    }
+    
+    func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response) {
+        if(!response.success){
+            setLoginError()
+        }
+        else{
+            let loginResponse = Login.LoginProcess.Response(email: response.email, uid: response.uid, success: response.success)
+            viewController?.routeToFlightList(response: loginResponse)
+        }
+    }
+    
+    //MARK: - Set functions
+    func setLoginError(){
+        viewController?.setRemoveSpinner()
+        viewController?.setLoginError()
+    }
 }

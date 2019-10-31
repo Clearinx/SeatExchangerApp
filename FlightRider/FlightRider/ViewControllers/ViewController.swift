@@ -131,25 +131,32 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         let occupiedSeats = (self.databaseWorker.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.databaseWorker.container, delegate: self) as? [ManagedSeat]) ?? [ManagedSeat]()
         if(occupiedSeats.isEmpty){
             if(Calendar.current.date(byAdding: .day, value:2, to: Date())! > flight.departureDate){
-                if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailSelectSeats") as? FlightDetailViewControllerSelectSeats{
-                    vc.flight = flight
+                if let vc = storyboard?.instantiateViewController(withIdentifier: "SelectSeats") as? SelectSeatsViewController{
+                    /*vc.flight = flight
                     vc.user = self.user
                     vc.userRecord = self.userRecord
                     //vc.container = self.databaseWorker.container
                     vc.databaseWorker = self.databaseWorker
                     if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                         vc.imageToLoad = UIImage(named: img)
+                    }*/
+                    var imgToLoad : UIImage?
+                    if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
+                        imgToLoad = UIImage(named: img)
                     }
+                    let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: imgToLoad)
+                    vc.fetchDataFromPreviousViewController(viewModel: dependencies)
                     navigationController?.pushViewController(vc, animated: true)
                 }
             }
             else{
-                if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightDetailCannotCheckin") as? FlightDetailViewControllerCannotCheckin{
-                    vc.flightNrString = flight.iataNumber
-                    vc.departureDate = flight.departureDate
+                if let vc = storyboard?.instantiateViewController(withIdentifier: "CannotCheckin") as? CannotCheckInViewController{
+                    var imgToLoad : UIImage?
                     if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                        vc.imageToLoad = UIImage(named: img)
+                        imgToLoad = UIImage(named: img)
                     }
+                    let dependencies = ListFlights.CannotCheckinData.ViewModel(iataNumber: flight.iataNumber, departureDate: flight.departureDate, imageToLoad: imgToLoad)
+                    vc.fetchDataFromPreviousViewController(viewModel: dependencies)
                     navigationController?.pushViewController(vc, animated: true)
                 }
             }

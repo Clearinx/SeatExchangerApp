@@ -14,15 +14,19 @@ import UIKit
 
 protocol LoginDisplayLogic: class
 {
-  func displaySomething(viewModel: Login.LoginFields.ViewModel)
-    //func setRememberMeOn()
-    //func setRememberMeOff()
+    func requestLoginData()
+    func displayLoginData(viewModel: Login.LoginFields.ViewModel)
+    func pushRememberMeSwitchChanged()
+    func setLoginError()
+    func setRememberMeOn()
+    func setRememberMeOff()
+    func setRemoveSpinner()
+    func routeToFlightList(response: Login.LoginProcess.Response)
 }
 
 class LoginViewController: UIViewController, LoginDisplayLogic
 {
     
-  
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var EmailFiled: UITextField!
@@ -65,7 +69,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic
   }
   
   // MARK: Routing
-  
+    
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     if let scene = segue.identifier {
@@ -77,70 +81,51 @@ class LoginViewController: UIViewController, LoginDisplayLogic
   }
   
   // MARK: View lifecycle
-  
+    
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
     setGestureRecognizer()
     setSpinnerView()
+    requestLoginData()
     setRememberMeSwitch()
     setBackground()
   }
+
+    // MARK: - Request functions
     
-    func setGestureRecognizer(){
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+    func requestLoginData(){
+        let request = Login.LoginFields.Request()
+        interactor?.requestLoginData(request: request)
     }
     
-    func setSpinnerView(){
-        spinnerView = UIView.init(frame: self.view.bounds)
-        ai = UIActivityIndicatorView.init(style: .whiteLarge)
+    
+    // MARK: - Push functions
+    
+    @objc func pushRememberMeSwitchChanged(){
+        let request = Login.SwitchData.Request(email: EmailFiled.text, password: PasswordField.text, switchedOn: rememberMeSwitch.isOn)
+        interactor?.pushRememberMeSwitchChanged(request: request)
     }
+    
+    // MARK: - Set functions
     
     func setRememberMeSwitch(){
-        rememberMeSwitch.addTarget(self, action: #selector(self.stateChanged), for: .valueChanged)
-        let loginData = interactor!.fetchStoredLoginData()
-        EmailFiled.text = loginData.email
-        PasswordField.text = loginData.password
-        //interactor+presenter
-        if(loginData.switchedOn){
-            rememberMeSwitch.setOn(true, animated: false)
-        }
-        else{
-            rememberMeSwitch.setOn(false, animated: false)
-        }
+        rememberMeSwitch.addTarget(self, action: #selector(self.pushRememberMeSwitchChanged), for: .valueChanged)
     }
     
-    /*func setRememberMeOn(){
+    func setRememberMeOn(){
         rememberMeSwitch.setOn(true, animated: false)
     }
     
     func setRememberMeOff(){
         rememberMeSwitch.setOn(false, animated: false)
-    }*/
-  
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  /*func doSomething()
-  {
-    let request = Login.LoginFields.Request()
-    interactor?.doSomething(request: request)
-  }*/
-  
-  func displaySomething(viewModel: Login.LoginFields.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
-    
-    @objc func stateChanged(_ switchState: UISwitch) {
-        interactor!.fetchRememberMeSwitchChanged(email: EmailFiled.text, password: PasswordField.text, isOn: rememberMeSwitch.isOn)
     }
     
-    //view
-    func LoginError(){
+    func setRemoveSpinner(){
+        self.removeSpinner(spinnerView: spinnerView, ai: ai)
+    }
+    
+    func setLoginError(){
         self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
         let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
@@ -148,11 +133,40 @@ class LoginViewController: UIViewController, LoginDisplayLogic
         present(ac, animated: true)
     }
     
-    @objc func dismissKeyboard() {
+    //MARK: - Display functions
+    
+    func displayLoginData(viewModel: Login.LoginFields.ViewModel){
+        EmailFiled.text = viewModel.email
+        PasswordField.text = viewModel.password
+    }
+    
+    // MARK: - Local functions
+    
+    @IBAction func LoginButtonPressed(_ sender: Any) {
+        let request = Login.LoginProcess.Request(email: EmailFiled.text, password: PasswordField.text, switchedOn: rememberMeSwitch.isOn)
+        interactor?.requestLoginDataUpdate(request: request)
+        showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
+        interactor?.requestLoginAuthentication(request: request)
+    }
+    
+    @IBAction func SignupButtonPressed(_ sender: Any) {
+        let request = Login.SignupProcess.Request(email: EmailFiled.text, password: PasswordField.text)
+        interactor?.requestSignupAuthentication(request: request)
+        showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
+        
+    }
+    
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    func setBackground() {
+    
+    private func setGestureRecognizer(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    private func setBackground() {
         view.addSubview(backgroundImageView)
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -168,5 +182,20 @@ class LoginViewController: UIViewController, LoginDisplayLogic
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
+    }
+    
+    private func setSpinnerView(){
+        spinnerView = UIView.init(frame: self.view.bounds)
+        ai = UIActivityIndicatorView.init(style: .whiteLarge)
+    }
+    
+    // MARK: - Temporary routing
+    
+    func routeToFlightList(response: Login.LoginProcess.Response) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
+            vc.uid = response.uid
+            vc.email = response.email
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

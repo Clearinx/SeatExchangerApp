@@ -23,17 +23,68 @@ enum Login
         }
         struct Response
         {
+            var email : String?
+            var password : String?
+            var switchedOn : Bool!
         }
         struct ViewModel
         {
-            var uid : String = ""
-            var email : String = ""
+            var email : String?
+            var password : String?
+            var switchedOn : Bool!
         }
     }
-}
-
-struct LoginData{
-    var email : String?
-    var password : String?
-    var switchedOn : Bool!
+    
+    enum SwitchData
+    {
+        struct Request
+        {
+            var email : String?
+            var password : String?
+            var switchedOn : Bool!
+        }
+        struct Response
+        {
+        }
+        struct ViewModel
+        {
+        }
+    }
+    
+    enum LoginProcess
+    {
+        struct Request
+        {
+            var email : String?
+            var password : String?
+            var switchedOn : Bool!
+        }
+        struct Response
+        {
+            var email : String?
+            var uid : String?
+            var success: Bool!
+        }
+        struct ViewModel
+        {
+        }
+    }
+    
+    enum SignupProcess
+    {
+        struct Request
+        {
+            var email : String?
+            var password : String?
+        }
+        struct Response
+        {
+            var email : String?
+            var uid : String?
+            var success: Bool!
+        }
+        struct ViewModel
+        {
+        }
+    }
 }

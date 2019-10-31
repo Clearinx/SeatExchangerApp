@@ -14,10 +14,13 @@ import UIKit
 
 protocol LoginBusinessLogic
 {
-  //func doSomething(request: Login.LoginFields.Request)
-    func fetchRememberMeSwitchChanged(email: String?, password: String?, isOn: Bool)
-    func fetchStoredLoginData() -> LoginData
-    
+    func requestLoginData(request: Login.LoginFields.Request)
+    func requestLoginDataUpdate(request: Login.LoginProcess.Request)
+    func requestLoginAuthentication(request: Login.LoginProcess.Request)
+    func requestSignupAuthentication(request: Login.SignupProcess.Request)
+    func fetchLoginData(response: Login.LoginFields.Response)
+    func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response)
+    func pushRememberMeSwitchChanged(request: Login.SwitchData.Request)
 }
 
 protocol LoginDataStore
@@ -27,42 +30,75 @@ protocol LoginDataStore
 
 class LoginInteractor: LoginBusinessLogic, LoginDataStore
 {
-    func fetchStoredLoginData() -> LoginData {
-        worker = LoginWorker()
-        let loginData = worker!.fetchStoredLoginData()
-        //presenter = LoginPresenter()
-        //presenter?.setSwitchState(loginData: loginData)
-        return loginData
-    }
-    
     
   var presenter: LoginPresentationLogic?
   var worker: LoginWorker?
   var databaseWorker = DatabaseWorker()
-  //var name: String = ""
   
-  // MARK: Do something
-
-  
-  
-  /*func doSomething(request: Login.LoginFields.Request)
-  {
-    worker = LoginWorker()
-    worker?.doSomeWork()
+    // MARK: - Request functions
     
-    let response = Login.LoginFields.Response()
-    presenter?.presentSomething(response: response)
-  }*/
-    
-    func fetchRememberMeSwitchChanged(email: String?, password: String?, isOn: Bool) {
+    func requestLoginData(request: Login.LoginFields.Request){
         worker = LoginWorker()
-        if isOn {
-            if email != nil && password != nil{
-                worker?.rememberMeSwitchChanged(email: email!, password: password!)
+        worker?.interactor = self
+        worker?.requestLoginData(request: request)
+    }
+    
+    func requestLoginDataUpdate(request: Login.LoginProcess.Request){
+        worker = LoginWorker()
+        worker?.interactor = self
+        if(request.email != nil && request.password != nil){
+            if request.switchedOn {
+                worker?.pushLoginDataUpdate(request: request)
+            }
+        }
+    }
+    
+    func requestLoginAuthentication(request: Login.LoginProcess.Request){
+        worker = LoginWorker()
+        worker?.interactor = self
+        worker?.requestLoginAuthentication(request: request)
+    }
+    
+    func requestSignupAuthentication(request: Login.SignupProcess.Request) {
+        if request.email != nil && request.password != nil{
+            worker = LoginWorker()
+            worker?.interactor = self
+            worker?.requestSignupAuthentication(request: request)
+        }
+        else{
+            presenter?.setLoginError()
+        }
+    }
+    
+    // MARK: - Fetch functions
+    
+    func fetchLoginData(response: Login.LoginFields.Response){
+        presenter?.fetchLoginData(response: response)
+    }
+    
+    func fetchLoginProcessResults(response: Login.LoginProcess.Response){
+        presenter?.fetchLoginProcessResults(response: response)
+    }
+    
+    func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response) {
+        presenter?.fetchSignupAuthenticationResults(response: response)
+    }
+    
+    // MARK: - Push functions
+    
+    func pushRememberMeSwitchChanged(request: Login.SwitchData.Request){
+        worker = LoginWorker()
+        worker?.interactor = self
+        if request.switchedOn {
+            if request.email != nil && request.password != nil{
+                worker?.pushSwitchOnRememberMe(request: request)
             }
         }
         else {
-            worker?.switchOffIsRemember()
+            worker?.pushSwitchOffRememberMe()
         }
     }
+    
+    // MARK: - Set Messages
+    
 }
