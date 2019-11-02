@@ -15,17 +15,48 @@ import UIKit
 protocol SelectSeatsPresentationLogic
 {
     func fetchDisplayData(response: SelectSeats.DisplayData.Response)
+    func fetchPickerDataModel(response: SelectSeats.PickerDataModel.Response)
+    func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel)
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
 }
 
 class SelectSeatsPresenter: SelectSeatsPresentationLogic
 {
-   
+
   weak var viewController: SelectSeatsDisplayLogic?
   
+    //MARK: Request functions
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request) {
+        
+    }
+    
+    //MARK: - Fetch functions
     func fetchDisplayData(response: SelectSeats.DisplayData.Response) {
         let viewModel = SelectSeats.DisplayData.ViewModel(image: response.image, flightNumber: response.flightNumber)
         viewController?.displayData(viewModel: viewModel)
     }
+    
+    func fetchPickerDataModel(response: SelectSeats.PickerDataModel.Response) {
+        var dataModel = SelectSeats.PickerDataModel.ViewModel()
+        dataModel.pickerDataNumbers = [String]()
+        dataModel.pickerData = [[String]]()
+        for i in 1...response.airplaneModel.numberOfSeats{
+            dataModel.pickerDataNumbers.append((String(format: "%02d", i)))
+        }
+        
+        let charArr : [Character] = Array(response.airplaneModel.columns)
+        var strArr = [String]()
+        for char in charArr{
+            strArr.append(String(char))
+        }
+        dataModel.pickerData = [dataModel.pickerDataNumbers, strArr]
+        viewController?.displayPickerView(viewModel: dataModel)
+    }
+    
+     func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
+        viewController?.routeToCheckSeats(dataModel: dataModel)
+    }
+    
   
 
 }

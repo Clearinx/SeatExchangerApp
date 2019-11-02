@@ -12,9 +12,23 @@
 
 import UIKit
 
-class SelectSeatsWorker
+protocol SelectSeatsWorkerProtocol
 {
-  func doSomeWork()
-  {
-  }
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
+}
+
+class SelectSeatsWorker : SelectSeatsWorkerProtocol
+{
+    weak var interactor: SelectSeatsInteractor?
+    
+    
+    // Request functions
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request) {
+        let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
+        let data = try? String(contentsOf: URL(fileURLWithPath: path))
+        let jsonData = JSON(parseJSON: data!)
+        let jsonArray = jsonData.arrayValue
+        let response = SelectSeats.PickerDataSource.Response(dataSource: jsonArray)
+        interactor?.fetchPickerDataSource(response: response)
+    }
 }

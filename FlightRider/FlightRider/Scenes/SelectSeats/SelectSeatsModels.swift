@@ -36,6 +36,11 @@ enum SelectSeats
         var userRecord : CKRecord?
         var image : UIImage?
     }
+    struct CheckSeatsModel
+    {
+        var flight : ManagedFlight!
+        var user : ManagedUser!
+    }
     
     
   }
@@ -55,7 +60,40 @@ enum SelectSeats
             var image: UIImage?
             var flightNumber : String?
         }
-        
-        
+    }
+    
+    enum PickerDataSource
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let dataSource : [JSON]
+        }
+        struct ViewModel
+        {
+        }
+    }
+    
+    enum PickerDataModel
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let airplaneModel : AirplaneModel
+        }
+        struct ViewModel
+        {
+            var pickerData: [[String]]!
+            var pickerDataNumbers : [String]!
+            let maxElements = 10000
+            let numberOfComponents = 2
+            var selectedSeatNumber : String!
+            let rowHeightConstant : CGFloat = 0.1562
+            let widthForComponentConstant: CGFloat = 0.1875
+        }
     }
 }

@@ -15,36 +15,59 @@ import UIKit
 protocol SelectSeatsBusinessLogic
 {
   func requestDisplayData(request: SelectSeats.DisplayData.Request)
+  func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
+  func requestCheckSeatsData(request: SelectSeats.StoredData.Request)
+  func  fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response)
   func pushDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel)
 }
 
 protocol SelectSeatsDataStore
 {
-    var viewModel : SelectSeats.StoredData.ViewModel { get set }
+    var dataStore : SelectSeats.StoredData.ViewModel { get set }
 }
 
 class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
 {
+    var dataStore = SelectSeats.StoredData.ViewModel()
     
-    var viewModel = SelectSeats.StoredData.ViewModel()
+    var presenter: SelectSeatsPresentationLogic?
+    var worker: SelectSeatsWorker?
     
     //MARK: - Request functions
     
     func requestDisplayData(request: SelectSeats.DisplayData.Request) {
-        let response = SelectSeats.DisplayData.Response(image: viewModel.image, flightNumber: viewModel.flight?.iataNumber)
+        let response = SelectSeats.DisplayData.Response(image: dataStore.image, flightNumber: dataStore.flight?.iataNumber)
         presenter?.fetchDisplayData(response: response)
+    }
+    
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request) {
+        let worker = SelectSeatsWorker()
+        worker.interactor = self
+        worker.requestPickerInitialization(request: request)
+        presenter?.requestPickerInitialization(request: request)
+    }
+    
+    func requestCheckSeatsData(request: SelectSeats.StoredData.Request) {
+        let checkSeatsDataModel = SelectSeats.StoredData.CheckSeatsModel(flight: dataStore.flight, user: dataStore.user)
+        presenter?.fetchCheckSeatsData(dataModel: checkSeatsDataModel)
+    }
+    
+    
+    //MARK: - Fetch functions
+    func fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response) {
+        let type = response.dataSource.filter{$0["modelName"].stringValue == dataStore.flight?.airplaneType}.first!
+        let actualType = AirplaneModel(modelName: type["modelName"].stringValue, numberOfSeats: type["numberOfSeats"].intValue, latestColumn: type["columns"].stringValue)
+        let modelResponse = SelectSeats.PickerDataModel.Response(airplaneModel: actualType)
+        presenter?.fetchPickerDataModel(response: modelResponse)
     }
     
     //MARK: - Push functions
     
     func pushDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel) {
-        self.viewModel.flight = viewModel.flight
-        self.viewModel.user = viewModel.user
-        self.viewModel.userRecord = viewModel.userRecord
-        self.viewModel.image = viewModel.image
+        self.dataStore.flight = viewModel.flight
+        self.dataStore.user = viewModel.user
+        self.dataStore.userRecord = viewModel.userRecord
+        self.dataStore.image = viewModel.image
     }
-    
-  var presenter: SelectSeatsPresentationLogic?
-  var worker: SelectSeatsWorker?
 
 }

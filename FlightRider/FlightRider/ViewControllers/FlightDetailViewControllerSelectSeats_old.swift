@@ -37,12 +37,12 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
         
         flightNr.text = flight.iataNumber
         flightLogo.image = imageToLoad
-        
+        //worker
         let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
         let data = try? String(contentsOf: URL(fileURLWithPath: path))
         let jsonData = JSON(parseJSON: data!)
         let jsonArray = jsonData.arrayValue
-        
+        //interactor
         let jsonValue = jsonArray.filter{$0["modelName"].stringValue == self.flight.airplaneType}.first!
         let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
         
@@ -56,7 +56,7 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
             strArr.append(String(char))
         }
         pickerData = [pickerDataNumbers, strArr]
-        
+        //viewcontroller
         seat1Picker.delegate = self
         seat1Picker.dataSource = self
         seat1Picker.selectRow((maxElements / 2) - 8, inComponent: 0, animated: false)

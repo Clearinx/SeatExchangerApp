@@ -16,14 +16,17 @@ protocol SelectSeatsDisplayLogic: class
 {
     func fetchDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel)
     func displayData(viewModel: SelectSeats.DisplayData.ViewModel)
+    func displayPickerView(viewModel: SelectSeats.PickerDataModel.ViewModel)
+    func routeToCheckSeats(dataModel: SelectSeats.StoredData.CheckSeatsModel)
 }
 
-class SelectSeatsViewController: UIViewController, SelectSeatsDisplayLogic
+class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SelectSeatsDisplayLogic
 {
-    
+   
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var seat1Picker: UIPickerView!
+    var viewModel = SelectSeats.PickerDataModel.ViewModel()
     
   var interactor: SelectSeatsBusinessLogic?
   var router: (NSObjectProtocol & SelectSeatsRoutingLogic & SelectSeatsDataPassing)?
@@ -75,7 +78,9 @@ class SelectSeatsViewController: UIViewController, SelectSeatsDisplayLogic
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
     interactor?.requestDisplayData(request: SelectSeats.DisplayData.Request())
+    interactor?.requestPickerInitialization(request: SelectSeats.PickerDataSource.Request())
   }
   
     //Fetch functions
@@ -87,5 +92,65 @@ class SelectSeatsViewController: UIViewController, SelectSeatsDisplayLogic
     func displayData(viewModel: SelectSeats.DisplayData.ViewModel) {
         flightNr.text = viewModel.flightNumber
         flightLogo.image = viewModel.image
+    }
+    
+    func displayPickerView(viewModel: SelectSeats.PickerDataModel.ViewModel) {
+        self.viewModel.pickerData = viewModel.pickerData
+        self.viewModel.pickerDataNumbers = viewModel.pickerDataNumbers
+        seat1Picker.delegate = self
+        seat1Picker.dataSource = self
+        seat1Picker.selectRow((viewModel.maxElements / 2) - 8, inComponent: 0, animated: false)
+        seat1Picker.selectRow((viewModel.maxElements / 2) - 2, inComponent: 1, animated: false)
+        self.viewModel.selectedSeatNumber = "\(self.viewModel.pickerData[0][seat1Picker.selectedRow(inComponent: 0) % self.viewModel.pickerData[0].count])\(self.viewModel.pickerData[1][seat1Picker.selectedRow(inComponent: 1) % self.viewModel.pickerData[1].count])"
+    }
+    
+    //MARK: Local functions
+    
+    @objc func doneButtonPressed(){
+            interactor?.requestCheckSeatsData(request: SelectSeats.StoredData.Request())
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return viewModel.numberOfComponents
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return viewModel.maxElements
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return self.view.frame.width * viewModel.rowHeightConstant
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return self.view.frame.width * viewModel.widthForComponentConstant
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
+        viewModel.selectedSeatNumber = "\(viewModel.pickerData[0][seat1Picker.selectedRow(inComponent: 0) % viewModel.pickerData[0].count])\(viewModel.pickerData[1][seat1Picker.selectedRow(inComponent: 1) % viewModel.pickerData[1].count])"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel: UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont(name: "Helvetica", size: (self.view.frame.height * 0.0616))
+            pickerLabel?.textAlignment = .center
+        }
+        let myRow = row % viewModel.pickerData[component].count
+        pickerLabel?.text = viewModel.pickerData[component][myRow]
+        return pickerLabel!
+    }
+    
+    //MARK: - Temporary routing
+    
+    func routeToCheckSeats(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
+            vc.flight = dataModel.flight
+            vc.user = dataModel.user
+            vc.justSelectedSeat = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
