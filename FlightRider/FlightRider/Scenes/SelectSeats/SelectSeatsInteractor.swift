@@ -14,11 +14,14 @@ import UIKit
 
 protocol SelectSeatsBusinessLogic
 {
-  func requestDisplayData(request: SelectSeats.DisplayData.Request)
-  func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
-  func requestCheckSeatsData(request: SelectSeats.StoredData.Request)
-  func  fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response)
-  func pushDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel)
+    func requestCheckSeatsData(request: SelectSeats.StoredData.Request)
+    func requestDisplayData(request: SelectSeats.DisplayData.Request)
+    func requestUpdateSeat(request: SelectSeats.UpdateSeat.Request)
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
+    func fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response)
+    func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response)
+    func pushDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel)
+    func pushJustSelectedSeatState(request: SelectSeats.StoredData.Request)
 }
 
 protocol SelectSeatsDataStore
@@ -29,15 +32,30 @@ protocol SelectSeatsDataStore
 class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
 {
     var dataStore = SelectSeats.StoredData.ViewModel()
+    var databaseWorker : DatabaseWorker!
     
     var presenter: SelectSeatsPresentationLogic?
     var worker: SelectSeatsWorker?
     
     //MARK: - Request functions
     
+    func requestCheckSeatsData(request: SelectSeats.StoredData.Request) {
+        let checkSeatsDataModel = SelectSeats.StoredData.CheckSeatsModel(flight: dataStore.flight, user: dataStore.user, justSelectedSeat: dataStore.justSelectedSeat)
+        presenter?.fetchCheckSeatsData(dataModel: checkSeatsDataModel)
+    }
+    
     func requestDisplayData(request: SelectSeats.DisplayData.Request) {
         let response = SelectSeats.DisplayData.Response(image: dataStore.image, flightNumber: dataStore.flight?.iataNumber)
         presenter?.fetchDisplayData(response: response)
+    }
+    
+    func requestUpdateSeat(request: SelectSeats.UpdateSeat.Request) {
+        let requestWithEmail = SelectSeats.UpdateSeat.Request(selectedSeatNumber: request.selectedSeatNumber, email: dataStore.user?.email, flight: dataStore.flight)
+        let worker = SelectSeatsWorker()
+        worker.interactor = self
+        worker.databaseWorker = self.databaseWorker
+        worker.requestUpdateSeat(request: requestWithEmail)
+
     }
     
     func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request) {
@@ -47,18 +65,16 @@ class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
         presenter?.requestPickerInitialization(request: request)
     }
     
-    func requestCheckSeatsData(request: SelectSeats.StoredData.Request) {
-        let checkSeatsDataModel = SelectSeats.StoredData.CheckSeatsModel(flight: dataStore.flight, user: dataStore.user)
-        presenter?.fetchCheckSeatsData(dataModel: checkSeatsDataModel)
-    }
-    
-    
     //MARK: - Fetch functions
     func fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response) {
         let type = response.dataSource.filter{$0["modelName"].stringValue == dataStore.flight?.airplaneType}.first!
         let actualType = AirplaneModel(modelName: type["modelName"].stringValue, numberOfSeats: type["numberOfSeats"].intValue, latestColumn: type["columns"].stringValue)
         let modelResponse = SelectSeats.PickerDataModel.Response(airplaneModel: actualType)
         presenter?.fetchPickerDataModel(response: modelResponse)
+    }
+    
+    func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response) {
+        presenter?.fetchUpdateSeatResult(response: response)
     }
     
     //MARK: - Push functions
@@ -68,6 +84,12 @@ class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
         self.dataStore.user = viewModel.user
         self.dataStore.userRecord = viewModel.userRecord
         self.dataStore.image = viewModel.image
+        self.databaseWorker = viewModel.databaseWorker
     }
+    
+    func pushJustSelectedSeatState(request: SelectSeats.StoredData.Request) {
+        dataStore.justSelectedSeat = true
+    }
+
 
 }

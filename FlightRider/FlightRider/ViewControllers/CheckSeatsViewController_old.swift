@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CheckSeatsViewController: UIViewController {
+class CheckSeatsViewController_old: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     

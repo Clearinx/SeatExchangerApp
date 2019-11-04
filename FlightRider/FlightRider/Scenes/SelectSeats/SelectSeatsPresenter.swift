@@ -14,10 +14,11 @@ import UIKit
 
 protocol SelectSeatsPresentationLogic
 {
+    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
+    func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel)
     func fetchDisplayData(response: SelectSeats.DisplayData.Response)
     func fetchPickerDataModel(response: SelectSeats.PickerDataModel.Response)
-    func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel)
-    func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
+    func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response)
 }
 
 class SelectSeatsPresenter: SelectSeatsPresentationLogic
@@ -31,6 +32,11 @@ class SelectSeatsPresenter: SelectSeatsPresentationLogic
     }
     
     //MARK: - Fetch functions
+    
+    func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
+        viewController?.routeToCheckSeats(dataModel: dataModel)
+    }
+    
     func fetchDisplayData(response: SelectSeats.DisplayData.Response) {
         let viewModel = SelectSeats.DisplayData.ViewModel(image: response.image, flightNumber: response.flightNumber)
         viewController?.displayData(viewModel: viewModel)
@@ -53,8 +59,13 @@ class SelectSeatsPresenter: SelectSeatsPresentationLogic
         viewController?.displayPickerView(viewModel: dataModel)
     }
     
-     func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
-        viewController?.routeToCheckSeats(dataModel: dataModel)
+    func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response) {
+        if response.result == true{
+            viewController?.displaySuccessfulSeatUpdate(response: response)
+        }
+        else{
+            viewController?.displayUnsuccessfulSeatUpdate(response: response)
+        }
     }
     
   

@@ -144,7 +144,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
                     if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
                         imgToLoad = UIImage(named: img)
                     }
-                    let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: imgToLoad)
+                    let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: imgToLoad, databaseWorker: databaseWorker)
                     vc.fetchDataFromPreviousViewController(viewModel: dependencies)
                     navigationController?.pushViewController(vc, animated: true)
                 }
@@ -163,9 +163,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         else{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
-                vc.flight = flight
-                vc.user = user
-                vc.justSelectedSeat = false
+                let dataModel = ListFlights.CheckSeatsData.DataStore(flight: flight, user: user, justSelectedSeat: false)
+                vc.fetchDataFromPreviousViewController(viewModel: dataModel)
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

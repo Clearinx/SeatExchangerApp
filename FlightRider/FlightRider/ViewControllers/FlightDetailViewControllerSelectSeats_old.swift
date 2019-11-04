@@ -6,7 +6,7 @@
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 import CloudKit
 import CoreData
 
@@ -150,3 +150,4 @@ class FlightDetailViewControllerSelectSeats: UIViewController, UIPickerViewDeleg
 
     
 }
+*/

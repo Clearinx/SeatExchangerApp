@@ -35,16 +35,15 @@ enum SelectSeats
         var user : ManagedUser?
         var userRecord : CKRecord?
         var image : UIImage?
+        var justSelectedSeat : Bool = false
     }
     struct CheckSeatsModel
     {
         var flight : ManagedFlight!
         var user : ManagedUser!
+        var justSelectedSeat : Bool!
     }
-    
-    
   }
-    
     enum DisplayData
     {
         struct Request
@@ -94,6 +93,32 @@ enum SelectSeats
             var selectedSeatNumber : String!
             let rowHeightConstant : CGFloat = 0.1562
             let widthForComponentConstant: CGFloat = 0.1875
+        }
+    }
+    
+    enum UpdateSeat
+    {
+        struct Request
+        {
+            var selectedSeatNumber: String?
+            var email : String?
+            var flight : ManagedFlight?
+            
+            func doesAllFieldsHaveValue() -> Bool {
+                let optionals: [Any?] = [selectedSeatNumber, email, flight]
+                if (optionals.contains{ $0 == nil }) {return false}
+                return true
+            }
+        }
+        
+        struct Response
+        {
+            var result: Bool
+            var selectedSeatNumber: String?
+            var errorMessage: String?
+        }
+        struct ViewModel
+        {
         }
     }
 }

@@ -60,6 +60,23 @@ enum ListFlights
             let user : ManagedUser
             let userRecord : CKRecord
             let image : UIImage?
+            let databaseWorker : DatabaseWorker
+        }
+    }
+    
+    enum CheckSeatsData
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct DataStore
+        {
+            let flight : ManagedFlight
+            let user : ManagedUser
+            let justSelectedSeat : Bool
         }
     }
     

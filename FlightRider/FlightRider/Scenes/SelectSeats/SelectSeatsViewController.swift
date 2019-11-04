@@ -17,12 +17,14 @@ protocol SelectSeatsDisplayLogic: class
     func fetchDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel)
     func displayData(viewModel: SelectSeats.DisplayData.ViewModel)
     func displayPickerView(viewModel: SelectSeats.PickerDataModel.ViewModel)
+    func displaySuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response)
+    func displayUnsuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response)
     func routeToCheckSeats(dataModel: SelectSeats.StoredData.CheckSeatsModel)
 }
 
 class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SelectSeatsDisplayLogic
 {
-   
+ 
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var seat1Picker: UIPickerView!
@@ -104,10 +106,35 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         self.viewModel.selectedSeatNumber = "\(self.viewModel.pickerData[0][seat1Picker.selectedRow(inComponent: 0) % self.viewModel.pickerData[0].count])\(self.viewModel.pickerData[1][seat1Picker.selectedRow(inComponent: 1) % self.viewModel.pickerData[1].count])"
     }
     
+    func displaySuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response) {
+        displayAlertController(title: "Success", message: "Seat \(response.selectedSeatNumber!) updated successfully")
+        let request = SelectSeats.StoredData.Request()
+        interactor?.pushJustSelectedSeatState(request: request)
+    }
+    
+    func displayUnsuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response) {
+        displayAlertController(title: "Fail", message: "Operation failed: \(response.errorMessage ?? "No details are available")")
+    }
+    
     //MARK: Local functions
+    
+    @IBAction func updateSeats(_ sender: Any) {
+        var request = SelectSeats.UpdateSeat.Request()
+        request.selectedSeatNumber = viewModel.selectedSeatNumber
+        interactor?.requestUpdateSeat(request: request)
+    }
     
     @objc func doneButtonPressed(){
             interactor?.requestCheckSeatsData(request: SelectSeats.StoredData.Request())
+    }
+    
+    func displayAlertController(title: String, message: String){
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -147,9 +174,7 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     func routeToCheckSeats(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
-            vc.flight = dataModel.flight
-            vc.user = dataModel.user
-            vc.justSelectedSeat = true
+            vc.fetchDataFromPreviousViewController(viewModel: dataModel)
             navigationController?.pushViewController(vc, animated: true)
         }
     }
