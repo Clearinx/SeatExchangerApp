@@ -31,4 +31,76 @@ enum CheckSeats
         var justSelectedSeat : Bool!
     }
   }
+    
+    enum JustSelecetedSeatStatus
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            var justSelectedSeat : Bool
+        }
+        struct DataStore
+        {
+        }
+    }
+    
+    enum GetAirplaneModel
+    {
+        struct Request
+        {
+            var airplaneType : String?
+        }
+        struct Response
+        {
+            var airplaneModel : AirplaneModel
+        }
+        struct DataStore
+        {
+        }
+    }
+    
+    enum GetConstants
+    {
+        struct Request
+        {
+            let height : CGFloat
+            let width : CGFloat
+        }
+        
+        struct ViewModel
+        {
+            let viewSize: CGFloat //self.view.frame.width*0.0966
+            let viewSpacing : CGFloat //self.view.frame.width*0.0169
+            let lettersSpacing : CGFloat //self.view.frame.width*0.0724
+            let fontSize : CGFloat //self.view.frame.width*0.0724
+            let distanceFromTop : CGFloat //self.view.frame.height*0.0258
+            let distanceFromLeading : CGFloat //self.view.frame.width*0.169
+            let distanceFromTrailing : CGFloat //self.view.frame.width*0.1207
+            let seatNumbersViewSpacing : CGFloat //self.view.frame.height*0.051
+            let seatnumbersViewWidth : CGFloat //self.view.frame.width*0.0845
+            let seatnumbersViewLeading : CGFloat //self.view.frame.width*0.0483
+            let seatnumbersViewTop : CGFloat //self.view.frame.height*0.115
+            let seatnumbersViewBottom : CGFloat //self.view.frame.height*0.06
+            let cornerRadius : CGFloat //viewSize*0.25*/
+            
+            init(request: CheckSeats.GetConstants.Request) {
+                viewSize = request.width*0.0966
+                viewSpacing = request.width*0.0169
+                lettersSpacing = request.width*0.0724
+                fontSize = request.width*0.0724
+                distanceFromTop = request.height*0.0258
+                distanceFromLeading = request.width*0.169
+                distanceFromTrailing = request.width*0.1207
+                seatNumbersViewSpacing = request.height*0.051
+                seatnumbersViewWidth = request.width*0.0845
+                seatnumbersViewLeading = request.width*0.0483
+                seatnumbersViewTop = request.height*0.115
+                seatnumbersViewBottom = request.height*0.06
+                cornerRadius = viewSize*0.25
+            }
+        }
+    }
 }
+

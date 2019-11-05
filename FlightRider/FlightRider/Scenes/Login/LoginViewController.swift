@@ -195,6 +195,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
             vc.uid = response.uid
             vc.email = response.email
+            self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

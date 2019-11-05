@@ -41,11 +41,9 @@ class SelectSeatsWorker : SelectSeatsWorkerProtocol
             let predicate = NSPredicate(format: "uid = %@", request.flight!.uid)
             databaseWorker.makeCloudQuery(sortKey: "uid", predicate: predicate, cloudTable: "Flights"){ flightResults in
                 if let cloudFlight = flightResults.first{
-                    let cloudSeat = CloudSeat(number: request.selectedSeatNumber!, occupiedBy: request.email!, flight: CKRecord.Reference(recordID: cloudFlight.recordID, action: .none))
-                    /*let seatRecord = CKRecord(recordType: "Seat")
-                    seatRecord["number"] = request.selectedSeatNumber! as CKRecordValue
-                    seatRecord["occupiedBy"] = request.email! as CKRecordValue
-                    seatRecord["flight"] = CKRecord.Reference(recordID: cloudFlight.recordID, action: .none)*/
+                    let cloudSeat = CloudSeat(number: request.selectedSeatNumber!, occupiedBy: request.email!, flightID: cloudFlight.recordID)
+                    let cloudseat2 = CloudSeat(record: cloudSeat.seatRecord)
+                    print(cloudseat2)
                     var existingSeats = cloudFlight["seats"] as? [CKRecord.Reference] ?? [CKRecord.Reference]()
                     existingSeats.append(CKRecord.Reference(recordID: cloudSeat.seatRecord.recordID, action: .none))
                     cloudFlight["seats"] = existingSeats

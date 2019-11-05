@@ -28,6 +28,8 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var seat1Picker: UIPickerView!
+    var spinnerView : UIView!
+    var ai : UIActivityIndicatorView!
     var viewModel = SelectSeats.PickerDataModel.ViewModel()
     
   var interactor: SelectSeatsBusinessLogic?
@@ -81,6 +83,7 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
   {
     super.viewDidLoad()
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+    setSpinnerView()
     interactor?.requestDisplayData(request: SelectSeats.DisplayData.Request())
     interactor?.requestPickerInitialization(request: SelectSeats.PickerDataSource.Request())
   }
@@ -107,18 +110,21 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
     
     func displaySuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response) {
+        self.removeSpinner(spinnerView: spinnerView, ai: ai)
         displayAlertController(title: "Success", message: "Seat \(response.selectedSeatNumber!) updated successfully")
         let request = SelectSeats.StoredData.Request()
         interactor?.pushJustSelectedSeatState(request: request)
     }
     
     func displayUnsuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response) {
+        self.removeSpinner(spinnerView: spinnerView, ai: ai)
         displayAlertController(title: "Fail", message: "Operation failed: \(response.errorMessage ?? "No details are available")")
     }
     
     //MARK: Local functions
     
     @IBAction func updateSeats(_ sender: Any) {
+        showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
         var request = SelectSeats.UpdateSeat.Request()
         request.selectedSeatNumber = viewModel.selectedSeatNumber
         interactor?.requestUpdateSeat(request: request)
@@ -168,6 +174,11 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let myRow = row % viewModel.pickerData[component].count
         pickerLabel?.text = viewModel.pickerData[component][myRow]
         return pickerLabel!
+    }
+    
+    private func setSpinnerView(){
+        spinnerView = UIView.init(frame: self.view.bounds)
+        ai = UIActivityIndicatorView.init(style: .whiteLarge)
     }
     
     //MARK: - Temporary routing

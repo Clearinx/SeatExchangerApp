@@ -21,7 +21,6 @@ class CheckSeatsViewController_old: UIViewController {
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(customBack))
         self.navigationItem.leftBarButtonItem = newBackButton
-        print(flight.iataNumber)
         createSeats()
         // Do any additional setup after loading the view.
     }

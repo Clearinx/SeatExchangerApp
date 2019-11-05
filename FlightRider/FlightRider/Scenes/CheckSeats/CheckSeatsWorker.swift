@@ -13,10 +13,28 @@
 import UIKit
 
 protocol CheckSeatsWorkerProtocol {
-    
+    func requestAirplaneModel(request: CheckSeats.GetAirplaneModel.Request)
 }
 
 class CheckSeatsWorker : CheckSeatsWorkerProtocol
 {
     var interactor : CheckSeatsInteractor?
+    
+    //MARK: - Request functions
+    
+    func requestAirplaneModel(request: CheckSeats.GetAirplaneModel.Request) {
+        let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
+        let data = try? String(contentsOf: URL(fileURLWithPath: path))
+        if let data = data{
+            let jsonData = JSON(parseJSON: data)
+            let jsonArray = jsonData.arrayValue
+            let jsonValue = jsonArray.filter{$0["modelName"].stringValue == request.airplaneType}.first!
+            let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
+            let response = CheckSeats.GetAirplaneModel.Response(airplaneModel: actualType)
+            interactor?.fetchAirplaneModel(response: response)
+        }
+        else{
+            print("JSON file could not found")
+        }
+    }
 }
