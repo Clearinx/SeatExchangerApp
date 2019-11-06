@@ -15,25 +15,6 @@ import UIKit
 enum CannotCheckIn
 {
   // MARK: Use cases
-  
-  enum StoredData
-  {
-    struct Request
-    {
-    }
-    struct Response
-    {
-        var iataNumber: String?
-        var departureDate: Date?
-        var image: UIImage?
-    }
-    struct ViewModel
-    {
-        var iataNumber: String?
-        var departureDate: Date?
-        var image: UIImage?
-    }
-  }
     
     enum CalculateTime
     {
@@ -49,6 +30,25 @@ enum CannotCheckIn
         }
         struct ViewModel
         {
+        }
+    }
+  
+    enum StoredData
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            var iataNumber: String?
+            var departureDate: Date?
+            var image: UIImage?
+        }
+        struct ViewModel
+        {
+            var iataNumber: String?
+            var departureDate: Date?
+            var image: UIImage?
         }
     }
 }

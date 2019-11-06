@@ -14,18 +14,10 @@ import UIKit
 
 protocol ListFlightsPresentationLogic
 {
-  func presentSomething(response: ListFlights.Something.Response)
+    var viewController: ListFlightsDisplayLogic? { get set }
 }
 
 class ListFlightsPresenter: ListFlightsPresentationLogic
 {
-  weak var viewController: ListFlightsDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentSomething(response: ListFlights.Something.Response)
-  {
-    let viewModel = ListFlights.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
+    weak var viewController: ListFlightsDisplayLogic?
 }

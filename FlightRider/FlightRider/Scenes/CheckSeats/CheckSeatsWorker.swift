@@ -18,7 +18,7 @@ protocol CheckSeatsWorkerProtocol {
 
 class CheckSeatsWorker : CheckSeatsWorkerProtocol
 {
-    var interactor : CheckSeatsInteractor?
+    weak var interactor : CheckSeatsInteractor?
     
     //MARK: - Request functions
     

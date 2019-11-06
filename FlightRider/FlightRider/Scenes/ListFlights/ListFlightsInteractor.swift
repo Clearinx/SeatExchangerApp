@@ -14,28 +14,44 @@ import UIKit
 
 protocol ListFlightsBusinessLogic
 {
-  func doSomething(request: ListFlights.Something.Request)
+    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
+    func pushDatabaseObjectsToModel(results: ListFlights.DataStore.Results)
+    func requestLoadUserData(request: ListFlights.UserData.EmptyRequest)
 }
 
 protocol ListFlightsDataStore
 {
-  //var name: String { get set }
+    var dataStore: ListFlights.DataStore.DataStore { get set }
 }
 
 class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
 {
-  var presenter: ListFlightsPresentationLogic?
-  var worker: ListFlightsWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: ListFlights.Something.Request)
-  {
-    worker = ListFlightsWorker()
-    worker?.doSomeWork()
+    var presenter: ListFlightsPresentationLogic?
+    var worker: ListFlightsWorker?
+    var dataStore = ListFlights.DataStore.DataStore()
+    var databaseWorker = DatabaseWorker ()
     
-    let response = ListFlights.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    func requestLoadUserData(request: ListFlights.UserData.EmptyRequest) {
+        let newRequest = ListFlights.UserData.Request(userUid: dataStore.uid, userEmail: dataStore.email)
+        worker = ListFlightsWorker()
+        worker?.interactor = self
+        worker?.databaseWorker = databaseWorker
+        worker?.requestLoadUserData(request: newRequest)
+    }
+    
+    func pushDatabaseObjectsToModel(results: ListFlights.DataStore.Results) {
+        if let localUser = results.localUser{
+            dataStore.user = localUser
+        }
+        if let cloudUser = results.cloudUser{
+            dataStore.userRecord = cloudUser
+        }
+    }
+    
+    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel) {
+        dataStore.email = dataModel.email
+        dataStore.uid = dataModel.uid
+        dataStore.userRecord = CloudUser()
+        dataStore.flights = [ManagedFlight]()
+    }
 }

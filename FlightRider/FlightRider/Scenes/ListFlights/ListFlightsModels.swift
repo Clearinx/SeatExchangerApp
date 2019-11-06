@@ -15,21 +15,6 @@ import CloudKit
 
 enum ListFlights
 {
-  // MARK: Use cases
-  
-    enum Something
-    {
-        struct Request
-        {
-        }
-        struct Response
-        {
-        }
-        struct ViewModel
-        {
-        }
-    }
-    
     enum CannotCheckinData
     {
         struct Request
@@ -43,6 +28,45 @@ enum ListFlights
             var iataNumber : String
             var departureDate : Date
             var imageToLoad: UIImage?
+        }
+    }
+    
+    enum CheckSeatsData
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct DataStore
+        {
+            let flight : ManagedFlight
+            let user : ManagedUser
+            let justSelectedSeat : Bool
+        }
+    }
+    
+    enum DataStore
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct Results
+        {
+            var localUser : ManagedUser?
+            var cloudUser : CloudUser?
+        }
+        struct DataStore
+        {
+            var uid: String!
+            var email: String!
+            var user : ManagedUser?
+            var flights : [ManagedFlight]!
+            var userRecord : CloudUser!
         }
     }
     
@@ -64,20 +88,22 @@ enum ListFlights
         }
     }
     
-    enum CheckSeatsData
+    enum UserData
     {
+        struct EmptyRequest
+        {
+        }
         struct Request
         {
+            var userUid : String!
+            var userEmail : String!
+            
         }
         struct Response
         {
         }
-        struct DataStore
+        struct ViewModel
         {
-            let flight : ManagedFlight
-            let user : ManagedUser
-            let justSelectedSeat : Bool
         }
     }
-    
 }

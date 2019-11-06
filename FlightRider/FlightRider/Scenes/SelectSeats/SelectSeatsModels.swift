@@ -16,34 +16,7 @@ import CloudKit
 enum SelectSeats
 {
   // MARK: Use cases
-  
-  enum StoredData
-  {
-    struct Request
-    {
-    }
-    struct Response
-    {
-        var flight : ManagedFlight?
-        var user : ManagedUser?
-        var userRecord : CKRecord?
-        var image : UIImage?
-    }
-    struct ViewModel
-    {
-        var flight : ManagedFlight?
-        var user : ManagedUser?
-        var userRecord : CKRecord?
-        var image : UIImage?
-        var justSelectedSeat : Bool = false
-    }
-    struct CheckSeatsModel
-    {
-        var flight : ManagedFlight!
-        var user : ManagedUser!
-        var justSelectedSeat : Bool!
-    }
-  }
+    
     enum DisplayData
     {
         struct Request
@@ -58,20 +31,6 @@ enum SelectSeats
         {
             var image: UIImage?
             var flightNumber : String?
-        }
-    }
-    
-    enum PickerDataSource
-    {
-        struct Request
-        {
-        }
-        struct Response
-        {
-            let dataSource : [JSON]
-        }
-        struct ViewModel
-        {
         }
     }
     
@@ -93,6 +52,48 @@ enum SelectSeats
             var selectedSeatNumber : String!
             let rowHeightConstant : CGFloat = 0.1562
             let widthForComponentConstant: CGFloat = 0.1875
+        }
+    }
+    
+    enum PickerDataSource
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let dataSource : [JSON]
+        }
+        struct ViewModel
+        {
+        }
+    }
+    
+    enum StoredData
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            var flight : ManagedFlight?
+            var user : ManagedUser?
+            var userRecord : CKRecord?
+            var image : UIImage?
+        }
+        struct ViewModel
+        {
+            var flight : ManagedFlight?
+            var user : ManagedUser?
+            var userRecord : CKRecord?
+            var image : UIImage?
+            var justSelectedSeat : Bool = false
+        }
+        struct CheckSeatsModel
+        {
+            var flight : ManagedFlight!
+            var user : ManagedUser!
+            var justSelectedSeat : Bool!
         }
     }
     

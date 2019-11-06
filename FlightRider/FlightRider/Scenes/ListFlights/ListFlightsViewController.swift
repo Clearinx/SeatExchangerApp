@@ -11,79 +11,90 @@
 //
 
 import UIKit
+import CoreData
 
-protocol ListFlightsDisplayLogic: class
+protocol ListFlightsDisplayLogic: class, NSFetchedResultsControllerDelegate
 {
-  func displaySomething(viewModel: ListFlights.Something.ViewModel)
+    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
 }
 
-class ListFlightsViewController: UIViewController, ListFlightsDisplayLogic
+class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
 {
-  var interactor: ListFlightsBusinessLogic?
-  var router: (NSObjectProtocol & ListFlightsRoutingLogic & ListFlightsDataPassing)?
+    var spinnerView : UIView!
+    var ai : UIActivityIndicatorView!
+    
+    var interactor: ListFlightsBusinessLogic?
+    var router: (NSObjectProtocol & ListFlightsRoutingLogic & ListFlightsDataPassing)?
 
   // MARK: Object lifecycle
   
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    {
+      super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+      setup()
+    }
   
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
+    required init?(coder aDecoder: NSCoder)
+    {
+      super.init(coder: aDecoder)
+      setup()
+    }
   
   // MARK: Setup
   
-  private func setup()
-  {
-    let viewController = self
-    let interactor = ListFlightsInteractor()
-    let presenter = ListFlightsPresenter()
-    let router = ListFlightsRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
+    private func setup()
+    {
+        let viewController = self
+        let interactor = ListFlightsInteractor()
+        let presenter = ListFlightsPresenter()
+        let router = ListFlightsRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+    //MARK: - Fetch functions
+    
+    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel) {
+        interactor?.fetchDataFromPreviousViewController(dataModel: dataModel)
+    }
   
   // MARK: Routing
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if let scene = segue.identifier {
+            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+            if let router = router, router.responds(to: selector) {
+                router.perform(selector, with: segue)
+            }
+        }
     }
-  }
   
   // MARK: View lifecycle
   
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    doSomething()
-  }
-  
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func doSomething()
-  {
-    let request = ListFlights.Something.Request()
-    interactor?.doSomething(request: request)
-  }
-  
-  func displaySomething(viewModel: ListFlights.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        setSpinnerView()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
+        title = "Flights"
+        self.showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
+        let request = ListFlights.UserData.EmptyRequest()
+        interactor?.requestLoadUserData(request: request)
+    }
+    
+    //MARK: - Local functions
+    
+    private func setSpinnerView(){
+        spinnerView = UIView.init(frame: self.view.bounds)
+        ai = UIActivityIndicatorView.init(style: .whiteLarge)
+    }
+    
+    @objc func addFlight(){
+        
+    }
 }
