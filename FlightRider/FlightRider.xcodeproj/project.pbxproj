@@ -62,6 +62,8 @@
 		89ACA97223707C7600160A83 /* CloudSeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACA97123707C7600160A83 /* CloudSeat.swift */; };
 		89ACA9742372CB3A00160A83 /* CloudFlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACA9732372CB3A00160A83 /* CloudFlight.swift */; };
 		89ACA9762372CB5600160A83 /* CloudUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACA9752372CB5600160A83 /* CloudUser.swift */; };
+		89ACA97A2374109B00160A83 /* UserWorkerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACA9792374109B00160A83 /* UserWorkerProtocol.swift */; };
+		89ACA97C23741E4100160A83 /* FlightWorkerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACA97B23741E4100160A83 /* FlightWorkerProtocol.swift */; };
 		89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B46C87232A43020000F5F1 /* StringExtension.swift */; };
 		89BD56FC236B17C9003234E2 /* SelectSeatsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BD56F6236B17C9003234E2 /* SelectSeatsPresenter.swift */; };
 		89BD56FD236B17C9003234E2 /* SelectSeatsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BD56F7236B17C9003234E2 /* SelectSeatsWorker.swift */; };
@@ -169,6 +171,8 @@
 		89ACA97123707C7600160A83 /* CloudSeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSeat.swift; sourceTree = "<group>"; };
 		89ACA9732372CB3A00160A83 /* CloudFlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudFlight.swift; sourceTree = "<group>"; };
 		89ACA9752372CB5600160A83 /* CloudUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudUser.swift; sourceTree = "<group>"; };
+		89ACA9792374109B00160A83 /* UserWorkerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorkerProtocol.swift; sourceTree = "<group>"; };
+		89ACA97B23741E4100160A83 /* FlightWorkerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightWorkerProtocol.swift; sourceTree = "<group>"; };
 		89B46C87232A43020000F5F1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		89BD56F6236B17C9003234E2 /* SelectSeatsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsPresenter.swift; sourceTree = "<group>"; };
 		89BD56F7236B17C9003234E2 /* SelectSeatsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsWorker.swift; sourceTree = "<group>"; };
@@ -449,6 +453,8 @@
 			isa = PBXGroup;
 			children = (
 				89C21F2A23684019002B8E05 /* DatabaseWorker.swift */,
+				89ACA9792374109B00160A83 /* UserWorkerProtocol.swift */,
+				89ACA97B23741E4100160A83 /* FlightWorkerProtocol.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -706,12 +712,14 @@
 				89BD56FD236B17C9003234E2 /* SelectSeatsWorker.swift in Sources */,
 				89C21F3823686DB7002B8E05 /* LoginViewController.swift in Sources */,
 				89ACA96B237073D900160A83 /* CheckSeatsPresenter.swift in Sources */,
+				89ACA97C23741E4100160A83 /* FlightWorkerProtocol.swift in Sources */,
 				8981F093236AFEF40090ACEE /* ListFlightsRouter.swift in Sources */,
 				891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */,
 				89BD56FF236B17C9003234E2 /* SelectSeatsModels.swift in Sources */,
 				89A8AA132334B49000B673EE /* CustomLabel.swift in Sources */,
 				89C21F3523686DB7002B8E05 /* LoginWorker.swift in Sources */,
 				89EC5E072314331C00F24139 /* Spinner.swift in Sources */,
+				89ACA97A2374109B00160A83 /* UserWorkerProtocol.swift in Sources */,
 				893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */,
 				8981F086236AEBCD0090ACEE /* CannotCheckInModels.swift in Sources */,
 				8981F087236AEBCD0090ACEE /* CannotCheckInViewController.swift in Sources */,

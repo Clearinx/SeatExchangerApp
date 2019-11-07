@@ -15,9 +15,35 @@ import UIKit
 protocol ListFlightsPresentationLogic
 {
     var viewController: ListFlightsDisplayLogic? { get set }
+    
+    func requestUIUpdate(request: ListFlights.UIUpdate.Request)
+    func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel)
 }
 
 class ListFlightsPresenter: ListFlightsPresentationLogic
 {
     weak var viewController: ListFlightsDisplayLogic?
+    
+    //MARK: - Request functions
+    func requestUIUpdate(request: ListFlights.UIUpdate.Request) {
+        viewController?.displayUIUpdate(request: request)
+    }
+    
+    func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel) {
+        var departureDates = [String]()
+        for flight in model.flights{
+            departureDates.append(getDateString(receivedDate: flight.departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss"))
+        }
+        let viewModel = ListFlights.FligthsToDisplay.ViewModel(flights: model.flights, departureDates: departureDates)
+        viewController?.pushViewModelUpdate(viewModel: viewModel)
+    }
+    
+    func getDateString(receivedDate : Date, dateFormat: String) -> String
+    {
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormat
+        let date = formatter.string(from: receivedDate)
+        return date
+    }
+    
 }

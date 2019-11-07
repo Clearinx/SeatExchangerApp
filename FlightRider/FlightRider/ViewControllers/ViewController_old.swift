@@ -97,7 +97,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             self.databaseWorker.container.viewContext.delete(seat)
         }
         databaseWorker.deindex(flight: flight)
-        //unregisterFromFlightOnCloudDb(flight: flight)
+        unregisterFromFlightOnCloudDb(flight: flight)
         self.databaseWorker.container.viewContext.delete(flight)
         user.flights.removeAll{$0 == flight.uid}
         flights.remove(at: indexPath.row)
@@ -191,7 +191,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
     }
     
     func submit(_ flightCode: String, _ selectedDate: Date) {
-        /*if (flightCode != ""){
+        if (flightCode != ""){
             
             let flightCount = user.flights.count
             
@@ -236,7 +236,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         }
         else{
             flightNumberIsEmpty()
-        }*/
+        }
     }
     
     func flightNotFoundError(){

@@ -57,16 +57,19 @@ enum ListFlights
         }
         struct Results
         {
-            var localUser : ManagedUser?
-            var cloudUser : CloudUser?
+        }
+        struct ViewModel
+        {
+            var flights : [ManagedFlight]!
+            var departureDates: [String]!
         }
         struct DataStore
         {
             var uid: String!
             var email: String!
             var user : ManagedUser?
+            var cloudUser : CloudUser!
             var flights : [ManagedFlight]!
-            var userRecord : CloudUser!
         }
     }
     
@@ -101,9 +104,51 @@ enum ListFlights
         }
         struct Response
         {
+            var localUser : ManagedUser?
+            var cloudUser : CloudUser?
         }
         struct ViewModel
         {
+        }
+    }
+    
+    enum StoredUserFlights
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            var flights : [String]
+        }
+        struct ViewModel
+        {
+        }
+    }
+    
+    enum UIUpdate
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct ViewModel
+        {
+        }
+    }
+    
+    enum FligthsToDisplay
+    {
+        struct DataModel
+        {
+            var flights: [ManagedFlight]
+        }
+        struct ViewModel
+        {
+            var flights: [ManagedFlight]
+            var departureDates: [String]
         }
     }
 }

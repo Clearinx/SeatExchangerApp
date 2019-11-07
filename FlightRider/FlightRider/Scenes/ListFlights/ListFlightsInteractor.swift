@@ -14,9 +14,11 @@ import UIKit
 
 protocol ListFlightsBusinessLogic
 {
-    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
-    func pushDatabaseObjectsToModel(results: ListFlights.DataStore.Results)
     func requestLoadUserData(request: ListFlights.UserData.EmptyRequest)
+    func requestUserFlightsFromDataStore(request: ListFlights.StoredUserFlights.Request)
+    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
+    func fetchFlightsToDisplay(model: ListFlights.FligthsToDisplay.DataModel)
+    func pushDatabaseObjectsToDataStore(response: ListFlights.UserData.Response)
 }
 
 protocol ListFlightsDataStore
@@ -29,29 +31,45 @@ class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
     var presenter: ListFlightsPresentationLogic?
     var worker: ListFlightsWorker?
     var dataStore = ListFlights.DataStore.DataStore()
-    var databaseWorker = DatabaseWorker ()
+    var databaseWorker = DatabaseWorker()
+    
+    //MARK: - Request functions
     
     func requestLoadUserData(request: ListFlights.UserData.EmptyRequest) {
         let newRequest = ListFlights.UserData.Request(userUid: dataStore.uid, userEmail: dataStore.email)
-        worker = ListFlightsWorker()
-        worker?.interactor = self
-        worker?.databaseWorker = databaseWorker
         worker?.requestLoadUserData(request: newRequest)
     }
     
-    func pushDatabaseObjectsToModel(results: ListFlights.DataStore.Results) {
-        if let localUser = results.localUser{
-            dataStore.user = localUser
-        }
-        if let cloudUser = results.cloudUser{
-            dataStore.userRecord = cloudUser
-        }
+    func requestUserFlightsFromDataStore(request: ListFlights.StoredUserFlights.Request) {
+        let response = ListFlights.StoredUserFlights.Response(flights: dataStore.user!.flights)
+        worker?.fetchUserDataFromDataStore(response: response)
     }
+    
+    //MARK: - Fetch functions
     
     func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel) {
         dataStore.email = dataModel.email
         dataStore.uid = dataModel.uid
-        dataStore.userRecord = CloudUser()
+        dataStore.cloudUser = CloudUser()
         dataStore.flights = [ManagedFlight]()
+    }
+    
+    func fetchFlightsToDisplay(model: ListFlights.FligthsToDisplay.DataModel) {
+        let sortedModel = ListFlights.FligthsToDisplay.DataModel(flights: model.flights.sorted(by: { $1.departureDate > $0.departureDate }))
+        dataStore.flights = sortedModel.flights
+        presenter?.pushViewModelUpdate(model: model)
+        let request = ListFlights.UIUpdate.Request()
+        presenter?.requestUIUpdate(request: request)
+    }
+    
+    //Push: - Fetch functions
+    
+    func pushDatabaseObjectsToDataStore(response: ListFlights.UserData.Response) {
+        if let localUser = response.localUser{
+            dataStore.user = localUser
+        }
+        if let cloudUser = response.cloudUser{
+            dataStore.cloudUser = cloudUser
+        }
     }
 }
