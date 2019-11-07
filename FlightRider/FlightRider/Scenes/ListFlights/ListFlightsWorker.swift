@@ -15,14 +15,24 @@ import CoreData
 import CloudKit
 
 protocol ListFlightsWorkerProtocol{
+    func requestCloudUserSave(request: ListFlights.FlightAddition.CloudUserSaveRequest)
     func requestLoadUserData(request: ListFlights.UserData.Request)
+    func requestFlightCheckInDatabases(request: ListFlights.FlightAddition.DatabaseRequest)
+    func requestLocalDatabaseSave(request: ListFlights.LocalDatabase.SaveRequest)
     func fetchUserDataFromDataStore(response: ListFlights.StoredUserFlights.Response)
 }
 
 class ListFlightsWorker : ListFlightsWorkerProtocol, UserWorkerProtocol, FlightWorkerProtocol
-{    
+{
     weak var interactor : ListFlightsInteractor?
     weak var databaseWorker : DatabaseWorker!
+    
+    func requestCloudUserSave(request: ListFlights.FlightAddition.CloudUserSaveRequest) {
+        self.databaseWorker.saveRecords(records: [request.user.userRecord]){
+            let changetag = ListFlights.FlightAddition.LocalUserChangeTag(changeTag: request.user.userRecord.recordChangeTag!)
+            self.interactor?.pushLocalUserChangeTagToDatastore(changetag: changetag)
+        }
+    }
     
     func requestLoadUserData(request: ListFlights.UserData.Request) {
         databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedUser.self, sortKey: "uid", sortValue: [request.userUid], cloudTable: "AppUsers", saveParams: [request.userUid, request.userEmail], container: self.databaseWorker.container, delegate: (interactor?.presenter!.viewController!)!, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){
@@ -34,10 +44,36 @@ class ListFlightsWorker : ListFlightsWorkerProtocol, UserWorkerProtocol, FlightW
     func fetchUserDataFromDataStore(response: ListFlights.StoredUserFlights.Response) {
         requestLoadUserFlightData(response: response)
     }
+    func requestLocalDatabaseSave(request: ListFlights.LocalDatabase.SaveRequest) {
+        self.databaseWorker.saveContext(container: databaseWorker.container)
+    }
     
     func requestLoadUserFlightData(response: ListFlights.StoredUserFlights.Response){
         databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: response.flights, cloudTable: "Flights", saveParams: nil, container: self.databaseWorker.container, delegate: (interactor?.presenter?.viewController!)!, saveToBothDbHandler: doNothing, fetchFromCloudHandler: fetchFlightsFromCloud, compareChangeTagHandler: compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: deleteFlightsFromLocalDb) {
                 self.queryFlightsToShow(flights: response)
+        }
+    }
+    
+    func requestFlightCheckInDatabases(request: ListFlights.FlightAddition.DatabaseRequest) {
+        let flightPredicate = NSPredicate(format: "iataNumber = %@ AND departureDate >= %@ AND departureDate <= %@", request.iataNumber, request.startDate, request.finishDate)
+        databaseWorker.makeCloudQuery(sortKey: "iataNumber", predicate: flightPredicate, cloudTable: "Flights"){[unowned self] results in
+            var flightUid : String?
+            if(results.count == 1){
+                flightUid = results.first!["uid"]
+            }
+            let params = [request.iataNumber, request.departureDate]
+            self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.databaseWorker.container, delegate: (self.interactor?.presenter?.viewController!)!, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){/* [unowned self] in
+                if(flightCount < self.user.flights.count){
+                    let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+                    let newFlight = self.databaseWorker.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.databaseWorker.container, delegate: self) as! [ManagedFlight]
+                    self.flights.append(newFlight.first!)
+                    self.databaseWorker.index(flight: newFlight.first!)
+                    DispatchQueue.main.async {
+                        let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
+                        self.tableView.insertRows(at: [indexPath], with: .automatic)
+                    }
+                }
+            */}
         }
     }
     

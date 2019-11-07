@@ -17,6 +17,7 @@ protocol ListFlightsPresentationLogic
     var viewController: ListFlightsDisplayLogic? { get set }
     
     func requestUIUpdate(request: ListFlights.UIUpdate.Request)
+    func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response)
     func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel)
 }
 
@@ -27,6 +28,12 @@ class ListFlightsPresenter: ListFlightsPresentationLogic
     //MARK: - Request functions
     func requestUIUpdate(request: ListFlights.UIUpdate.Request) {
         viewController?.displayUIUpdate(request: request)
+    }
+    
+    func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response) {
+        if response.errorMessage != nil{
+            viewController?.displayFlightAdditionErrorMessage(response: response)
+        }
     }
     
     func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel) {

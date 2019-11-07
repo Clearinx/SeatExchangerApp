@@ -15,9 +15,10 @@ import CoreData
 
 protocol ListFlightsDisplayLogic: class, NSFetchedResultsControllerDelegate
 {
-    func displayUIUpdate(request: ListFlights.UIUpdate.Request)
     func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
     func pushViewModelUpdate(viewModel: ListFlights.FligthsToDisplay.ViewModel)
+    func displayUIUpdate(request: ListFlights.UIUpdate.Request)
+    func displayFlightAdditionErrorMessage(response: ListFlights.FlightAddition.Response)
 }
 
 class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
@@ -112,6 +113,15 @@ class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
         }
     }
     
+    func displayFlightAdditionErrorMessage(response: ListFlights.FlightAddition.Response) {
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "\(response.errorMessage!)", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
+        }
+    }
+    
     //MARK: - Local functions
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -144,15 +154,12 @@ class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
         }
         let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned self] action in
             guard let flightCode = ac.textFields?[0].text else { return }
-            self.submit(flightCode.uppercased(), selectedDate)
+            let request = ListFlights.FlightAddition.Request(iataNumber: flightCode, departureDate: selectedDate, flights: nil)
+            self.interactor?.requestFlightAddition(request: request)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         ac.addAction(submitAction)
         ac.addAction(cancelAction)
         present(ac, animated: true)
-    }
-    
-    func submit(_ flightCode: String, _ selectedDate: Date) {
-        
     }
 }

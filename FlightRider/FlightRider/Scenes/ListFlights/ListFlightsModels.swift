@@ -151,4 +151,48 @@ enum ListFlights
             var departureDates: [String]
         }
     }
+    
+    enum FlightAddition
+    {
+        struct DatabaseRequest
+        {
+            let iataNumber : String
+            let departureDate : String
+            let flights: [ManagedFlight]
+            let startDate : NSDate
+            let finishDate : NSDate
+        }
+        struct Request
+        {
+            let iataNumber : String
+            let departureDate : Date
+            var flights: [ManagedFlight]! = nil
+        }
+        struct Response
+        {
+            let errorMessage: String?
+        }
+        struct ViewModel
+        {
+        }
+        struct PushFlightToDataStore
+        {
+            let flight: ManagedFlight
+        }
+        struct CloudUserSaveRequest
+        {
+            let user: CloudUser
+        }
+        struct LocalUserChangeTag
+        {
+            let changeTag: String
+        }
+        
+    }
+    enum LocalDatabase
+    {
+        struct SaveRequest
+        {
+        }
+    }
 }

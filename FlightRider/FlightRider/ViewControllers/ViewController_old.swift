@@ -72,7 +72,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         let departureDateAndTime = "\(departureDate)  \(json["departureTime"].stringValue)"
         result.append(departureDateAndTime)
         return result
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
