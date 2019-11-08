@@ -13,7 +13,7 @@ import CoreData
 
 extension ViewController
 {
-    func saveFlightDataToBothDbAppendToFlightList(params: [String]?){
+    func saveFlightDataToBothDbAppendToFlightList(params: [String]?){ //flight validity check disabled for testing
         let flightCode = params![0]
         let departureDate = params![1]
         let airlineIata = flightCode.prefix(2)

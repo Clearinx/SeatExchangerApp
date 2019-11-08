@@ -15,11 +15,13 @@ extension ViewController {
     func saveFlightDataToBothDb(params: [String]?){
         
         let flightRecord = CKRecord(recordType: "Flights")
+
         //let flight = Flight(context: self.container.viewContext)
         let departureDate = params![1]
         let dateFormat = getDate(receivedDate: departureDate)
         var flight = Flight(departureDate: dateFormat, iataNumber: params![0], uid: flightRecord.recordID.recordName, changetag: "", airplaneType: "dummy", seats: Set<ManagedSeat>())
         var recordsToSave = generateSeats(flight: flight, flightRecord: flightRecord)
+        
         flightRecord["uid"] = flightRecord.recordID.recordName
         flightRecord["iataNumber"] = flight.iataNumber as CKRecordValue
         flightRecord["departureDate"] = flight.departureDate as CKRecordValue

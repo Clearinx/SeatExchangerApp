@@ -16,15 +16,6 @@ enum Login
 {
   // MARK: Use cases
   
-    enum DataStore
-    {
-        struct ListViewDataModel
-        {
-            var uid: String
-            var email: String
-        }
-    }
-    
     enum LoginFields
     {
         struct Request
@@ -41,6 +32,22 @@ enum Login
             var email : String?
             var password : String?
             var switchedOn : Bool!
+        }
+    }
+    
+    enum SwitchData
+    {
+        struct Request
+        {
+            var email : String?
+            var password : String?
+            var switchedOn : Bool!
+        }
+        struct Response
+        {
+        }
+        struct ViewModel
+        {
         }
     }
     
@@ -80,21 +87,4 @@ enum Login
         {
         }
     }
-    
-    enum SwitchData
-    {
-        struct Request
-        {
-            var email : String?
-            var password : String?
-            var switchedOn : Bool!
-        }
-        struct Response
-        {
-        }
-        struct ViewModel
-        {
-        }
-    }
-
 }

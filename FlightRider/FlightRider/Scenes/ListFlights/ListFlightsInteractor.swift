@@ -11,159 +11,31 @@
 //
 
 import UIKit
-import CloudKit
 
 protocol ListFlightsBusinessLogic
 {
-    func requestLoadUserData(request: ListFlights.UserData.EmptyRequest)
-    func requestUserFlightsFromDataStore(request: ListFlights.StoredUserFlights.Request)
-    func requestFlightAddition(request: ListFlights.FlightAddition.Request)
-    func requestSelectedFlightRemoval(request: ListFlights.FlightDeletion.Request)
-    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
-    func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response)
-    func fetchFlightsToDisplay(model: ListFlights.FligthsToDisplay.DataModel)
-    func fetchNewFlightAddResults(result: ListFlights.FlightAddition.Result)
-    func pushDatabaseObjectsToDataStore(response: ListFlights.UserData.Response)
-    func pushFetchedFlightFromCloudToDatastore(request: ListFlights.FlightAddition.PushFlightToDataStore)
-    func pushLocalUserChangeTagToDatastore(changetag: ListFlights.FlightAddition.LocalUserChangeTag)
-    func pushNewFlightToDatastore(result: ListFlights.FlightAddition.FlightResult)
+  func doSomething(request: ListFlights.Something.Request)
 }
 
 protocol ListFlightsDataStore
 {
-    var dataStore: ListFlights.DataStore.DataStore { get set }
+  //var name: String { get set }
 }
 
 class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
 {
-    var presenter: ListFlightsPresentationLogic?
-    var worker: ListFlightsWorker?
-    var dataStore = ListFlights.DataStore.DataStore()
-    var databaseWorker = DatabaseWorker()
+  var presenter: ListFlightsPresentationLogic?
+  var worker: ListFlightsWorker?
+  //var name: String = ""
+  
+  // MARK: Do something
+  
+  func doSomething(request: ListFlights.Something.Request)
+  {
+    worker = ListFlightsWorker()
+    worker?.doSomeWork()
     
-    //MARK: - Request functions
-    
-    func requestLoadUserData(request: ListFlights.UserData.EmptyRequest) {
-        let newRequest = ListFlights.UserData.Request(userUid: dataStore.uid, userEmail: dataStore.email)
-        worker?.requestLoadUserData(request: newRequest)
-    }
-    
-    func requestUserFlightsFromDataStore(request: ListFlights.StoredUserFlights.Request) {
-        let response = ListFlights.StoredUserFlights.Response(flights: dataStore.user!.flights)
-        worker?.fetchUserDataFromDataStore(response: response)
-    }
-    
-    func requestFlightAddition(request: ListFlights.FlightAddition.Request) {
-        let newRequest = ListFlights.FlightAddition.Request(iataNumber: request.iataNumber.uppercased(), departureDate: request.departureDate, flights: dataStore.flights)
-        checkFlightAddPrecondition(request: newRequest)
-    }
-    
-    func requestSelectedFlightRemoval(request: ListFlights.FlightDeletion.Request) {
-        dataStore.user!.flights.removeAll{$0 == request.flight.uid}//datastore-bol ugyan ez
-        dataStore.flights.removeAll{$0 == request.flight}
-        for seat in request.flight.seats{
-            self.databaseWorker.container.viewContext.delete(seat)
-         }
-        //worker
-         /*databaseWorker.deindex(flight: flight)
-         unregisterFromFlightOnCloudDb(flight: flight)
-         self.databaseWorker.container.viewContext.delete(flight)
-         userRecord["flights"] = user.flights as CKRecordValue
-         self.databaseWorker.saveContext(container: self.databaseWorker.container)
-         self.databaseWorker.getLocalDatabase(container: self.databaseWorker.container, delegate: self)*/
-    }
-    
-    //MARK: - Fetch functions
-    
-    func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel) {
-        dataStore.email = dataModel.email
-        dataStore.uid = dataModel.uid
-        dataStore.cloudUser = CloudUser()
-        dataStore.flights = [ManagedFlight]()
-    }
-    func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response) {
-        presenter?.fetchFlightAdditionResponse(response: response)
-    }
-    
-    func fetchFlightsToDisplay(model: ListFlights.FligthsToDisplay.DataModel) {
-        let sortedModel = ListFlights.FligthsToDisplay.DataModel(flights: model.flights.sorted(by: { $1.departureDate > $0.departureDate }))
-        dataStore.flights = sortedModel.flights
-        presenter?.pushViewModelUpdate(model: model)
-        let request = ListFlights.UIUpdate.Request()
-        presenter?.requestUIUpdate(request: request)
-    }
-    
-    func fetchNewFlightAddResults(result: ListFlights.FlightAddition.Result) {
-        if (dataStore.user!.flights.count > result.previousFlightCount){
-            worker?.requestNewFlightForFlightList(result: result)
-        }
-    }
-    
-    //MARK: - Push functions
-    
-    func pushDatabaseObjectsToDataStore(response: ListFlights.UserData.Response) {
-        if let localUser = response.localUser{
-            dataStore.user = localUser
-        }
-        if let cloudUser = response.cloudUser{
-            dataStore.cloudUser = cloudUser
-        }
-    }
-    
-    func pushFetchedFlightFromCloudToDatastore(request: ListFlights.FlightAddition.PushFlightToDataStore) {
-        dataStore.user?.flights = dataStore.cloudUser.userRecord["flights"]! //??
-        dataStore.user?.flights.append(request.flight.uid)
-        dataStore.cloudUser.userRecord["flights"] = dataStore.user!.flights as CKRecordValue
-        let request = ListFlights.FlightAddition.CloudUserSaveRequest(user: dataStore.cloudUser)
-        worker?.requestCloudUserSave(request: request)
-    }
-    
-    func pushLocalUserChangeTagToDatastore(changetag: ListFlights.FlightAddition.LocalUserChangeTag) {
-        dataStore.user?.changetag = changetag.changeTag
-        let request = ListFlights.LocalDatabase.SaveRequest()
-        worker?.requestLocalDatabaseSave(request: request)
-    }
-    
-    func pushNewFlightToDatastore(result: ListFlights.FlightAddition.FlightResult) {
-        dataStore.flights.append(result.flight)
-        let model = ListFlights.FligthsToDisplay.DataModel(flights: [result.flight])
-        presenter?.pushViewModelUpdate(model: model)
-        let response = ListFlights.FlightAddition.Response(errorMessage: nil)
-        presenter?.fetchFlightAdditionResponse(response: response)
-    }
-    
-    //MARK: - Local functions
-    
-    func checkFlightAddPrecondition(request: ListFlights.FlightAddition.Request){
-        if (request.iataNumber != ""){
-            let startDate = getDateString(receivedDate: request.departureDate, dateFormat: "YYYY-MM-dd 00:00:00 Z")
-            let finishDate = getDateString(receivedDate: request.departureDate, dateFormat: "YYYY-MM-dd 23:59:59 Z")
-            let formatter = DateFormatter()
-            formatter.dateFormat = "YYYY-MM-dd HH:mm:ss Z"
-            let nsStartDate = formatter.date(from: startDate)! as NSDate
-            let nsFinishDate = formatter.date(from: finishDate)! as NSDate
-            let existingFlights = request.flights.filter{$0.iataNumber == request.iataNumber && $0.departureDate >= (nsStartDate as Date) && $0.departureDate <= (nsFinishDate as Date)}
-            if(existingFlights.isEmpty){
-                let requestForDatabase = ListFlights.FlightAddition.DatabaseRequest(iataNumber: request.iataNumber, departureDate: getDateString(receivedDate: request.departureDate, dateFormat: "YYYY-MM-dd"), flights: request.flights, startDate: nsStartDate, finishDate: nsFinishDate)
-                worker?.requestFlightCheckInDatabases(request: requestForDatabase)
-            }
-            else{
-                let response = ListFlights.FlightAddition.Response(errorMessage: "Flight already added to the list")
-                presenter?.fetchFlightAdditionResponse(response: response)
-            }
-        }
-        else{
-            let response = ListFlights.FlightAddition.Response(errorMessage: "Please specify a flightcode!")
-            presenter?.fetchFlightAdditionResponse(response: response)
-        }
-    
-    }
-    
-    func getDateString(receivedDate : Date, dateFormat: String) -> String
-    {
-        let formatter = DateFormatter()
-        formatter.dateFormat = dateFormat
-        let date = formatter.string(from: receivedDate)
-        return date
-    }
+    let response = ListFlights.Something.Response()
+    presenter?.presentSomething(response: response)
+  }
 }

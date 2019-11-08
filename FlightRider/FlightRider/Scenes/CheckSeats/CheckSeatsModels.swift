@@ -32,6 +32,20 @@ enum CheckSeats
     }
   }
     
+    enum JustSelecetedSeatStatus
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            var justSelectedSeat : Bool
+        }
+        struct DataStore
+        {
+        }
+    }
+    
     enum GetAirplaneModel
     {
         struct Request
@@ -57,19 +71,19 @@ enum CheckSeats
         
         struct ViewModel
         {
-            let viewSize: CGFloat
-            let viewSpacing : CGFloat
-            let lettersSpacing : CGFloat
-            let fontSize : CGFloat
-            let distanceFromTop : CGFloat
-            let distanceFromLeading : CGFloat
-            let distanceFromTrailing : CGFloat
-            let seatNumbersViewSpacing : CGFloat
-            let seatnumbersViewWidth : CGFloat
-            let seatnumbersViewLeading : CGFloat
-            let seatnumbersViewTop : CGFloat
-            let seatnumbersViewBottom : CGFloat
-            let cornerRadius : CGFloat
+            let viewSize: CGFloat //self.view.frame.width*0.0966
+            let viewSpacing : CGFloat //self.view.frame.width*0.0169
+            let lettersSpacing : CGFloat //self.view.frame.width*0.0724
+            let fontSize : CGFloat //self.view.frame.width*0.0724
+            let distanceFromTop : CGFloat //self.view.frame.height*0.0258
+            let distanceFromLeading : CGFloat //self.view.frame.width*0.169
+            let distanceFromTrailing : CGFloat //self.view.frame.width*0.1207
+            let seatNumbersViewSpacing : CGFloat //self.view.frame.height*0.051
+            let seatnumbersViewWidth : CGFloat //self.view.frame.width*0.0845
+            let seatnumbersViewLeading : CGFloat //self.view.frame.width*0.0483
+            let seatnumbersViewTop : CGFloat //self.view.frame.height*0.115
+            let seatnumbersViewBottom : CGFloat //self.view.frame.height*0.06
+            let cornerRadius : CGFloat //viewSize*0.25*/
             
             init(request: CheckSeats.GetConstants.Request) {
                 viewSize = request.width*0.0966
@@ -86,20 +100,6 @@ enum CheckSeats
                 seatnumbersViewBottom = request.height*0.06
                 cornerRadius = viewSize*0.25
             }
-        }
-    }
-    
-    enum JustSelecetedSeatStatus
-    {
-        struct Request
-        {
-        }
-        struct Response
-        {
-            var justSelectedSeat : Bool
-        }
-        struct DataStore
-        {
         }
     }
 }

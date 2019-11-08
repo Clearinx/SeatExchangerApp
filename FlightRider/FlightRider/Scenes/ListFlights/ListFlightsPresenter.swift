@@ -14,47 +14,18 @@ import UIKit
 
 protocol ListFlightsPresentationLogic
 {
-    var viewController: ListFlightsDisplayLogic? { get set }
-    
-    func requestUIUpdate(request: ListFlights.UIUpdate.Request)
-    func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response)
-    func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel)
+  func presentSomething(response: ListFlights.Something.Response)
 }
 
 class ListFlightsPresenter: ListFlightsPresentationLogic
 {
-    weak var viewController: ListFlightsDisplayLogic?
-    
-    //MARK: - Request functions
-    func requestUIUpdate(request: ListFlights.UIUpdate.Request) {
-        viewController?.displayUIUpdate(request: request)
-    }
-    
-    func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response) {
-        if response.errorMessage != nil{
-            viewController?.displayFlightAdditionErrorMessage(response: response)
-        }
-        else{
-            let request = ListFlights.UIUpdate.Request()
-            viewController?.displayInsertFlight(request: request)
-        }
-    }
-    
-    func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel) {
-        var departureDates = [String]()
-        for flight in model.flights{
-            departureDates.append(getDateString(receivedDate: flight.departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss"))
-        }
-        let viewModel = ListFlights.FligthsToDisplay.ViewModel(flights: model.flights, departureDates: departureDates)
-        viewController?.pushViewModelUpdate(viewModel: viewModel)
-    }
-    
-    func getDateString(receivedDate : Date, dateFormat: String) -> String
-    {
-        let formatter = DateFormatter()
-        formatter.dateFormat = dateFormat
-        let date = formatter.string(from: receivedDate)
-        return date
-    }
-    
+  weak var viewController: ListFlightsDisplayLogic?
+  
+  // MARK: Do something
+  
+  func presentSomething(response: ListFlights.Something.Response)
+  {
+    let viewModel = ListFlights.Something.ViewModel()
+    viewController?.displaySomething(viewModel: viewModel)
+  }
 }
