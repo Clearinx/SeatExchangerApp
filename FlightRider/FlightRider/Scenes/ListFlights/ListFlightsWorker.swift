@@ -19,6 +19,7 @@ protocol ListFlightsWorkerProtocol{
     func requestLoadUserData(request: ListFlights.UserData.Request)
     func requestFlightCheckInDatabases(request: ListFlights.FlightAddition.DatabaseRequest)
     func requestLocalDatabaseSave(request: ListFlights.LocalDatabase.SaveRequest)
+    func requestNewFlightForFlightList(result: ListFlights.FlightAddition.Result)
     func fetchUserDataFromDataStore(response: ListFlights.StoredUserFlights.Response)
 }
 
@@ -28,10 +29,13 @@ class ListFlightsWorker : ListFlightsWorkerProtocol, UserWorkerProtocol, FlightW
     weak var databaseWorker : DatabaseWorker!
     
     func requestCloudUserSave(request: ListFlights.FlightAddition.CloudUserSaveRequest) {
+        let semaphore = DispatchSemaphore(value: 0)
         self.databaseWorker.saveRecords(records: [request.user.userRecord]){
             let changetag = ListFlights.FlightAddition.LocalUserChangeTag(changeTag: request.user.userRecord.recordChangeTag!)
             self.interactor?.pushLocalUserChangeTagToDatastore(changetag: changetag)
+            semaphore.signal()
         }
+        semaphore.wait()
     }
     
     func requestLoadUserData(request: ListFlights.UserData.Request) {
@@ -62,7 +66,10 @@ class ListFlightsWorker : ListFlightsWorkerProtocol, UserWorkerProtocol, FlightW
                 flightUid = results.first!["uid"]
             }
             let params = [request.iataNumber, request.departureDate]
-            self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.databaseWorker.container, delegate: (self.interactor?.presenter?.viewController!)!, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){/* [unowned self] in
+            let result = ListFlights.FlightAddition.Result(previousFlightCount: request.flights.count, predicate: flightPredicate)
+            self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.databaseWorker.container, delegate: (self.interactor?.presenter?.viewController!)!, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
+                    self.interactor?.fetchNewFlightAddResults(result: result)
+                /* [unowned self] in
                 if(flightCount < self.user.flights.count){
                     let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
                     let newFlight = self.databaseWorker.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.databaseWorker.container, delegate: self) as! [ManagedFlight]
@@ -75,6 +82,14 @@ class ListFlightsWorker : ListFlightsWorkerProtocol, UserWorkerProtocol, FlightW
                 }
             */}
         }
+    }
+    
+    func requestNewFlightForFlightList(result: ListFlights.FlightAddition.Result){
+        let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        let newFlightArray = self.databaseWorker.makeLocalQuery(sortKey: "uid", predicate: result.predicate, request: request, container: self.databaseWorker.container, delegate: (interactor?.presenter!.viewController)!) as! [ManagedFlight]
+        let flightResult = ListFlights.FlightAddition.FlightResult(flight: newFlightArray.first!)
+        self.databaseWorker.index(flight: flightResult.flight)
+        interactor?.pushNewFlightToDatastore(result: flightResult)
     }
     
     func queryFlightsToShow(flights: ListFlights.StoredUserFlights.Response){

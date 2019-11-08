@@ -18,12 +18,15 @@ protocol ListFlightsBusinessLogic
     func requestLoadUserData(request: ListFlights.UserData.EmptyRequest)
     func requestUserFlightsFromDataStore(request: ListFlights.StoredUserFlights.Request)
     func requestFlightAddition(request: ListFlights.FlightAddition.Request)
+    func requestSelectedFlightRemoval(request: ListFlights.FlightDeletion.Request)
     func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel)
     func fetchFlightAdditionResponse(response: ListFlights.FlightAddition.Response)
     func fetchFlightsToDisplay(model: ListFlights.FligthsToDisplay.DataModel)
+    func fetchNewFlightAddResults(result: ListFlights.FlightAddition.Result)
     func pushDatabaseObjectsToDataStore(response: ListFlights.UserData.Response)
     func pushFetchedFlightFromCloudToDatastore(request: ListFlights.FlightAddition.PushFlightToDataStore)
     func pushLocalUserChangeTagToDatastore(changetag: ListFlights.FlightAddition.LocalUserChangeTag)
+    func pushNewFlightToDatastore(result: ListFlights.FlightAddition.FlightResult)
 }
 
 protocol ListFlightsDataStore
@@ -55,6 +58,21 @@ class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
         checkFlightAddPrecondition(request: newRequest)
     }
     
+    func requestSelectedFlightRemoval(request: ListFlights.FlightDeletion.Request) {
+        dataStore.user!.flights.removeAll{$0 == request.flight.uid}//datastore-bol ugyan ez
+        dataStore.flights.removeAll{$0 == request.flight}
+        for seat in request.flight.seats{
+            self.databaseWorker.container.viewContext.delete(seat)
+         }
+        //worker
+         /*databaseWorker.deindex(flight: flight)
+         unregisterFromFlightOnCloudDb(flight: flight)
+         self.databaseWorker.container.viewContext.delete(flight)
+         userRecord["flights"] = user.flights as CKRecordValue
+         self.databaseWorker.saveContext(container: self.databaseWorker.container)
+         self.databaseWorker.getLocalDatabase(container: self.databaseWorker.container, delegate: self)*/
+    }
+    
     //MARK: - Fetch functions
     
     func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel) {
@@ -73,6 +91,12 @@ class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
         presenter?.pushViewModelUpdate(model: model)
         let request = ListFlights.UIUpdate.Request()
         presenter?.requestUIUpdate(request: request)
+    }
+    
+    func fetchNewFlightAddResults(result: ListFlights.FlightAddition.Result) {
+        if (dataStore.user!.flights.count > result.previousFlightCount){
+            worker?.requestNewFlightForFlightList(result: result)
+        }
     }
     
     //MARK: - Push functions
@@ -98,6 +122,14 @@ class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
         dataStore.user?.changetag = changetag.changeTag
         let request = ListFlights.LocalDatabase.SaveRequest()
         worker?.requestLocalDatabaseSave(request: request)
+    }
+    
+    func pushNewFlightToDatastore(result: ListFlights.FlightAddition.FlightResult) {
+        dataStore.flights.append(result.flight)
+        let model = ListFlights.FligthsToDisplay.DataModel(flights: [result.flight])
+        presenter?.pushViewModelUpdate(model: model)
+        let response = ListFlights.FlightAddition.Response(errorMessage: nil)
+        presenter?.fetchFlightAdditionResponse(response: response)
     }
     
     //MARK: - Local functions

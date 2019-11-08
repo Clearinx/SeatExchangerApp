@@ -66,13 +66,9 @@ extension FlightWorkerProtocol{
     
     func compareFlightsChangeTagAndAppendToUserList(localResults : [NSManagedObject],  cloudResults : [CKRecord]){
         compareFlightsChangeTagWaitForResult(localResults: localResults, cloudResults: cloudResults){
-            /*self.user.flights = self.userRecord["flights"]!
-            self.user.flights.append(cloudResults.first!["uid"]!)
-            self.userRecord["flights"] = self.user.flights as CKRecordValue
-            self.databaseWorker.saveRecords(records: [self.userRecord]){ [unowned self] in
-                self.user.changetag = self.userRecord.recordChangeTag!
-                self.databaseWorker.saveContext(container: self.databaseWorker.container)
-            }*/
+            let localFlight = localResults.first! as! ManagedFlight
+            let request = ListFlights.FlightAddition.PushFlightToDataStore(flight: localFlight)
+            self.interactor?.pushFetchedFlightFromCloudToDatastore(request: request)
         }
     }
     
@@ -176,20 +172,21 @@ extension FlightWorkerProtocol{
             let managedFlight = ManagedFlight(context: self.databaseWorker.container.viewContext)
             managedFlight.fromFlight(flight: flight)
             
-            var seatReferences = [CKRecord.Reference]()
-            seatReferences = result["seats"]!
+            var seatReferences : [CKRecord.Reference]
+            seatReferences = result["seats"] ?? [CKRecord.Reference]()
             
             if !seatReferences.isEmpty{
                 let predicate = NSPredicate(format: "ANY %@ = recordName" ,seatReferences)
-                
+                let semaphore = DispatchSemaphore(value: 0)
                 self.databaseWorker.makeCloudQuery(sortKey: "number", predicate: predicate, cloudTable: "Seat"){ cloudResults in
                     for seatResult in cloudResults{
                         let seat = Seat(changetag: seatResult.recordChangeTag!, number: seatResult["number"]!, occupiedBy: seatResult["occupiedBy"]!, uid: seatResult.recordID.recordName, flight: managedFlight)
                         let managedSeat = ManagedSeat(context: self.databaseWorker.container.viewContext)
                         managedSeat.fromSeat(seat: seat)
                     }
-                    
+                    semaphore.signal()
                 }
+                semaphore.wait()
             }
             completionHandler(managedFlight)
         }
@@ -204,18 +201,33 @@ extension FlightWorkerProtocol{
     }
     
     func saveFlightDataToBothDb(params: [String]?){
-        
-        /*let flightRecord = CKRecord(recordType: "Flights")
-        //let flight = Flight(context: self.container.viewContext)
         let departureDate = params![1]
         let dateFormat = getDate(receivedDate: departureDate)
-        var flight = Flight(departureDate: dateFormat, iataNumber: params![0], uid: flightRecord.recordID.recordName, changetag: "", airplaneType: "dummy", seats: Set<ManagedSeat>())
-        var recordsToSave = generateSeats(flight: flight, flightRecord: flightRecord)
+        /*let cloudFlight = CloudFlight(airplaneType: "dummy", departureDate: dateFormat, iataNumber: params![0], seats: [CKRecord.Reference]())*/
+        let flightRecord = CKRecord(recordType: "Flights")
         flightRecord["uid"] = flightRecord.recordID.recordName
+        flightRecord["iataNumber"] = params![0] as CKRecordValue
+        flightRecord["departureDate"] = dateFormat as CKRecordValue
+        flightRecord["airplaneType"] = "dummy" as CKRecordValue
+        let semaphore = DispatchSemaphore(value: 0)
+        self.databaseWorker.saveRecords(records: [flightRecord]/*[cloudFlight.flightRecord]*/){
+            let flight = Flight(departureDate: dateFormat, iataNumber: params![0], uid: flightRecord.recordID.recordName, changetag: flightRecord.recordChangeTag!, airplaneType: "dummy", seats: Set<ManagedSeat>())
+            let managedFlight = ManagedFlight(context: self.databaseWorker.container.viewContext)
+            managedFlight.fromFlight(flight: flight)
+            let request = ListFlights.FlightAddition.PushFlightToDataStore(flight: managedFlight)
+            self.interactor?.pushFetchedFlightFromCloudToDatastore(request: request)
+            semaphore.signal()
+        }
+        semaphore.wait()
+        //var recordsToSave = [CKRecord]()
+        /*flightRecord["uid"] = flightRecord.recordID.recordName
         flightRecord["iataNumber"] = flight.iataNumber as CKRecordValue
         flightRecord["departureDate"] = flight.departureDate as CKRecordValue
         flightRecord["airplaneType"] = flight.airplaneType as CKRecordValue
-        recordsToSave.append(flightRecord)
+        flightRecord["seats"] = [CKRecord.Reference]()*/
+        //let model = ListFlights.FlightAddition.PushCreatedFlightToDataStore(localFlight: managedFlight, cloudFlight: cloudFlight)
+        //interactor?.pushCreatedFlightToDatastore(model: model)
+        /*recordsToSave.append(flightRecord)
         user.flights = userRecord["flights"] ?? [String]()
         user.flights.append(flight.uid)
         userRecord["flights"] = user.flights as CKRecordValue
@@ -224,8 +236,8 @@ extension FlightWorkerProtocol{
         self.databaseWorker.saveRecords(records: recordsToSave){
             self.user.changetag = self.userRecord.recordChangeTag!
             flight.changetag = flightRecord.recordChangeTag!
-            let managedFlight = ManagedFlight(context: self.databaseWorker.container.viewContext)
-            managedFlight.fromFlight(flight: flight)
+            //let managedFlight = ManagedFlight(context: self.databaseWorker.container.viewContext)
+            //managedFlight.fromFlight(flight: flight)
             self.databaseWorker.saveContext(container: self.databaseWorker.container)
             semaphore.signal()
         }
@@ -237,9 +249,9 @@ extension FlightWorkerProtocol{
         let departureDate = params![1]
         let airlineIata = flightCode.prefix(2)
         let flightNumber = flightCode.suffix(flightCode.count-2)
-        /*let results = [flightCode, "\(departureDate)  11:20:00"]
-         saveFlightDataToBothDb(params: results)*/
-        let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
+        let results = [flightCode, "\(departureDate)  11:20:00"]
+         saveFlightDataToBothDb(params: results)
+        /*let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
         do{
             let data = try String(contentsOf: URL(string: urlString)!)
             let jsonData = JSON(parseJSON: data)
@@ -259,7 +271,15 @@ extension FlightWorkerProtocol{
             let response = ListFlights.FlightAddition.Response(errorMessage: "Flight not found")
             interactor?.fetchFlightAdditionResponse(response: response)
             
-        }
+        }*/
+    }
+    
+    func getDate(receivedDate : String) -> Date
+    {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        let date = formatter.date(from: receivedDate) ?? Date()
+        return date
     }
     
     /*func saveFlightDataToBothDbDummy(params: [String]?){

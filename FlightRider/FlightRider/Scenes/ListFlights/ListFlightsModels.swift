@@ -187,8 +187,26 @@ enum ListFlights
         {
             let changeTag: String
         }
+        struct Result
+        {
+            let previousFlightCount: Int
+            let predicate: NSPredicate
+        }
+        struct FlightResult
+        {
+            let flight: ManagedFlight
+        }
         
     }
+    
+    enum FlightDeletion
+    {
+        struct Request
+        {
+            let flight: ManagedFlight
+        }
+    }
+    
     enum LocalDatabase
     {
         struct SaveRequest

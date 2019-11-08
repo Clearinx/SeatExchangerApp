@@ -19,6 +19,7 @@ protocol ListFlightsDisplayLogic: class, NSFetchedResultsControllerDelegate
     func pushViewModelUpdate(viewModel: ListFlights.FligthsToDisplay.ViewModel)
     func displayUIUpdate(request: ListFlights.UIUpdate.Request)
     func displayFlightAdditionErrorMessage(response: ListFlights.FlightAddition.Response)
+    func displayInsertFlight(request: ListFlights.UIUpdate.Request)
 }
 
 class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
@@ -93,13 +94,20 @@ class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
     func fetchDataFromPreviousViewController(dataModel: Login.DataStore.ListViewDataModel) {
         interactor?.fetchDataFromPreviousViewController(dataModel: dataModel)
         viewModel.flights = [ManagedFlight]()
+        viewModel.departureDates = [String]()
     }
     
     //MARK: - Push functions
     
     func pushViewModelUpdate(viewModel: ListFlights.FligthsToDisplay.ViewModel) {
-        self.viewModel.flights = viewModel.flights
-        self.viewModel.departureDates = viewModel.departureDates
+        for flight in viewModel.flights{
+            self.viewModel.flights.append(flight)
+        }
+        for date in viewModel.departureDates{
+            self.viewModel.departureDates.append(date)
+        }
+        //self.viewModel.flights = viewModel.flights
+        //self.viewModel.departureDates = viewModel.departureDates
     }
     
     //MARK: - DisplayFunctions
@@ -112,6 +120,14 @@ class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
             self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
         }
     }
+    
+    func displayInsertFlight(request: ListFlights.UIUpdate.Request){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.viewModel.flights.count - 1, section: 0)
+            self.tableView.insertRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
     
     func displayFlightAdditionErrorMessage(response: ListFlights.FlightAddition.Response) {
         DispatchQueue.main.async {
@@ -138,6 +154,15 @@ class ListFlightsViewController: UITableViewController, ListFlightsDisplayLogic
             cell.imageView?.image = UIImage(named: img)
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let flight = viewModel.flights[indexPath.row]
+        let request = ListFlights.FlightDeletion.Request(flight: flight)
+        interactor?.requestSelectedFlightRemoval(request: request)
+        viewModel.flights.remove(at: indexPath.row)
+        viewModel.departureDates.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
     }
     
     private func setSpinnerView(){

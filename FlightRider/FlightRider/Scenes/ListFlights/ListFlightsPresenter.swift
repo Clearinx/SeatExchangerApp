@@ -34,6 +34,10 @@ class ListFlightsPresenter: ListFlightsPresentationLogic
         if response.errorMessage != nil{
             viewController?.displayFlightAdditionErrorMessage(response: response)
         }
+        else{
+            let request = ListFlights.UIUpdate.Request()
+            viewController?.displayInsertFlight(request: request)
+        }
     }
     
     func pushViewModelUpdate(model: ListFlights.FligthsToDisplay.DataModel) {

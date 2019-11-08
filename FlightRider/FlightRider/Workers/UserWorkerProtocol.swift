@@ -19,13 +19,15 @@ extension UserWorkerProtocol{
         let user = User(email: params![1], flights: [String](), uid: params![0], changetag: "")
         let managedUser = ManagedUser(context: databaseWorker.container.viewContext)
         managedUser.fromUser(user: user)
+        let semaphore = DispatchSemaphore(value: 0)
         self.databaseWorker.saveRecords(records: [cloudUser.userRecord]){
             managedUser.changetag = cloudUser.userRecord.recordChangeTag!
             self.databaseWorker.saveContext(container: self.databaseWorker.container)
             let response = ListFlights.UserData.Response(localUser: managedUser, cloudUser: cloudUser)
             self.interactor?.pushDatabaseObjectsToDataStore(response: response)
-            
+            semaphore.signal()
         }
+        semaphore.wait()
     }
     
     func fetchUserFromCloud(results : [CKRecord]){
