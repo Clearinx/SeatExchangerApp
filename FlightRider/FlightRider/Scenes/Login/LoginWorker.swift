@@ -14,7 +14,19 @@ import UIKit
 import CloudKit
 import Firebase
 
-class LoginWorker
+protocol LoginWorkerProtocol {
+    var interactor: LoginInteractor? { get set }
+    
+    func requestLoginData(request: Login.LoginFields.Request)
+    func requestLoginAuthentication(request: Login.LoginProcess.Request)
+    func requestSignupAuthentication(request: Login.SignupProcess.Request)
+    func pushSwitchOffRememberMe()
+    func pushSwitchOnRememberMe(request: Login.SwitchData.Request)
+    func pushLoginDataUpdate(request: Login.LoginProcess.Request)
+    func saveRecords(records : [CKRecord])
+}
+
+class LoginWorker : LoginWorkerProtocol
 {
   weak var interactor: LoginInteractor?
     
@@ -108,7 +120,5 @@ class LoginWorker
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         operation.savePolicy = .ifServerRecordUnchanged
         CKContainer.default().publicCloudDatabase.add(operation)
-        print("success")
-        
     }
 }

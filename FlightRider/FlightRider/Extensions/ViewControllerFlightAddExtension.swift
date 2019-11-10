@@ -6,7 +6,7 @@
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-import Foundation
+/*import Foundation
 import CloudKit
 import CoreData
 
@@ -16,10 +16,10 @@ extension ViewController
     func saveFlightDataToBothDbAppendToFlightList(params: [String]?){ //flight validity check disabled for testing
         let flightCode = params![0]
         let departureDate = params![1]
-        let airlineIata = flightCode.prefix(2)
+        let results = [flightCode, "\(departureDate)  11:20:00"]
+        saveFlightDataToBothDb(params: results)
+        /*let airlineIata = flightCode.prefix(2)
         let flightNumber = flightCode.suffix(flightCode.count-2)
-        /*let results = [flightCode, "\(departureDate)  11:20:00"]
-         saveFlightDataToBothDb(params: results)*/
         let urlString = "https://aviation-edge.com/v2/public/routes?key=ee252d-c24759&airlineIata=\(airlineIata)&flightNumber=\(flightNumber)"
         do{
             let data = try String(contentsOf: URL(string: urlString)!)
@@ -38,7 +38,7 @@ extension ViewController
         catch{
             flightNotFoundError()
             
-        }
+        }*/
     }
     
     func fetchFlightsFromCloudAndAppendToUserList(results : [CKRecord]){
@@ -65,4 +65,4 @@ extension ViewController
         }
     }
 }
-
+*/

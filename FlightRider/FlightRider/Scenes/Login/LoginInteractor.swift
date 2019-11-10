@@ -32,20 +32,21 @@ class LoginInteractor: LoginBusinessLogic, LoginDataStore
 {
     
   var presenter: LoginPresentationLogic?
-  var worker: LoginWorker?
+  var worker: LoginWorkerProtocol?
   var databaseWorker = DatabaseWorker()
+    
+    init() {
+        worker = LoginWorker()
+        worker?.interactor = self
+    }
   
     // MARK: - Request functions
     
     func requestLoginData(request: Login.LoginFields.Request){
-        worker = LoginWorker()
-        worker?.interactor = self
         worker?.requestLoginData(request: request)
     }
     
     func requestLoginDataUpdate(request: Login.LoginProcess.Request){
-        worker = LoginWorker()
-        worker?.interactor = self
         if(request.email != nil && request.password != nil){
             if request.switchedOn {
                 worker?.pushLoginDataUpdate(request: request)
@@ -54,15 +55,11 @@ class LoginInteractor: LoginBusinessLogic, LoginDataStore
     }
     
     func requestLoginAuthentication(request: Login.LoginProcess.Request){
-        worker = LoginWorker()
-        worker?.interactor = self
         worker?.requestLoginAuthentication(request: request)
     }
     
     func requestSignupAuthentication(request: Login.SignupProcess.Request) {
         if request.email != nil && request.password != nil{
-            worker = LoginWorker()
-            worker?.interactor = self
             worker?.requestSignupAuthentication(request: request)
         }
         else{
@@ -77,18 +74,28 @@ class LoginInteractor: LoginBusinessLogic, LoginDataStore
     }
     
     func fetchLoginProcessResults(response: Login.LoginProcess.Response){
-        presenter?.fetchLoginProcessResults(response: response)
+        if(response.success){
+            let newResponse = Login.LoginProcess.Response(email: response.email, uid: response.uid, databaseWorker: self.databaseWorker, success: true)
+            presenter?.fetchLoginProcessResults(response: newResponse)
+        }
+        else{
+            presenter?.fetchLoginProcessResults(response: response)
+        }
     }
     
     func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response) {
-        presenter?.fetchSignupAuthenticationResults(response: response)
+        if(response.success){
+            let newResponse = Login.SignupProcess.Response(email: response.email, uid: response.uid, databaseWorker: self.databaseWorker, success: true)
+            presenter?.fetchSignupAuthenticationResults(response: newResponse)
+        }
+        else{
+            presenter?.fetchSignupAuthenticationResults(response: response)
+        }
     }
     
     // MARK: - Push functions
     
     func pushRememberMeSwitchChanged(request: Login.SwitchData.Request){
-        worker = LoginWorker()
-        worker?.interactor = self
         if request.switchedOn {
             if request.email != nil && request.password != nil{
                 worker?.pushSwitchOnRememberMe(request: request)

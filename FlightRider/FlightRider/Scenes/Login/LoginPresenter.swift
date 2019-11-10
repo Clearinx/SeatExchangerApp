@@ -22,8 +22,7 @@ protocol LoginPresentationLogic
 
 class LoginPresenter: LoginPresentationLogic
 {
-    
-    
+
   weak var viewController: LoginDisplayLogic?
 
     // MARK: - Fetch functions
@@ -53,7 +52,7 @@ class LoginPresenter: LoginPresentationLogic
             setLoginError()
         }
         else{
-            let loginResponse = Login.LoginProcess.Response(email: response.email, uid: response.uid, success: response.success)
+            let loginResponse = Login.LoginProcess.Response(email: response.email, uid: response.uid, databaseWorker: response.databaseWorker, success: response.success)
             viewController?.routeToFlightList(response: loginResponse)
         }
     }

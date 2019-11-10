@@ -1,16 +1,16 @@
 //
-//  ViewControllerExtension.swift
+//  UserWorker.swift
 //  FlightRider
 //
 //  Created by Tomi on 2019. 08. 29..
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-/*import Foundation
+import Foundation
 import CloudKit
 import CoreData
 
-extension ViewController {
+extension ListFlightsViewController {
     
     func saveUserDataToBothDb(params: [String]?){
         self.userRecord["uid"] = self.uid as CKRecordValue
@@ -22,7 +22,6 @@ extension ViewController {
         self.databaseWorker.saveRecords(records: [userRecord]){ [unowned self] in
             self.user.changetag = self.userRecord.recordChangeTag!
             self.databaseWorker.saveContext(container: self.databaseWorker.container)
-            print(self.user.uid)
         }
         
     }
@@ -55,5 +54,5 @@ extension ViewController {
         //this should never happen in case of users
     }
     
-
-}*/
+    
+}

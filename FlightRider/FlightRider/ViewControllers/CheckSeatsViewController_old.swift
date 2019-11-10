@@ -6,7 +6,7 @@
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 
 class CheckSeatsViewController_old: UIViewController {
 
@@ -194,4 +194,4 @@ class CheckSeatsViewController_old: UIViewController {
         present(ac, animated: true)
     }
 
-}
+}*/

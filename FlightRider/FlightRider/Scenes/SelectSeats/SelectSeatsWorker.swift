@@ -43,7 +43,6 @@ class SelectSeatsWorker : SelectSeatsWorkerProtocol
                 if let cloudFlight = flightResults.first{
                     let cloudSeat = CloudSeat(number: request.selectedSeatNumber!, occupiedBy: request.email!, flightID: cloudFlight.recordID)
                     let cloudseat2 = CloudSeat(record: cloudSeat.seatRecord)
-                    print(cloudseat2)
                     var existingSeats = cloudFlight["seats"] as? [CKRecord.Reference] ?? [CKRecord.Reference]()
                     existingSeats.append(CKRecord.Reference(recordID: cloudSeat.seatRecord.recordID, action: .none))
                     cloudFlight["seats"] = existingSeats

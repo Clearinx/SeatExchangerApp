@@ -63,6 +63,7 @@ enum Login
         {
             var email : String?
             var uid : String?
+            var databaseWorker: DatabaseWorker?
             var success: Bool!
         }
         struct ViewModel
@@ -81,6 +82,7 @@ enum Login
         {
             var email : String?
             var uid : String?
+            var databaseWorker: DatabaseWorker?
             var success: Bool!
         }
         struct ViewModel

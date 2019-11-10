@@ -153,7 +153,6 @@ class DatabaseWorker : CoreDataWorkerProtocol, ICloudWorkerProtocol, DatabaseWor
                 print("Error: \(error.localizedDescription)")
             }
             else{
-                print("success")
                 completionHandler()
             }
         }

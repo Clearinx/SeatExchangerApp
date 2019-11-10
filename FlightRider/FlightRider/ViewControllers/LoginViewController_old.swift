@@ -11,7 +11,7 @@ import Firebase
 import CloudKit
 import CoreData
 
-//var container: NSPersistentContainer!
+/*//var container: NSPersistentContainer!
 
 class LoginViewController_old: UIViewController {
 
@@ -139,7 +139,7 @@ class LoginViewController_old: UIViewController {
         present(ac, animated: true)
     }
     
-    //router
+    //Temporary Routing
     func ToFlightList(){
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
             vc.uid = self.uid
@@ -184,4 +184,4 @@ class LoginViewController_old: UIViewController {
     }
     
     
-}
+}*/

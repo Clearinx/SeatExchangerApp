@@ -14,28 +14,17 @@ import UIKit
 
 protocol ListFlightsBusinessLogic
 {
-  func doSomething(request: ListFlights.Something.Request)
+
 }
 
 protocol ListFlightsDataStore
 {
-  //var name: String { get set }
+
 }
 
 class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
 {
   var presenter: ListFlightsPresentationLogic?
   var worker: ListFlightsWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: ListFlights.Something.Request)
-  {
-    worker = ListFlightsWorker()
-    worker?.doSomeWork()
-    
-    let response = ListFlights.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+
 }

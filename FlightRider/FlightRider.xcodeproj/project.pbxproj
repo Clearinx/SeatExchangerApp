@@ -79,6 +79,10 @@
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
+		C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48F823780B310059F2DE /* UserWorker.swift */; };
+		C0BB48FB23780B6C0059F2DE /* FlightWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */; };
+		C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */; };
+		C0BB490123788E1B0059F2DE /* LoginInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB490023788E1B0059F2DE /* LoginInteractorTests.swift */; };
 		FF489CB322F887EF005FAE41 /* CheckSeatsViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB222F887EF005FAE41 /* CheckSeatsViewController_old.swift */; };
 		FF489CB622F88B92005FAE41 /* Tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB522F88B92005FAE41 /* Tap.swift */; };
 		FF90B14323084EE10003E4D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */; };
@@ -186,6 +190,10 @@
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
 		AC2065A8969282ABA87004A8 /* libPods-FlightRider.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRider.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0BB48F823780B310059F2DE /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
+		C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightWorker.swift; sourceTree = "<group>"; };
+		C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
+		C0BB490023788E1B0059F2DE /* LoginInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractorTests.swift; sourceTree = "<group>"; };
 		CE0D469740083BCE2734EA01 /* Pods-FlightRider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRider.debug.xcconfig"; path = "Target Support Files/Pods-FlightRider/Pods-FlightRider.debug.xcconfig"; sourceTree = "<group>"; };
 		D0CCD268A8AB0AB12FE0DDC3 /* Pods-FlightRider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRider.release.xcconfig"; path = "Target Support Files/Pods-FlightRider/Pods-FlightRider.release.xcconfig"; sourceTree = "<group>"; };
 		D2D64074F5F038DF4F5AE346 /* libPods-FlightRiderUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRiderUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -301,6 +309,7 @@
 		890A4FA622E20F2700FA7324 /* FlightRiderTests */ = {
 			isa = PBXGroup;
 			children = (
+				C0BB48FC237828490059F2DE /* Scenes */,
 				890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */,
 				890A4FA922E20F2700FA7324 /* Info.plist */,
 			);
@@ -443,6 +452,8 @@
 			isa = PBXGroup;
 			children = (
 				89C21F2A23684019002B8E05 /* DatabaseWorker.swift */,
+				C0BB48F823780B310059F2DE /* UserWorker.swift */,
+				C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -470,6 +481,23 @@
 				89C21F3323686DB7002B8E05 /* LoginInteractor.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		C0BB48FC237828490059F2DE /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				C0BB48FD237828630059F2DE /* LoginViewController */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		C0BB48FD237828630059F2DE /* LoginViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */,
+				C0BB490023788E1B0059F2DE /* LoginInteractorTests.swift */,
+			);
+			path = LoginViewController;
 			sourceTree = "<group>";
 		};
 		FF489CB422F88B75005FAE41 /* 3rd Party */ = {
@@ -698,6 +726,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89BD56FD236B17C9003234E2 /* SelectSeatsWorker.swift in Sources */,
+				C0BB48FB23780B6C0059F2DE /* FlightWorker.swift in Sources */,
 				89C21F3823686DB7002B8E05 /* LoginViewController.swift in Sources */,
 				89ACA96B237073D900160A83 /* CheckSeatsPresenter.swift in Sources */,
 				8981F093236AFEF40090ACEE /* ListFlightsRouter.swift in Sources */,
@@ -737,6 +766,7 @@
 				89BD5701236B17C9003234E2 /* SelectSeatsInteractor.swift in Sources */,
 				8981F085236AEBCD0090ACEE /* CannotCheckInRouter.swift in Sources */,
 				89A8AA102333A08F00B673EE /* CustomButton.swift in Sources */,
+				C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */,
 				8981F094236AFEF40090ACEE /* ListFlightsModels.swift in Sources */,
 				89C21F2B23684019002B8E05 /* DatabaseWorker.swift in Sources */,
 				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
@@ -770,6 +800,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */,
+				C0BB490123788E1B0059F2DE /* LoginInteractorTests.swift in Sources */,
 				890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

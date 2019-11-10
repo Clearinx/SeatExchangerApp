@@ -192,9 +192,10 @@ class LoginViewController: UIViewController, LoginDisplayLogic
     // MARK: - Temporary routing
     
     func routeToFlightList(response: Login.LoginProcess.Response) {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ListFlightsViewController{
             vc.uid = response.uid
             vc.email = response.email
+            vc.databaseWorker = response.databaseWorker
             self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
             navigationController?.pushViewController(vc, animated: true)
         }

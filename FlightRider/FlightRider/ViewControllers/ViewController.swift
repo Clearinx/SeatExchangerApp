@@ -6,7 +6,7 @@
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 import CoreData
 import CloudKit
 
@@ -265,4 +265,4 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             self.present(ac, animated: true)
         }
     }
-}
+}*/
