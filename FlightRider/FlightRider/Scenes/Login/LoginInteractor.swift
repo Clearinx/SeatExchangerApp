@@ -12,13 +12,14 @@
 
 import UIKit
 
-protocol LoginBusinessLogic
+protocol LoginBusinessLogic: class
 {
     func requestLoginData(request: Login.LoginFields.Request)
     func requestLoginDataUpdate(request: Login.LoginProcess.Request)
     func requestLoginAuthentication(request: Login.LoginProcess.Request)
     func requestSignupAuthentication(request: Login.SignupProcess.Request)
     func fetchLoginData(response: Login.LoginFields.Response)
+    func fetchLoginProcessResults(response: Login.LoginProcess.Response)
     func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response)
     func pushRememberMeSwitchChanged(request: Login.SwitchData.Request)
 }

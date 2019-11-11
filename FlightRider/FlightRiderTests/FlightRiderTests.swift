@@ -6,7 +6,8 @@
 //  Copyright © 2019. Tomi. All rights reserved.
 //
 
-import XCTest
+/*import XCTest
+import CoreData
 @testable import FlightRider
 
 class FlightRiderTests: XCTestCase {
@@ -20,8 +21,11 @@ class FlightRiderTests: XCTestCase {
     }
 
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        var mainViewController = ViewController()
+        mainViewController.uid = "DummyUid"
+        mainViewController.email = "DummyEmail"
+        mainViewController.container = setupContainer()
+        mainViewController.viewDidLoad()
     }
 
     func testPerformanceExample() {
@@ -30,5 +34,19 @@ class FlightRiderTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func setupContainer() -> NSPersistentContainer {
+        let container = NSPersistentContainer (name: "FlightRider")
+        
+        container.loadPersistentStores { storeDescription, error in
+            container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+            
+        }
+        return container
+    }
 
-}
+}*/

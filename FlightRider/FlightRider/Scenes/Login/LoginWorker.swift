@@ -15,7 +15,7 @@ import CloudKit
 import Firebase
 
 protocol LoginWorkerProtocol {
-    var interactor: LoginInteractor? { get set }
+    var interactor: LoginBusinessLogic? { get set }
     
     func requestLoginData(request: Login.LoginFields.Request)
     func requestLoginAuthentication(request: Login.LoginProcess.Request)
@@ -28,7 +28,7 @@ protocol LoginWorkerProtocol {
 
 class LoginWorker : LoginWorkerProtocol
 {
-  weak var interactor: LoginInteractor?
+  weak var interactor: LoginBusinessLogic?
     
     // MARK: - Request functions
     

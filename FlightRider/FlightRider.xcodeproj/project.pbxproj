@@ -79,6 +79,8 @@
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
+		C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48672379DB2000C27027 /* LoginWorkerTests.swift */; };
+		C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */; };
 		C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48F823780B310059F2DE /* UserWorker.swift */; };
 		C0BB48FB23780B6C0059F2DE /* FlightWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */; };
 		C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */; };
@@ -190,6 +192,8 @@
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
 		AC2065A8969282ABA87004A8 /* libPods-FlightRider.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRider.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C04A48672379DB2000C27027 /* LoginWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorkerTests.swift; sourceTree = "<group>"; };
+		C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
 		C0BB48F823780B310059F2DE /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 		C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightWorker.swift; sourceTree = "<group>"; };
 		C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
@@ -496,6 +500,8 @@
 			children = (
 				C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */,
 				C0BB490023788E1B0059F2DE /* LoginInteractorTests.swift */,
+				C04A48672379DB2000C27027 /* LoginWorkerTests.swift */,
+				C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */,
 			);
 			path = LoginViewController;
 			sourceTree = "<group>";
@@ -803,6 +809,8 @@
 				C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */,
 				C0BB490123788E1B0059F2DE /* LoginInteractorTests.swift in Sources */,
 				890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */,
+				C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */,
+				C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
