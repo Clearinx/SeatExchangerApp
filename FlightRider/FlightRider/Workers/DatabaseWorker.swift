@@ -27,7 +27,7 @@ protocol ICloudWorkerProtocol{
     func saveRecords(records : [CKRecord], completionHandler: @escaping () -> Void) -> Void
 }
 
-protocol DatabaseWorkerProtocol{
+protocol DatabaseWorkerProtocol: class, ICloudWorkerProtocol, CoreDataWorkerProtocol{
     
     typealias NSManagedObjectParameter = ([NSManagedObject]) -> Void
     typealias StringValuesParameter = ([String]?) -> Void
@@ -40,12 +40,9 @@ protocol DatabaseWorkerProtocol{
     func index(flight : ManagedFlight) -> Void
 }
 
-class DatabaseWorker : CoreDataWorkerProtocol, ICloudWorkerProtocol, DatabaseWorkerProtocol {
+class DatabaseWorker : DatabaseWorkerProtocol {
     var container: NSPersistentContainer!
     
-    /*override init(){
-        func setupContainer()
-    }*/
     init() {
         setupContainer()
     }

@@ -87,6 +87,7 @@
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
 		C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48672379DB2000C27027 /* LoginWorkerTests.swift */; };
 		C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */; };
+		C06CD644237B3ACE0004F8BA /* SelectSeatsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */; };
 		C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48F823780B310059F2DE /* UserWorker.swift */; };
 		C0BB48FB23780B6C0059F2DE /* FlightWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */; };
 		C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */; };
@@ -206,6 +207,7 @@
 		AC2065A8969282ABA87004A8 /* libPods-FlightRider.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRider.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04A48672379DB2000C27027 /* LoginWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorkerTests.swift; sourceTree = "<group>"; };
 		C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
+		C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsWorker.swift; sourceTree = "<group>"; };
 		C0BB48F823780B310059F2DE /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 		C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightWorker.swift; sourceTree = "<group>"; };
 		C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 			children = (
 				89CCED4A237AE7D30010A39F /* SelectSeatsPresenterTests.swift */,
 				89CCED4C237AF0B30010A39F /* SelectSeatsInteractorTests.swift */,
+				C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */,
 			);
 			path = SelectSeats;
 			sourceTree = "<group>";
@@ -856,6 +859,7 @@
 				89CCED48237ADE690010A39F /* CheckSeatsViewControllerTests.swift in Sources */,
 				890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */,
 				89CCED41237A96950010A39F /* CannotCheckInPresenter.swift in Sources */,
+				C06CD644237B3ACE0004F8BA /* SelectSeatsWorker.swift in Sources */,
 				C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */,
 				C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */,
 				89CCED4D237AF0B30010A39F /* SelectSeatsInteractorTests.swift in Sources */,

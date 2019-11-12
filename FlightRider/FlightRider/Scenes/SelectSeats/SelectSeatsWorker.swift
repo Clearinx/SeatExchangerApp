@@ -22,8 +22,8 @@ protocol SelectSeatsWorkerProtocol
 class SelectSeatsWorker : SelectSeatsWorkerProtocol
 {
 
-    weak var interactor: SelectSeatsInteractor?
-    weak var databaseWorker : DatabaseWorker!
+    weak var interactor: SelectSeatsBusinessLogic?
+    weak var databaseWorker : DatabaseWorkerProtocol!
     
     
     // Request functions
@@ -46,7 +46,7 @@ class SelectSeatsWorker : SelectSeatsWorkerProtocol
                     existingSeats.append(CKRecord.Reference(recordID: cloudSeat.seatRecord.recordID, action: .none))
                     cloudFlight["seats"] = existingSeats
                     self.databaseWorker.saveRecords(records: [cloudSeat.seatRecord, cloudFlight]){
-                        let seat = Seat(changetag: cloudSeat.seatRecord.recordChangeTag!, number: request.selectedSeatNumber!, occupiedBy: request.email!, uid: cloudSeat.seatRecord.recordID.recordName, flight: request.flight)
+                        let seat = Seat(changetag: cloudSeat.seatRecord.recordChangeTag ?? "", number: request.selectedSeatNumber!, occupiedBy: request.email!, uid: cloudSeat.seatRecord.recordID.recordName, flight: request.flight)
                         let managedSeat = ManagedSeat(context: self.databaseWorker.container.viewContext)
                         managedSeat.fromSeat(seat: seat)
                         request.flight!.seats.insert(managedSeat)

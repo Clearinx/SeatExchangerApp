@@ -9,12 +9,14 @@
 @testable import FlightRider
 import UIKit
 import XCTest
+import CoreData
 
 class SelectSeatsInteractorTests: XCTestCase{
     
     // MARK: - Subject under test
     
     var sut: SelectSeatsInteractor!
+    var context : NSManagedObjectContext!
     
     // MARK: - Test lifecycle
     
@@ -22,6 +24,7 @@ class SelectSeatsInteractorTests: XCTestCase{
     {
         super.setUp()
         setupSelectSeatsInteractor()
+        context = setUpInMemoryManagedObjectContext()
     }
     
     override func tearDown()
@@ -34,6 +37,23 @@ class SelectSeatsInteractorTests: XCTestCase{
     func setupSelectSeatsInteractor()
     {
         sut = SelectSeatsInteractor()
+    }
+    
+    func setUpInMemoryManagedObjectContext() -> NSManagedObjectContext {
+        let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle.main])
+        
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel!)
+        
+        do {
+            try persistentStoreCoordinator.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
+        } catch {
+            print("Adding in-memory persistent store failed")
+        }
+        
+        let managedObjectContext = NSManagedObjectContext()
+        managedObjectContext.persistentStoreCoordinator = persistentStoreCoordinator
+        
+        return managedObjectContext
     }
     
     class SelectSeatsPresentationLogicMock: SelectSeatsPresentationLogic
@@ -93,19 +113,72 @@ class SelectSeatsInteractorTests: XCTestCase{
         sut.presenter = selectSeatsPresentationLogicMock
         sut.worker = selectSeatsWorkerMock
         
+        let flight = ManagedFlight(context: context)
+        flight.airplaneType = "dummy"
+        sut.dataStore = SelectSeats.StoredData.ViewModel(flight: flight, user: nil, userRecord: nil, image: nil, justSelectedSeat: true)
+        
         // When
         var jsondata = [JSON]()
         let json = """
-        [{"modelName": "dummy", "numberOfSeats": 32, "columns": "ABCDEF"}]
+        {"modelName": "dummy", "numberOfSeats": 32, "columns": "ABCDEF"}
         """
         jsondata.append(JSON(parseJSON: json))
-        print(jsondata)
         let response = SelectSeats.PickerDataSource.Response(dataSource: jsondata)
         sut.fetchPickerDataSource(response: response)
         
         // Then
+        XCTAssert(selectSeatsPresentationLogicMock.fetchPickerDataModelCalled == true)
         XCTAssert(selectSeatsPresentationLogicMock.model.airplaneModel.modelName == "dummy")
         XCTAssert(selectSeatsPresentationLogicMock.model.airplaneModel.columns == "ABCDEF")
         XCTAssert(selectSeatsPresentationLogicMock.model.airplaneModel.numberOfSeats == 32)
+    }
+    
+    func testFetchPickerDataSourceWrongModel(){
+        // Given
+        let selectSeatsPresentationLogicMock = SelectSeatsPresentationLogicMock()
+        let selectSeatsWorkerMock = SelectSeatsWorkerMock()
+        sut.presenter = selectSeatsPresentationLogicMock
+        sut.worker = selectSeatsWorkerMock
+        
+        let flight = ManagedFlight(context: context)
+        flight.airplaneType = "dummy"
+        sut.dataStore = SelectSeats.StoredData.ViewModel(flight: flight, user: nil, userRecord: nil, image: nil, justSelectedSeat: true)
+        
+        // When
+        var jsondata = [JSON]()
+        let json = """
+        {"modelName": "NotDummy", "numberOfSeats": 32, "columns": "ABCDEF"}
+        """
+        jsondata.append(JSON(parseJSON: json))
+        let response = SelectSeats.PickerDataSource.Response(dataSource: jsondata)
+        sut.fetchPickerDataSource(response: response)
+        
+        // Then
+        XCTAssert(selectSeatsPresentationLogicMock.fetchPickerDataModelCalled == false)
+        XCTAssert(selectSeatsPresentationLogicMock.model == nil)
+    }
+    
+    func testFetchPickerDataSourcenilModel(){
+        // Given
+        let selectSeatsPresentationLogicMock = SelectSeatsPresentationLogicMock()
+        let selectSeatsWorkerMock = SelectSeatsWorkerMock()
+        sut.presenter = selectSeatsPresentationLogicMock
+        sut.worker = selectSeatsWorkerMock
+        
+        let flight = ManagedFlight(context: context)
+        sut.dataStore = SelectSeats.StoredData.ViewModel(flight: flight, user: nil, userRecord: nil, image: nil, justSelectedSeat: true)
+        
+        // When
+        var jsondata = [JSON]()
+        let json = """
+        {"modelName": "NotDummy", "numberOfSeats": 32, "columns": "ABCDEF"}
+        """
+        jsondata.append(JSON(parseJSON: json))
+        let response = SelectSeats.PickerDataSource.Response(dataSource: jsondata)
+        sut.fetchPickerDataSource(response: response)
+        
+        // Then
+        XCTAssert(selectSeatsPresentationLogicMock.fetchPickerDataModelCalled == false)
+        XCTAssert(selectSeatsPresentationLogicMock.model == nil)
     }
 }

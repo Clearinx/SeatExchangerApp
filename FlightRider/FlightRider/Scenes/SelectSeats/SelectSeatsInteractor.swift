@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol SelectSeatsBusinessLogic
+protocol SelectSeatsBusinessLogic: class
 {
     func requestCheckSeatsData(request: SelectSeats.StoredData.Request)
     func requestDisplayData(request: SelectSeats.DisplayData.Request)
@@ -32,7 +32,7 @@ protocol SelectSeatsDataStore
 class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
 {
     var dataStore = SelectSeats.StoredData.ViewModel()
-    var databaseWorker : DatabaseWorker!
+    var databaseWorker : DatabaseWorkerProtocol!
     
     var presenter: SelectSeatsPresentationLogic?
     var worker: SelectSeatsWorkerProtocol?
@@ -67,7 +67,6 @@ class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
     
     //MARK: - Fetch functions
     func fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response) {
-        print(response)
         let typeOptional = response.dataSource.filter{$0["modelName"].stringValue == dataStore.flight?.airplaneType}.first
         if let type = typeOptional{
             let actualType = AirplaneModel(modelName: type["modelName"].stringValue, numberOfSeats: type["numberOfSeats"].intValue, latestColumn: type["columns"].stringValue)
