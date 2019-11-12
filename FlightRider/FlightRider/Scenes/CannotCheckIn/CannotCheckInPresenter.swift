@@ -26,9 +26,11 @@ class CannotCheckInPresenter: CannotCheckInPresentationLogic
     //MARK: - Request functions
     
     func requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request){
-        let deltaTime = Calendar.current.date(byAdding: .day, value:-2, to: request.departureDate!)! - Date()
-        let timeResult = convertToDaysHoursMinutes(interval: deltaTime)
-        viewController?.displayRemainingTime(response: CannotCheckIn.CalculateTime.Response(days: timeResult.days, hours: timeResult.hours, minutes: timeResult.minutes))
+        if let departureDate = request.departureDate{
+            let deltaTime = Calendar.current.date(byAdding: .day, value:-2, to: departureDate)! - Date()
+            let timeResult = convertToDaysHoursMinutes(interval: deltaTime)
+            viewController?.displayRemainingTime(response: CannotCheckIn.CalculateTime.Response(days: timeResult.days, hours: timeResult.hours, minutes: timeResult.minutes))
+        }
     }
     
     //MARK: - Fetch functions

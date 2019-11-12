@@ -13,12 +13,15 @@
 import UIKit
 
 protocol CheckSeatsWorkerProtocol {
+    
+    var interactor : CheckSeatsBusinessLogic? { get set }
+    
     func requestAirplaneModel(request: CheckSeats.GetAirplaneModel.Request)
 }
 
 class CheckSeatsWorker : CheckSeatsWorkerProtocol
 {
-    var interactor : CheckSeatsInteractor?
+    weak var interactor : CheckSeatsBusinessLogic?
     
     //MARK: - Request functions
     
@@ -28,10 +31,15 @@ class CheckSeatsWorker : CheckSeatsWorkerProtocol
         if let data = data{
             let jsonData = JSON(parseJSON: data)
             let jsonArray = jsonData.arrayValue
-            let jsonValue = jsonArray.filter{$0["modelName"].stringValue == request.airplaneType}.first!
-            let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
-            let response = CheckSeats.GetAirplaneModel.Response(airplaneModel: actualType)
-            interactor?.fetchAirplaneModel(response: response)
+            let jsonValueOptional = jsonArray.filter{$0["modelName"].stringValue == request.airplaneType}.first
+            if let jsonValue = jsonValueOptional{
+                let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
+                let response = CheckSeats.GetAirplaneModel.Response(airplaneModel: actualType)
+                interactor?.fetchAirplaneModel(response: response)
+            }
+            else{
+                print("Type could not find within JSON")
+            }
         }
         else{
             print("JSON file could not found")

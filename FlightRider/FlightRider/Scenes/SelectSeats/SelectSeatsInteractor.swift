@@ -35,7 +35,7 @@ class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
     var databaseWorker : DatabaseWorker!
     
     var presenter: SelectSeatsPresentationLogic?
-    var worker: SelectSeatsWorker?
+    var worker: SelectSeatsWorkerProtocol?
     
     //MARK: - Request functions
     
@@ -67,10 +67,16 @@ class SelectSeatsInteractor: SelectSeatsBusinessLogic, SelectSeatsDataStore
     
     //MARK: - Fetch functions
     func fetchPickerDataSource(response: SelectSeats.PickerDataSource.Response) {
-        let type = response.dataSource.filter{$0["modelName"].stringValue == dataStore.flight?.airplaneType}.first!
-        let actualType = AirplaneModel(modelName: type["modelName"].stringValue, numberOfSeats: type["numberOfSeats"].intValue, latestColumn: type["columns"].stringValue)
-        let modelResponse = SelectSeats.PickerDataModel.Response(airplaneModel: actualType)
-        presenter?.fetchPickerDataModel(response: modelResponse)
+        print(response)
+        let typeOptional = response.dataSource.filter{$0["modelName"].stringValue == dataStore.flight?.airplaneType}.first
+        if let type = typeOptional{
+            let actualType = AirplaneModel(modelName: type["modelName"].stringValue, numberOfSeats: type["numberOfSeats"].intValue, latestColumn: type["columns"].stringValue)
+            let modelResponse = SelectSeats.PickerDataModel.Response(airplaneModel: actualType)
+            presenter?.fetchPickerDataModel(response: modelResponse)
+        }
+        else{
+            print("Model not found")
+        }
     }
     
     func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response) {

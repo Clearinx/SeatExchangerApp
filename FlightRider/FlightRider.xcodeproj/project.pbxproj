@@ -76,6 +76,12 @@
 		89C21F3723686DB7002B8E05 /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3123686DB7002B8E05 /* LoginModels.swift */; };
 		89C21F3823686DB7002B8E05 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3223686DB7002B8E05 /* LoginViewController.swift */; };
 		89C21F3923686DB7002B8E05 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C21F3323686DB7002B8E05 /* LoginInteractor.swift */; };
+		89CCED41237A96950010A39F /* CannotCheckInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED40237A96950010A39F /* CannotCheckInPresenter.swift */; };
+		89CCED44237AA4E00010A39F /* CheckSeatsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED43237AA4E00010A39F /* CheckSeatsInteractor.swift */; };
+		89CCED46237AC08C0010A39F /* CheckSeatsWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED45237AC08C0010A39F /* CheckSeatsWorkerTests.swift */; };
+		89CCED48237ADE690010A39F /* CheckSeatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED47237ADE690010A39F /* CheckSeatsViewControllerTests.swift */; };
+		89CCED4B237AE7D30010A39F /* SelectSeatsPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED4A237AE7D30010A39F /* SelectSeatsPresenterTests.swift */; };
+		89CCED4D237AF0B30010A39F /* SelectSeatsInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED4C237AF0B30010A39F /* SelectSeatsInteractorTests.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
@@ -188,6 +194,12 @@
 		89C21F3123686DB7002B8E05 /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
 		89C21F3223686DB7002B8E05 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		89C21F3323686DB7002B8E05 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		89CCED40237A96950010A39F /* CannotCheckInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInPresenter.swift; sourceTree = "<group>"; };
+		89CCED43237AA4E00010A39F /* CheckSeatsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSeatsInteractor.swift; sourceTree = "<group>"; };
+		89CCED45237AC08C0010A39F /* CheckSeatsWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSeatsWorkerTests.swift; sourceTree = "<group>"; };
+		89CCED47237ADE690010A39F /* CheckSeatsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSeatsViewControllerTests.swift; sourceTree = "<group>"; };
+		89CCED4A237AE7D30010A39F /* SelectSeatsPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsPresenterTests.swift; sourceTree = "<group>"; };
+		89CCED4C237AF0B30010A39F /* SelectSeatsInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsInteractorTests.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
@@ -487,15 +499,45 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		89CCED3F237A96700010A39F /* CannotCheckIn */ = {
+			isa = PBXGroup;
+			children = (
+				89CCED40237A96950010A39F /* CannotCheckInPresenter.swift */,
+			);
+			path = CannotCheckIn;
+			sourceTree = "<group>";
+		};
+		89CCED42237AA2040010A39F /* CheckSeats */ = {
+			isa = PBXGroup;
+			children = (
+				89CCED43237AA4E00010A39F /* CheckSeatsInteractor.swift */,
+				89CCED45237AC08C0010A39F /* CheckSeatsWorkerTests.swift */,
+				89CCED47237ADE690010A39F /* CheckSeatsViewControllerTests.swift */,
+			);
+			path = CheckSeats;
+			sourceTree = "<group>";
+		};
+		89CCED49237AE7A40010A39F /* SelectSeats */ = {
+			isa = PBXGroup;
+			children = (
+				89CCED4A237AE7D30010A39F /* SelectSeatsPresenterTests.swift */,
+				89CCED4C237AF0B30010A39F /* SelectSeatsInteractorTests.swift */,
+			);
+			path = SelectSeats;
+			sourceTree = "<group>";
+		};
 		C0BB48FC237828490059F2DE /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				C0BB48FD237828630059F2DE /* LoginViewController */,
+				89CCED49237AE7A40010A39F /* SelectSeats */,
+				89CCED42237AA2040010A39F /* CheckSeats */,
+				89CCED3F237A96700010A39F /* CannotCheckIn */,
+				C0BB48FD237828630059F2DE /* Login */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
 		};
-		C0BB48FD237828630059F2DE /* LoginViewController */ = {
+		C0BB48FD237828630059F2DE /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */,
@@ -503,7 +545,7 @@
 				C04A48672379DB2000C27027 /* LoginWorkerTests.swift */,
 				C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */,
 			);
-			path = LoginViewController;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		FF489CB422F88B75005FAE41 /* 3rd Party */ = {
@@ -807,10 +849,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */,
+				89CCED46237AC08C0010A39F /* CheckSeatsWorkerTests.swift in Sources */,
+				89CCED44237AA4E00010A39F /* CheckSeatsInteractor.swift in Sources */,
+				89CCED4B237AE7D30010A39F /* SelectSeatsPresenterTests.swift in Sources */,
 				C0BB490123788E1B0059F2DE /* LoginInteractorTests.swift in Sources */,
+				89CCED48237ADE690010A39F /* CheckSeatsViewControllerTests.swift in Sources */,
 				890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */,
+				89CCED41237A96950010A39F /* CannotCheckInPresenter.swift in Sources */,
 				C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */,
 				C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */,
+				89CCED4D237AF0B30010A39F /* SelectSeatsInteractorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

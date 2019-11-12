@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol CheckSeatsBusinessLogic
+protocol CheckSeatsBusinessLogic: class
 {
     func requestAirplaneModel(request: inout CheckSeats.GetAirplaneModel.Request)
     func requestJustSelectedSeatFlag(request: CheckSeats.JustSelecetedSeatStatus.Request)
@@ -33,7 +33,7 @@ class CheckSeatsInteractor: CheckSeatsBusinessLogic, CheckSeatsDataStore
     var dataStore = CheckSeats.DataStore.DataStore()
     
     var presenter: CheckSeatsPresentationLogic?
-    var worker: CheckSeatsWorker?
+    var worker: CheckSeatsWorkerProtocol?
     
     //MARK: - Request functions
     
