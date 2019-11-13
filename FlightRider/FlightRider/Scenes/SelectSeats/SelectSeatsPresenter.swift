@@ -12,8 +12,7 @@
 
 import UIKit
 
-protocol SelectSeatsPresentationLogic
-{
+protocol SelectSeatsPresentationLogic {
     func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
     func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel)
     func fetchDisplayData(response: SelectSeats.DisplayData.Response)
@@ -21,8 +20,7 @@ protocol SelectSeatsPresentationLogic
     func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response)
 }
 
-class SelectSeatsPresenter: SelectSeatsPresentationLogic
-{
+class SelectSeatsPresenter: SelectSeatsPresentationLogic {
 
   weak var viewController: SelectSeatsDisplayLogic?
   

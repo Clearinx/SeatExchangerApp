@@ -24,81 +24,81 @@ protocol SelectSeatsDisplayLogic: class
 
 class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SelectSeatsDisplayLogic
 {
- 
+
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var seat1Picker: UIPickerView!
     var spinnerView : UIView!
     var ai : UIActivityIndicatorView!
     var viewModel = SelectSeats.PickerDataModel.ViewModel()
-    
-  var interactor: SelectSeatsBusinessLogic?
-  var router: (NSObjectProtocol & SelectSeatsRoutingLogic & SelectSeatsDataPassing)?
 
-  // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = SelectSeatsInteractor()
-    let presenter = SelectSeatsPresenter()
-    let router = SelectSeatsRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
+    var interactor: SelectSeatsBusinessLogic? // Why is it optional, then can it be IUO !, and lastly, why isn't it just a strong direct reference.
+    var router: (NSObjectProtocol & SelectSeatsRoutingLogic & SelectSeatsDataPassing)?
+
+    // MARK: - Object lifecycle
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+        setup()
     }
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
-    setSpinnerView()
-    interactor?.requestDisplayData(request: SelectSeats.DisplayData.Request())
-    interactor?.requestPickerInitialization(request: SelectSeats.PickerDataSource.Request())
-  }
-  
+
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+    }
+
+    // MARK: - Setup
+
+    private func setup(router: SelectSeatsRoutingLogic, presenter: SelectSeatsPresentationLogic, interactor: INter)
+    {
+        let viewController = self
+        //Remove this concrete implementation dependencies from here, receive them as DI.
+        let interactor = SelectSeatsInteractor()
+        let presenter = SelectSeatsPresenter()
+        let router = SelectSeatsRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+
+    // MARK: Routing
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        guard let scene = segue.identifier else { fatalError("the sgue has no id")}
+        let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+        guard let router = self.router, router.responds(to: selector) else {fatalError()}
+
+        router.perform(selector, with: segue)
+    }
+
+    // MARK: View lifecycle
+
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed))
+        setSpinnerView()
+        interactor?.requestDisplayData(request: SelectSeats.DisplayData.Request())
+        interactor?.requestPickerInitialization(request: SelectSeats.PickerDataSource.Request())
+    }
+
     //Fetch functions
     func fetchDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel) {
         interactor?.pushDataFromPreviousViewController(viewModel: viewModel)
     }
-    
+
     //Display functions
     func displayData(viewModel: SelectSeats.DisplayData.ViewModel) {
         flightNr.text = viewModel.flightNumber
         flightLogo.image = viewModel.image
     }
-    
+
     func displayPickerView(viewModel: SelectSeats.PickerDataModel.ViewModel) {
         self.viewModel.pickerData = viewModel.pickerData
         self.viewModel.pickerDataNumbers = viewModel.pickerDataNumbers
@@ -106,34 +106,39 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         seat1Picker.dataSource = self
         seat1Picker.selectRow((viewModel.maxElements / 2) - 8, inComponent: 0, animated: false)
         seat1Picker.selectRow((viewModel.maxElements / 2) - 2, inComponent: 1, animated: false)
-        self.viewModel.selectedSeatNumber = "\(self.viewModel.pickerData[0][seat1Picker.selectedRow(inComponent: 0) % self.viewModel.pickerData[0].count])\(self.viewModel.pickerData[1][seat1Picker.selectedRow(inComponent: 1) % self.viewModel.pickerData[1].count])"
+
+        assert(self.viewModel.pickerData[0].isEmpty == false)
+
+        //Too complex to understand, use aux variables/constants
+        let auxVariableThatNeedsToBeNamedProperly = seat1Picker.selectedRow(inComponent: 0) % self.viewModel.pickerData[0].count
+        self.viewModel.selectedSeatNumber = "\(self.viewModel.pickerData[0][auxVariableThatNeedsToBeNamedProperly])\(self.viewModel.pickerData[1][seat1Picker.selectedRow(inComponent: 1) % self.viewModel.pickerData[1].count])"
     }
-    
+
     func displaySuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response) {
         self.removeSpinner(spinnerView: spinnerView, ai: ai)
         displayAlertController(title: "Success", message: "Seat \(response.selectedSeatNumber!) updated successfully")
         let request = SelectSeats.StoredData.Request()
         interactor?.pushJustSelectedSeatState(request: request)
     }
-    
+
     func displayUnsuccessfulSeatUpdate(response: SelectSeats.UpdateSeat.Response) {
         self.removeSpinner(spinnerView: spinnerView, ai: ai)
         displayAlertController(title: "Fail", message: "Operation failed: \(response.errorMessage ?? "No details are available")")
     }
-    
+
     //MARK: Local functions
-    
+
     @IBAction func updateSeats(_ sender: Any) {
         showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
         var request = SelectSeats.UpdateSeat.Request()
         request.selectedSeatNumber = viewModel.selectedSeatNumber
         interactor?.requestUpdateSeat(request: request)
     }
-    
+
     @objc func doneButtonPressed(){
-            interactor?.requestCheckSeatsData(request: SelectSeats.StoredData.Request())
+        interactor?.requestCheckSeatsData(request: SelectSeats.StoredData.Request())
     }
-    
+
     func displayAlertController(title: String, message: String){
         DispatchQueue.main.async {
             let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -142,28 +147,28 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
             self.present(ac, animated: true)
         }
     }
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return viewModel.numberOfComponents
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return viewModel.maxElements
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return self.view.frame.width * viewModel.rowHeightConstant
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return self.view.frame.width * viewModel.widthForComponentConstant
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
         viewModel.selectedSeatNumber = "\(viewModel.pickerData[0][seat1Picker.selectedRow(inComponent: 0) % viewModel.pickerData[0].count])\(viewModel.pickerData[1][seat1Picker.selectedRow(inComponent: 1) % viewModel.pickerData[1].count])"
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
@@ -175,14 +180,14 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         pickerLabel?.text = viewModel.pickerData[component][myRow]
         return pickerLabel!
     }
-    
+
     private func setSpinnerView(){
         spinnerView = UIView.init(frame: self.view.bounds)
         ai = UIActivityIndicatorView.init(style: .whiteLarge)
     }
-    
+
     //MARK: - Temporary routing
-    
+
     func routeToCheckSeats(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController{
             vc.fetchDataFromPreviousViewController(viewModel: dataModel)
@@ -190,3 +195,7 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         }
     }
 }
+
+
+
+

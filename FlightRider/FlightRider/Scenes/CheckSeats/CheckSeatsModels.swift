@@ -14,24 +14,24 @@ import UIKit
 
 enum CheckSeats
 {
-  // MARK: Use cases
-  
-  enum DataStore
-  {
-    struct Request
+    // MARK: Use cases
+
+    enum DataStore
     {
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct DataStore
+        {
+            var flight : ManagedFlight!
+            var user : ManagedUser!
+            var justSelectedSeat : Bool!
+        }
     }
-    struct Response
-    {
-    }
-    struct DataStore
-    {
-        var flight : ManagedFlight!
-        var user : ManagedUser!
-        var justSelectedSeat : Bool!
-    }
-  }
-    
+
     enum JustSelecetedSeatStatus
     {
         struct Request
@@ -45,7 +45,7 @@ enum CheckSeats
         {
         }
     }
-    
+
     enum GetAirplaneModel
     {
         struct Request
@@ -60,7 +60,7 @@ enum CheckSeats
         {
         }
     }
-    
+
     enum GetConstants
     {
         struct Request
@@ -68,7 +68,7 @@ enum CheckSeats
             let height : CGFloat
             let width : CGFloat
         }
-        
+
         struct ViewModel
         {
             let viewSize: CGFloat //self.view.frame.width*0.0966
@@ -84,7 +84,7 @@ enum CheckSeats
             let seatnumbersViewTop : CGFloat //self.view.frame.height*0.115
             let seatnumbersViewBottom : CGFloat //self.view.frame.height*0.06
             let cornerRadius : CGFloat //viewSize*0.25*/
-            
+
             init(request: CheckSeats.GetConstants.Request) {
                 viewSize = request.width*0.0966
                 viewSpacing = request.width*0.0169
@@ -103,4 +103,5 @@ enum CheckSeats
         }
     }
 }
+
 

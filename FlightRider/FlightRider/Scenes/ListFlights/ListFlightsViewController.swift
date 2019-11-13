@@ -21,6 +21,7 @@ protocol ListFlightsDisplayLogic {
 }
 
 protocol ListFlightsProtocol {
+    //Sort variables and constants alphabetically
     var databaseWorker : DatabaseWorkerProtocol! { get set }
     var flights : [ManagedFlight] { get set }
     var user : ManagedUser! { get set }
@@ -221,6 +222,9 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
                     }
                     let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: imgToLoad, databaseWorker: databaseWorker)
                     vc.fetchDataFromPreviousViewController(viewModel: dependencies)
+
+                    //Injection of dependencies to the vc.
+                    vc.setup(router:, interactor: presenter: etc.)
                     navigationController?.pushViewController(vc, animated: true)
                 }
             }
@@ -263,7 +267,8 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         ac.addAction(cancelAction)
         present(ac, animated: true)
     }
-    
+
+    //Refactror long methods
     func submit(_ flightCode: String, _ selectedDate: Date) {
         if (flightCode != ""){
             
@@ -288,7 +293,17 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
                         flightUid = results.first!["uid"]
                     }
                     let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
-                    self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
+                    self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self,
+                                                              sortKey: "uid",
+                                                              sortValue: [flightUid ?? "not found"],
+                                                              cloudTable: "Flights",
+                                                              saveParams: params,
+                                                              container: self.databaseWorker.container,
+                                                              delegate: self,
+                                                              saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList,
+                                                              fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList,
+                                                              compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList,
+                                                              decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){ [unowned self] in
                         if(flightCount < self.user.flights.count){
                             let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
                             let newFlight = self.databaseWorker.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.databaseWorker.container, delegate: self) as! [ManagedFlight]

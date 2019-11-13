@@ -81,8 +81,10 @@ class DatabaseWorker : DatabaseWorkerProtocol {
         
         if let localResults = makeLocalQuery(sortKey: sortKey, predicate: pred, request: request, container: container, delegate: delegate){
             if(!(localResults.isEmpty)){
-                pred = NSPredicate(format: "ANY %@ = \(sortKey)", sortValue)
-                makeCloudQuery(sortKey: sortKey, predicate: pred, cloudTable: cloudTable){cloudResults in
+
+                //Refactor duplicate code
+
+                makeCloudQuery(sortKey: sortKey, predicate: .queryForFlifhts, cloudTable: cloudTable){cloudResults in
                     if(!(cloudResults.isEmpty)){
                         compareChangeTagHandler(localResults, cloudResults)
                     }
@@ -229,5 +231,12 @@ class DatabaseWorker : DatabaseWorkerProtocol {
             print(localseat.flight?.iataNumber)
         }
         print(results?.count)
+    }
+}
+
+
+extension NSPredicate {
+    static var queryForFlifhts : NSPredicate {
+        NSPredicate(format:"")
     }
 }
