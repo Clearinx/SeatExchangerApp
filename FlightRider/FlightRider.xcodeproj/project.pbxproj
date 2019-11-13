@@ -20,6 +20,8 @@
 		890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9B22E20F2700FA7324 /* LaunchScreen.storyboard */; };
 		890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FA722E20F2700FA7324 /* FlightRiderTests.swift */; };
 		890A4FB322E20F2700FA7324 /* FlightRiderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */; };
+		890EE3D8237BF475009A97B1 /* UserWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890EE3D7237BF475009A97B1 /* UserWorkerTests.swift */; };
+		890EE3DB237C33E1009A97B1 /* FlightWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890EE3DA237C33E1009A97B1 /* FlightWorkerTests.swift */; };
 		8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913DA102326768100F94C1B /* AirplaneModel.swift */; };
 		8913DA132326795700F94C1B /* AirplaneModels.json in Resources */ = {isa = PBXBuildFile; fileRef = 8913DA122326795700F94C1B /* AirplaneModels.json */; };
 		8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913FB532301A8150069DE41 /* SwiftyJSON.swift */; };
@@ -138,6 +140,8 @@
 		890A4FAE22E20F2700FA7324 /* FlightRiderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlightRiderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		890A4FB222E20F2700FA7324 /* FlightRiderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRiderUITests.swift; sourceTree = "<group>"; };
 		890A4FB422E20F2700FA7324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		890EE3D7237BF475009A97B1 /* UserWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorkerTests.swift; sourceTree = "<group>"; };
+		890EE3DA237C33E1009A97B1 /* FlightWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightWorkerTests.swift; sourceTree = "<group>"; };
 		8913DA102326768100F94C1B /* AirplaneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirplaneModel.swift; sourceTree = "<group>"; };
 		8913DA122326795700F94C1B /* AirplaneModels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AirplaneModels.json; sourceTree = "<group>"; };
 		8913FB532301A8150069DE41 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -343,6 +347,15 @@
 			path = FlightRiderUITests;
 			sourceTree = "<group>";
 		};
+		890EE3D9237BF47D009A97B1 /* ListFlight */ = {
+			isa = PBXGroup;
+			children = (
+				890EE3D7237BF475009A97B1 /* UserWorkerTests.swift */,
+				890EE3DA237C33E1009A97B1 /* FlightWorkerTests.swift */,
+			);
+			path = ListFlight;
+			sourceTree = "<group>";
+		};
 		891990552303EDE1002D9074 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +545,7 @@
 		C0BB48FC237828490059F2DE /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				890EE3D9237BF47D009A97B1 /* ListFlight */,
 				89CCED49237AE7A40010A39F /* SelectSeats */,
 				89CCED42237AA2040010A39F /* CheckSeats */,
 				89CCED3F237A96700010A39F /* CannotCheckIn */,
@@ -857,12 +871,14 @@
 				89CCED4B237AE7D30010A39F /* SelectSeatsPresenterTests.swift in Sources */,
 				C0BB490123788E1B0059F2DE /* LoginInteractorTests.swift in Sources */,
 				89CCED48237ADE690010A39F /* CheckSeatsViewControllerTests.swift in Sources */,
+				890EE3D8237BF475009A97B1 /* UserWorkerTests.swift in Sources */,
 				890A4FA822E20F2700FA7324 /* FlightRiderTests.swift in Sources */,
 				89CCED41237A96950010A39F /* CannotCheckInPresenter.swift in Sources */,
 				C06CD644237B3ACE0004F8BA /* SelectSeatsWorker.swift in Sources */,
 				C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */,
 				C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */,
 				89CCED4D237AF0B30010A39F /* SelectSeatsInteractorTests.swift in Sources */,
+				890EE3DB237C33E1009A97B1 /* FlightWorkerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,13 +10,34 @@ import Foundation
 import CloudKit
 import CoreData
 
-extension ListFlightsViewController {
+protocol FlightWorkerProtocol: class{
+    
+    var databaseWorker : DatabaseWorkerProtocol! { get set }
+    var user : ManagedUser! { get set }
+    var userRecord : CKRecord { get set }
+    
+    func saveFlightDataToBothDb(params: [String]?)
+    func generateSeats(flight : Flight, flightRecord : CKRecord) -> [CKRecord]
+    func fetchFlightsFromCloud(results : [CKRecord])
+    func fetchFlightsFromCloudWaitForResult(results : [CKRecord], completionHandler: @escaping (Flight) -> Void)
+    func compareFlightsChangeTag(localResults : [NSManagedObject],  cloudResults : [CKRecord])
+    func compareFlightsChangeTagWaitForResult(localResults : [NSManagedObject],  cloudResults : [CKRecord], completionHandler: @escaping () -> Void)
+    func getDate(receivedDate : String) -> Date
+    func compareSeats(localFlight: NSManagedObject, flightRecord : CKRecord)
+    func deleteFlightsFromLocalDb(localResults : [NSManagedObject])
+    func doNothing(params: [String]?)
+    func saveFlightDataToBothDbAppendToFlightList(params: [String]?)
+    func fetchFlightsFromCloudAndAppendToUserList(results : [CKRecord])
+    func compareFlightsChangeTagAndAppendToUserList(localResults : [NSManagedObject],  cloudResults : [CKRecord])
+    
+}
+
+extension FlightWorkerProtocol {
     
     func saveFlightDataToBothDb(params: [String]?){
         
         let flightRecord = CKRecord(recordType: "Flights")
         
-        //let flight = Flight(context: self.container.viewContext)
         let departureDate = params![1]
         let dateFormat = getDate(receivedDate: departureDate)
         var flight = Flight(departureDate: dateFormat, iataNumber: params![0], uid: flightRecord.recordID.recordName, changetag: "", airplaneType: "dummy", seats: Set<ManagedSeat>())
@@ -33,8 +54,8 @@ extension ListFlightsViewController {
         recordsToSave.append(userRecord)
         let semaphore = DispatchSemaphore(value: 0)
         self.databaseWorker.saveRecords(records: recordsToSave){ [unowned self] in
-            self.user.changetag = self.userRecord.recordChangeTag!
-            flight.changetag = flightRecord.recordChangeTag!
+            self.user.changetag = self.userRecord.recordChangeTag ?? ""
+            flight.changetag = flightRecord.recordChangeTag ?? ""
             let managedFlight = ManagedFlight(context: self.databaseWorker.container.viewContext)
             managedFlight.fromFlight(flight: flight)
             self.databaseWorker.saveContext(container: self.databaseWorker.container)
@@ -56,7 +77,7 @@ extension ListFlightsViewController {
     func fetchFlightsFromCloud(results : [CKRecord]){
         for result in results{
             
-            let flight = Flight(departureDate: result["departureDate"]!, iataNumber: result["iataNumber"]!, uid: result["uid"]!, changetag: result.recordChangeTag!, airplaneType: result["airplaneType"]!, seats: Set<ManagedSeat>())
+            let flight = Flight(departureDate: result["departureDate"]!, iataNumber: result["iataNumber"]!, uid: result["uid"]!, changetag: result.recordChangeTag ?? "", airplaneType: result["airplaneType"]!, seats: Set<ManagedSeat>())
             
             let managedFlight = ManagedFlight(context: self.databaseWorker.container.viewContext)
             managedFlight.fromFlight(flight: flight)
@@ -114,7 +135,7 @@ extension ListFlightsViewController {
         if localResults.count == cloudResults.count{
             for i in 0...localResults.count - 1{
                 let flight = localResults[i] as! ManagedFlight
-                if(flight.changetag != cloudResults[i].recordChangeTag){
+                if(flight.changetag != cloudResults[i].recordChangeTag ?? ""){
                     fetchFlightsFromCloud(results: [cloudResults[i]])
                 }
                 else{
@@ -145,6 +166,14 @@ extension ListFlightsViewController {
             fetchFlightsFromCloud(results: cloudResults)
         }
         completionHandler()
+    }
+    
+    func getDate(receivedDate : String) -> Date
+    {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        let date = formatter.date(from: receivedDate) ?? Date()
+        return date
     }
     
     func compareSeats(localFlight: NSManagedObject, flightRecord : CKRecord){
@@ -204,17 +233,20 @@ extension ListFlightsViewController {
     
     func unregisterFromFlightOnCloudDb(flight : ManagedFlight){
         self.databaseWorker.makeCloudQuery(sortKey: "uid", predicate: NSPredicate(format: "uid = %@", flight.uid), cloudTable: "Flights"){ [unowned self] cloudFlightResult in
-            let result = cloudFlightResult.first!
-            self.databaseWorker.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND occupiedBy = %@", result.recordID, self.user.email), cloudTable: "Seat"){ [unowned self] cloudSeatResults in
-                let IDs = cloudSeatResults.map{$0.recordID}
-                let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: IDs)
-                CKContainer.default().publicCloudDatabase.add(operation)
-                var seats = result["seats"] as? [CKRecord.Reference] ?? [CKRecord.Reference]()
-                seats = seats.filter{!(IDs.contains($0.recordID))}
-                print (seats)
-                result["seats"] = seats as CKRecordValue
-                self.databaseWorker.saveRecords(records: [self.userRecord, result]){}
-                
+            if let result = cloudFlightResult.first{
+                self.databaseWorker.makeCloudQuery(sortKey: "number", predicate: NSPredicate(format: "flight = %@ AND occupiedBy = %@", result.recordID, self.user.email), cloudTable: "Seat"){ [unowned self] cloudSeatResults in
+                    let IDs = cloudSeatResults.map{$0.recordID}
+                    let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: IDs)
+                    CKContainer.default().publicCloudDatabase.add(operation)
+                    var seats = result["seats"] as? [CKRecord.Reference] ?? [CKRecord.Reference]()
+                    seats = seats.filter{!(IDs.contains($0.recordID))}
+                    result["seats"] = seats as CKRecordValue
+                    self.databaseWorker.saveRecords(records: [self.userRecord, result]){}
+                    
+                }
+            }
+            else{
+                print("Flight not found")
             }
         }
     }

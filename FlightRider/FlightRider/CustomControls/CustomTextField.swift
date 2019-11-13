@@ -24,18 +24,18 @@ class CustomTextField: UITextField {
     
     private func setUpField() {
         tintColor             = .white
-        textColor             = .white
+        textColor             = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         //font                  = UIFont(name: "Marker Felt", size: 18)
-        backgroundColor       = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        alpha                 = 0.5
+        backgroundColor       = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        alpha                 = 0.75
         autocorrectionType    = .no
-        layer.cornerRadius    = 15.0
+        layer.cornerRadius    = 5.0
         clipsToBounds         = true
         
         let placeholder       = self.placeholder != nil ? self.placeholder! : ""
-        let placeholderFont   = UIFont(name: "Marker Felt", size: 30)!
+        let placeholderFont   = UIFont(name: "Arial", size: 15)!
         attributedPlaceholder = NSAttributedString(string: placeholder, attributes:
-            [NSAttributedString.Key.foregroundColor: UIColor.white,
+            [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1),
              NSAttributedString.Key.font: placeholderFont])
     }
 }

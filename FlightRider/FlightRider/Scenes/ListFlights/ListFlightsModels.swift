@@ -60,7 +60,7 @@ enum ListFlights
             let user : ManagedUser
             let userRecord : CKRecord
             let image : UIImage?
-            let databaseWorker : DatabaseWorker
+            let databaseWorker : DatabaseWorkerProtocol
         }
     }
     

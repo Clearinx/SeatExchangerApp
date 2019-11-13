@@ -23,10 +23,10 @@ class CustomButton: UIButton {
     
     
     private func setupButton() {
-        backgroundColor     = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        backgroundColor     = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         alpha               = 0.9
-        titleLabel?.font    = UIFont(name: "MarkerFelt-Thin", size: 30)
-        layer.cornerRadius  = frame.size.height * 0.25
+        titleLabel?.font    = UIFont(name: "Arial", size: 30)
+        layer.cornerRadius  = frame.size.height * 0.35
         setTitleColor(.white, for: .normal)
     }
 }

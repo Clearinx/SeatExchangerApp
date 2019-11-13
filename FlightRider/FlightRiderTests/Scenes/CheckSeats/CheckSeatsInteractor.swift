@@ -184,6 +184,6 @@ class CheckSeatsInteractorTests: XCTestCase{
         // Then
         var expectedResult = Set<ManagedSeat>()
         expectedResult.insert(seat)
-        XCTAssert(result.count == 0)
+        XCTAssert(result.count == expectedResult.count)
     }
 }

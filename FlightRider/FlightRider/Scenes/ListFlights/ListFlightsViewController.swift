@@ -10,6 +10,8 @@
 //  see http://clean-swift.com
 //
 
+//This scene does is still not refactored to the clean swift architecture
+
 import UIKit
 import CloudKit
 import CoreData
@@ -18,9 +20,37 @@ protocol ListFlightsDisplayLogic {
     
 }
 
-class ListFlightsViewController: UITableViewController, NSFetchedResultsControllerDelegate, ListFlightsDisplayLogic
+protocol ListFlightsProtocol {
+    var databaseWorker : DatabaseWorkerProtocol! { get set }
+    var flights : [ManagedFlight] { get set }
+    var user : ManagedUser! { get set }
+    var userRecord : CKRecord { get set }
+    var uid : String! { get set }
+    var email : String! { get set }
+    var spinnerView : UIView! { get set }
+    var ai : UIActivityIndicatorView! { get set }
+    var interactor: ListFlightsBusinessLogic? { get set }
+    var router: (NSObjectProtocol & ListFlightsRoutingLogic & ListFlightsDataPassing)? { get set }
+    
+    func loadUserData(completionHandler: @escaping () -> Void)
+    func createStringsFromJson(json : JSON, flightCode : String, departureDate : String) -> [String]
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
+    func getDate(receivedDate : String) -> Date
+    func getDateString(receivedDate : Date, dateFormat: String) -> String
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    func addFlight()
+    func submit(_ flightCode: String, _ selectedDate: Date)
+    func flightNotFoundError()
+    func flightAlreadyAdded()
+    func flightNumberIsEmpty()
+    
+}
+
+class ListFlightsViewController: UITableViewController, NSFetchedResultsControllerDelegate, ListFlightsDisplayLogic, ListFlightsProtocol, UserWorkerProtocol, FlightWorkerProtocol
 {
-    var databaseWorker : DatabaseWorker!
+    var databaseWorker : DatabaseWorkerProtocol!
     var flights = [ManagedFlight]()
     var user : ManagedUser!
     var userRecord = CKRecord(recordType: "AppUsers")
@@ -84,11 +114,15 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
     
     spinnerView = UIView.init(frame: self.view.bounds)
     ai = UIActivityIndicatorView.init(style: .whiteLarge)
-    let starttime = CFAbsoluteTimeGetCurrent()
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFlight))
     title = "Flights"
     self.showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
-    loadUserData(){ [unowned self] in
+    loadUserData(){
+        self.fillDatastore()
+    }
+  }
+    
+    func fillDatastore(){
         
         let flightRequest = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
         let flightPred = NSPredicate(format: "ANY uid IN %@", self.user.flights)
@@ -98,18 +132,14 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
             self.flights.append(managedFlight)
         }
         self.flights.sort(by: { $1.departureDate > $0.departureDate })
-        let elapsedTime = CFAbsoluteTimeGetCurrent() - starttime
-        print(elapsedTime)
         DispatchQueue.main.async {
             let range = NSMakeRange(0, self.tableView.numberOfSections)
             let sections = NSIndexSet(indexesIn: range)
             self.tableView.reloadSections(sections as IndexSet, with: .automatic)
             self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
-            //self.databaseWorker.getLocalDatabase(container: self.databaseWorker.container, delegate: self)
         }
         
     }
-  }
     
     func loadUserData(completionHandler: @escaping () -> Void){
         databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedUser.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser){ [unowned self] in
