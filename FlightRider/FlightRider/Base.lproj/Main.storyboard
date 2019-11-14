@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="chU-AJ-5sn">
-    <device id="retina4_0" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,19 +15,19 @@
             <objects>
                 <tableViewController storyboardIdentifier="FlightList" id="9ou-rl-tWM" customClass="ListFlightsViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EjP-pe-JIc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Flight" textLabel="y5c-ow-jeR" detailTextLabel="lwO-k9-kbY" style="IBUITableViewCellStyleSubtitle" id="YbD-b9-vKM">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YbD-b9-vKM" id="2eI-N9-fL1">
-                                    <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="730" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="y5c-ow-jeR">
-                                            <rect key="frame" x="16" y="-3" width="46.5" height="30"/>
+                                            <rect key="frame" x="20" y="-27" width="710" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <nil key="textColor"/>
@@ -37,7 +37,7 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="lwO-k9-kbY">
-                                            <rect key="frame" x="16" y="27" width="53.5" height="19.5"/>
+                                            <rect key="frame" x="20" y="33" width="116" height="38.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="14"/>
                                             <nil key="textColor"/>
@@ -67,11 +67,11 @@
             <objects>
                 <viewController storyboardIdentifier="FlightDetail" id="k8b-UF-6Hd" customClass="FlightDetailViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wZm-Pr-FnX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FlightNr." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KmK-ts-bh7">
-                                <rect key="frame" x="32" y="88" width="139" height="42"/>
+                                <rect key="frame" x="77" y="140" width="336.5" height="104"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -80,7 +80,7 @@
                                 </variation>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="91u-zS-deL">
-                                <rect key="frame" x="208" y="69" width="80" height="80"/>
+                                <rect key="frame" x="495" y="92" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="8tb-s3-QZJ">
                                         <variation key="heightClass=regular-widthClass=regular" constant="200"/>
@@ -91,7 +91,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Members of group:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jYE-V4-5qt">
-                                <rect key="frame" x="32" y="182" width="204.5" height="30"/>
+                                <rect key="frame" x="77" y="341.5" width="402.5" height="60"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -100,7 +100,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRw-mN-5za">
-                                <rect key="frame" x="240" y="182" width="16" height="30"/>
+                                <rect key="frame" x="580" y="341.5" width="30" height="60"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -109,7 +109,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 1:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OA2-MG-yCW">
-                                <rect key="frame" x="32" y="254.5" width="87" height="36"/>
+                                <rect key="frame" x="77" y="482" width="170.5" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -118,7 +118,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13C" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zuu-hu-KHL">
-                                <rect key="frame" x="221.5" y="254.5" width="53" height="36"/>
+                                <rect key="frame" x="543" y="482" width="104" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -127,7 +127,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 2:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lI-T4-Zh5">
-                                <rect key="frame" x="32" y="305" width="91" height="36"/>
+                                <rect key="frame" x="77" y="581.5" width="178" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -136,7 +136,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05F" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zWr-JR-EHc">
-                                <rect key="frame" x="221.5" y="305" width="53" height="36"/>
+                                <rect key="frame" x="543" y="581.5" width="104" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -145,7 +145,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 3:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q74-Wa-lMQ">
-                                <rect key="frame" x="32" y="358" width="91.5" height="36"/>
+                                <rect key="frame" x="77" y="686.5" width="179.5" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -154,7 +154,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMN-Xt-6nU">
-                                <rect key="frame" x="220.5" y="358" width="55" height="36"/>
+                                <rect key="frame" x="541" y="686.5" width="108.5" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -206,7 +206,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1by-OW-i8j" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gxF-gI-ec8">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -222,123 +222,124 @@
         <scene sceneID="ugt-4V-adM">
             <objects>
                 <viewController storyboardIdentifier="Login" id="VFj-wt-fBu" customClass="LoginViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Crr-2X-DWt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <view key="view" tag="5" contentMode="scaleToFill" id="Crr-2X-DWt">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vbR-zZ-n8z" customClass="CustomLabel" customModule="FlightRider" customModuleProvider="target">
+                                <rect key="frame" x="110" y="677" width="548" height="28"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="25"/>
+                                </variation>
+                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="VPb-Ag-Ofb" customClass="CustomTextField" customModule="FlightRider" customModuleProvider="target">
-                                <rect key="frame" x="47.5" y="119" width="225" height="30"/>
+                                <rect key="frame" x="110" y="514" width="548" height="57"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="225" id="awb-uu-3IO">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="400"/>
+                                    <constraint firstAttribute="height" constant="37" id="sjm-j2-FaL">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="57"/>
                                     </constraint>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="40"/>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="30"/>
                                 </variation>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8c-HS-aMJ" customClass="CustomButton" customModule="FlightRider" customModuleProvider="target">
-                                <rect key="frame" x="60" y="375" width="200" height="40"/>
+                                <rect key="frame" x="110" y="824.5" width="548" height="57"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="Zhp-oZ-FSH">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="400"/>
+                                    <constraint firstAttribute="height" constant="37" id="4Xb-lq-InU">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="57"/>
                                     </constraint>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="18"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Login"/>
                                 <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="50"/>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="35"/>
                                 </variation>
                                 <connections>
                                     <action selector="LoginButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="OhV-C7-DA1"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" adjustsFontForContentSizeCategory="YES" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="xgd-ob-6fA" customClass="CustomTextField" customModule="FlightRider" customModuleProvider="target">
-                                <rect key="frame" x="47.5" y="175.5" width="225" height="30"/>
+                                <rect key="frame" x="110" y="588.5" width="548" height="57"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="225" id="OZi-me-4v3">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="400"/>
+                                    <constraint firstAttribute="height" constant="37" id="AS8-2Q-6Ht">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="57"/>
                                     </constraint>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="40"/>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="30"/>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2D-iU-LfJ" customClass="CustomButton" customModule="FlightRider" customModuleProvider="target">
-                                <rect key="frame" x="60" y="448" width="200" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2D-iU-LfJ" customClass="SignUpButton" customModule="FlightRider" customModuleProvider="target">
+                                <rect key="frame" x="110" y="899.5" width="548" height="57"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="PXA-yS-p5v">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="400"/>
+                                    <constraint firstAttribute="height" constant="37" id="EkN-BR-QlS">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="57"/>
                                     </constraint>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="18"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Sign up"/>
                                 <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="50"/>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="35"/>
                                 </variation>
                                 <connections>
                                     <action selector="SignupButtonPressed:" destination="VFj-wt-fBu" eventType="touchUpInside" id="sRs-nx-089"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VfT-Ja-QON">
-                                <rect key="frame" x="135.5" y="246.5" width="51" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="49" id="v1c-0j-fCc"/>
-                                </constraints>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VfT-Ja-QON" customClass="CustomSwitch" customModule="FlightRider" customModuleProvider="target">
+                                <rect key="frame" x="609" y="675.5" width="51" height="31"/>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vbR-zZ-n8z" customClass="CustomLabel" customModule="FlightRider" customModuleProvider="target">
-                                <rect key="frame" x="94" y="299.5" width="132.5" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="qhE-uo-RmB">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="70"/>
-                                    </constraint>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flight Rider" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIr-8B-Na8">
+                                <rect key="frame" x="264" y="298" width="240" height="60"/>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="28"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="40"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FlightRider" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mg-UD-MIh">
-                                <rect key="frame" x="62.5" y="46.5" width="195" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="YIk-cA-JZJ">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="90"/>
-                                    </constraint>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="30"/>
-                                <color key="textColor" red="0.10999883474334081" green="0.31017066158862888" blue="0.44217649647887325" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="60"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="bottom" secondItem="xgd-ob-6fA" secondAttribute="top" multiplier="0.85" id="5ce-1P-Eq1"/>
-                            <constraint firstItem="Y2D-iU-LfJ" firstAttribute="top" secondItem="v8c-HS-aMJ" secondAttribute="bottom" multiplier="1.08" id="6CZ-SQ-piS"/>
-                            <constraint firstItem="VfT-Ja-QON" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="Sgo-rB-6CA"/>
-                            <constraint firstItem="xgd-ob-6fA" firstAttribute="bottom" secondItem="QEO-uN-hVE" secondAttribute="centerY" multiplier="0.65" id="Vye-xi-gib"/>
+                            <constraint firstItem="xgd-ob-6fA" firstAttribute="trailing" secondItem="VfT-Ja-QON" secondAttribute="trailing" id="3dj-si-gex"/>
+                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="bottom" secondItem="xgd-ob-6fA" secondAttribute="top" multiplier="0.97" id="5ce-1P-Eq1"/>
+                            <constraint firstItem="Y2D-iU-LfJ" firstAttribute="top" secondItem="v8c-HS-aMJ" secondAttribute="bottom" multiplier="1.02" id="6CZ-SQ-piS"/>
+                            <constraint firstItem="zIr-8B-Na8" firstAttribute="centerY" secondItem="QEO-uN-hVE" secondAttribute="centerY" multiplier="0.6" id="7F4-sK-syz"/>
+                            <constraint firstItem="Y2D-iU-LfJ" firstAttribute="trailing" secondItem="VfT-Ja-QON" secondAttribute="trailing" id="AlJ-DX-blW"/>
+                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="leading" secondItem="vbR-zZ-n8z" secondAttribute="leading" id="EJW-sW-Qsx"/>
+                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="leading" secondItem="vbR-zZ-n8z" secondAttribute="leading" id="GiP-cy-Hjr"/>
+                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="trailing" secondItem="VfT-Ja-QON" secondAttribute="trailing" id="Idd-Ja-dBq"/>
+                            <constraint firstItem="Y2D-iU-LfJ" firstAttribute="leading" secondItem="vbR-zZ-n8z" secondAttribute="leading" id="K2k-id-8YR"/>
+                            <constraint firstItem="VfT-Ja-QON" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" multiplier="1.65" id="Sgo-rB-6CA"/>
+                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="trailing" secondItem="VfT-Ja-QON" secondAttribute="trailing" id="TIA-0i-lm8"/>
+                            <constraint firstItem="xgd-ob-6fA" firstAttribute="bottom" secondItem="QEO-uN-hVE" secondAttribute="centerY" multiplier="1.18" id="Vye-xi-gib"/>
                             <constraint firstItem="Y2D-iU-LfJ" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="WMg-Hy-MjP"/>
                             <constraint firstItem="VPb-Ag-Ofb" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="bN0-6r-dAQ"/>
+                            <constraint firstItem="vbR-zZ-n8z" firstAttribute="centerY" secondItem="VfT-Ja-QON" secondAttribute="centerY" id="bba-W7-1C6"/>
                             <constraint firstItem="v8c-HS-aMJ" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="cwy-H5-c33"/>
-                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="centerY" secondItem="QEO-uN-hVE" secondAttribute="centerY" multiplier="1.25" id="lXV-8n-4M8"/>
-                            <constraint firstItem="VfT-Ja-QON" firstAttribute="top" secondItem="xgd-ob-6fA" secondAttribute="bottom" multiplier="1.2" id="nkh-Aj-aPW"/>
+                            <constraint firstItem="v8c-HS-aMJ" firstAttribute="centerY" secondItem="QEO-uN-hVE" secondAttribute="centerY" multiplier="1.45" id="lXV-8n-4M8">
+                                <variation key="heightClass=regular-widthClass=regular" constant="60"/>
+                            </constraint>
+                            <constraint firstItem="VfT-Ja-QON" firstAttribute="top" secondItem="xgd-ob-6fA" secondAttribute="bottom" constant="15" id="nkh-Aj-aPW">
+                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                            </constraint>
                             <constraint firstItem="xgd-ob-6fA" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="oeL-xC-xo7"/>
-                            <constraint firstItem="VPb-Ag-Ofb" firstAttribute="top" secondItem="1mg-UD-MIh" secondAttribute="bottom" multiplier="1.3" id="qd8-ww-DqT"/>
-                            <constraint firstItem="1mg-UD-MIh" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="qkc-uk-lnO"/>
                             <constraint firstItem="vbR-zZ-n8z" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="sIw-OV-XEU"/>
-                            <constraint firstItem="vbR-zZ-n8z" firstAttribute="top" secondItem="VfT-Ja-QON" secondAttribute="bottom" multiplier="1.08" id="zFV-2t-Nwk"/>
+                            <constraint firstItem="xgd-ob-6fA" firstAttribute="leading" secondItem="vbR-zZ-n8z" secondAttribute="leading" id="w8D-Gw-aKL"/>
+                            <constraint firstItem="zIr-8B-Na8" firstAttribute="centerX" secondItem="QEO-uN-hVE" secondAttribute="centerX" id="zL6-ep-vCN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QEO-uN-hVE"/>
                     </view>
@@ -346,6 +347,7 @@
                     <connections>
                         <outlet property="EmailFiled" destination="VPb-Ag-Ofb" id="1DB-Yu-c7X"/>
                         <outlet property="PasswordField" destination="xgd-ob-6fA" id="m4D-nh-tv2"/>
+                        <outlet property="loginButton" destination="v8c-HS-aMJ" id="oBE-Bu-YXa"/>
                         <outlet property="rememberMeSwitch" destination="VfT-Ja-QON" id="z7O-yN-GX1"/>
                     </connections>
                 </viewController>
@@ -359,7 +361,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mSm-gR-cWB" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lGV-hh-YOg">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -376,11 +378,11 @@
             <objects>
                 <viewController storyboardIdentifier="CannotCheckin" id="0Dp-DZ-a7x" customClass="CannotCheckInViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4TY-PA-ZnU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FlightNr." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efO-8p-gii">
-                                <rect key="frame" x="32" y="88" width="139" height="42"/>
+                                <rect key="frame" x="77" y="140" width="336.5" height="104"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -389,7 +391,7 @@
                                 </variation>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="bIB-zW-vcj">
-                                <rect key="frame" x="208" y="69" width="80" height="80"/>
+                                <rect key="frame" x="495" y="92" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="NIx-tz-QIG">
                                         <variation key="heightClass=regular-widthClass=regular" constant="200"/>
@@ -400,7 +402,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time remaining until checkin with random seats:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="siX-6Z-Mj6">
-                                <rect key="frame" x="32" y="182" width="256" height="90"/>
+                                <rect key="frame" x="77" y="341.5" width="618" height="119.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -409,7 +411,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 days 6 hours 10 minutes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cx8-fE-0td">
-                                <rect key="frame" x="32" y="326.5" width="256" height="60"/>
+                                <rect key="frame" x="77" y="553.5" width="618" height="60"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -452,7 +454,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ml6-ei-XN3" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QrY-Lo-uVX">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -469,83 +471,109 @@
             <objects>
                 <viewController storyboardIdentifier="SelectSeats" id="LPR-cS-W7X" customClass="SelectSeatsViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I7r-0Z-p5G">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FlightNr." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVA-CO-9BZ">
-                                <rect key="frame" x="32" y="110.5" width="139" height="42"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="87"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-9U-kki">
-                                <rect key="frame" x="32" y="286" width="73.5" height="60"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gej-8k-4Lu" customClass="ContainerView" customModule="FlightRider" customModuleProvider="target">
+                                <rect key="frame" x="15" y="95" width="738" height="702"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="dFs-up-cOu" customClass="CustomImageView" customModule="FlightRider" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="741" height="311"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FR114" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVA-CO-9BZ">
+                                        <rect key="frame" x="30" y="331" width="147.5" height="56"/>
+                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="21"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="50"/>
+                                        </variation>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xpf-TP-kG7">
+                                        <rect key="frame" x="416.5" y="336" width="200" height="270"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="nqo-2a-BDR">
+                                                <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                            </constraint>
+                                            <constraint firstAttribute="height" constant="130" id="oaW-vT-dhK">
+                                                <variation key="heightClass=regular-widthClass=regular" constant="270"/>
+                                            </constraint>
+                                        </constraints>
+                                    </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your seat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-9U-kki">
+                                        <rect key="frame" x="45" y="447.5" width="188" height="47"/>
+                                        <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="42"/>
+                                        </variation>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnl-EV-UrM" customClass="CustomButton" customModule="FlightRider" customModuleProvider="target">
+                                        <rect key="frame" x="37" y="601.5" width="664" height="67"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="37" id="CSA-OS-oPY">
+                                                <variation key="heightClass=regular-widthClass=regular" constant="67"/>
+                                            </constraint>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="18"/>
+                                        <state key="normal" title="Update"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="35"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="updateSeats:" destination="LPR-cS-W7X" eventType="touchUpInside" id="fxY-Pz-Q3h"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="cKy-gC-waT"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                </variation>
-                            </label>
-                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xpf-TP-kG7">
-                                <rect key="frame" x="130.5" y="206" width="170.5" height="220"/>
-                            </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnl-EV-UrM">
-                                <rect key="frame" x="120" y="475" width="80" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="5PF-7M-6xB"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Update"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                </variation>
-                                <connections>
-                                    <action selector="updateSeats:" destination="LPR-cS-W7X" eventType="touchUpInside" id="fxY-Pz-Q3h"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="dFs-up-cOu">
-                                <rect key="frame" x="208" y="91.5" width="80" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="2Xu-gl-OvL">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    <constraint firstItem="Ecc-9U-kki" firstAttribute="centerY" secondItem="Gej-8k-4Lu" secondAttribute="centerY" multiplier="1.2" id="1Qx-bq-gcr">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="50"/>
                                     </constraint>
-                                    <constraint firstAttribute="width" constant="80" id="cTq-qU-rff">
-                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    <constraint firstItem="dFs-up-cOu" firstAttribute="leading" secondItem="Gej-8k-4Lu" secondAttribute="leading" id="4Ny-YR-wL4"/>
+                                    <constraint firstItem="uVA-CO-9BZ" firstAttribute="leading" secondItem="Gej-8k-4Lu" secondAttribute="leading" constant="10" id="7Lx-uv-4Dd">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="30"/>
                                     </constraint>
+                                    <constraint firstItem="dFs-up-cOu" firstAttribute="trailing" secondItem="Gej-8k-4Lu" secondAttribute="trailing" constant="1" id="B4m-SJ-oDn">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="3"/>
+                                    </constraint>
+                                    <constraint firstItem="mnl-EV-UrM" firstAttribute="leading" secondItem="Gej-8k-4Lu" secondAttribute="centerX" multiplier="0.1" id="MMI-Mm-bhM"/>
+                                    <constraint firstItem="uVA-CO-9BZ" firstAttribute="top" secondItem="dFs-up-cOu" secondAttribute="bottom" constant="10" id="SeC-Qr-0IP">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="20"/>
+                                    </constraint>
+                                    <constraint firstItem="xpf-TP-kG7" firstAttribute="centerX" secondItem="Gej-8k-4Lu" secondAttribute="centerX" multiplier="1.4" id="av1-ZU-civ"/>
+                                    <constraint firstItem="mnl-EV-UrM" firstAttribute="centerX" secondItem="Gej-8k-4Lu" secondAttribute="centerX" id="i2P-yw-Fxk"/>
+                                    <constraint firstAttribute="centerY" secondItem="dFs-up-cOu" secondAttribute="bottom" constant="70" id="mhy-ZK-Rn0">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="40"/>
+                                    </constraint>
+                                    <constraint firstItem="xpf-TP-kG7" firstAttribute="centerY" secondItem="Ecc-9U-kki" secondAttribute="centerY" id="qTb-JP-0UW"/>
+                                    <constraint firstItem="dFs-up-cOu" firstAttribute="top" secondItem="Gej-8k-4Lu" secondAttribute="top" id="v3d-49-lZA"/>
+                                    <constraint firstAttribute="bottom" secondItem="mnl-EV-UrM" secondAttribute="bottom" multiplier="1.05" id="w7V-Rl-f0h"/>
+                                    <constraint firstItem="Ecc-9U-kki" firstAttribute="leading" secondItem="uVA-CO-9BZ" secondAttribute="leading" multiplier="1.5" id="ybj-Fv-3E7"/>
                                 </constraints>
-                            </imageView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Ecc-9U-kki" firstAttribute="centerY" secondItem="OXJ-yh-SNc" secondAttribute="centerY" id="9Sn-pk-SjG"/>
-                            <constraint firstItem="xpf-TP-kG7" firstAttribute="top" secondItem="dFs-up-cOu" secondAttribute="bottom" multiplier="1.2" id="M0O-AX-ATI"/>
-                            <constraint firstItem="uVA-CO-9BZ" firstAttribute="top" secondItem="OXJ-yh-SNc" secondAttribute="centerY" multiplier="0.35" id="OMd-6g-1kp">
-                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            <constraint firstItem="Gej-8k-4Lu" firstAttribute="centerX" secondItem="OXJ-yh-SNc" secondAttribute="centerX" id="1yn-ZA-dJd"/>
+                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="trailing" secondItem="Gej-8k-4Lu" secondAttribute="trailing" constant="15" id="49l-GL-9uP"/>
+                            <constraint firstItem="Gej-8k-4Lu" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="leading" multiplier="1.1" constant="15" id="NjJ-Ai-x9T"/>
+                            <constraint firstItem="Gej-8k-4Lu" firstAttribute="top" secondItem="OXJ-yh-SNc" secondAttribute="top" constant="25" id="O05-Sa-lXx"/>
+                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="centerY" secondItem="Gej-8k-4Lu" secondAttribute="bottom" constant="-100" id="lfW-rg-z7k">
+                                <variation key="heightClass=regular-widthClass=regular" constant="-250"/>
                             </constraint>
-                            <constraint firstItem="Ecc-9U-kki" firstAttribute="centerY" secondItem="xpf-TP-kG7" secondAttribute="centerY" id="PCi-aS-Y9K"/>
-                            <constraint firstItem="mnl-EV-UrM" firstAttribute="bottom" secondItem="OXJ-yh-SNc" secondAttribute="bottom" multiplier="0.91" id="V0D-0d-rDX"/>
-                            <constraint firstItem="uVA-CO-9BZ" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="0.2" id="agR-ck-E7V"/>
-                            <constraint firstItem="dFs-up-cOu" firstAttribute="centerX" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="1.55" id="aqE-OD-ohU"/>
-                            <constraint firstItem="xpf-TP-kG7" firstAttribute="leading" secondItem="Ecc-9U-kki" secondAttribute="trailing" constant="25" id="kRJ-YO-D9G"/>
-                            <constraint firstItem="dFs-up-cOu" firstAttribute="centerY" secondItem="uVA-CO-9BZ" secondAttribute="centerY" id="mCW-hL-ZuR"/>
-                            <constraint firstItem="Ecc-9U-kki" firstAttribute="leading" secondItem="OXJ-yh-SNc" secondAttribute="centerX" multiplier="0.2" id="qez-yY-hc1"/>
-                            <constraint firstItem="mnl-EV-UrM" firstAttribute="centerX" secondItem="OXJ-yh-SNc" secondAttribute="centerX" id="stZ-3J-65r"/>
-                            <constraint firstItem="OXJ-yh-SNc" firstAttribute="trailing" secondItem="xpf-TP-kG7" secondAttribute="trailing" constant="19" id="woY-Iz-5da"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OXJ-yh-SNc"/>
                     </view>
                     <navigationItem key="navigationItem" id="5KU-ZL-d51"/>
                     <connections>
+                        <outlet property="backgroundView" destination="I7r-0Z-p5G" id="Y7F-a3-8qJ"/>
+                        <outlet property="destinationImageView" destination="dFs-up-cOu" id="tb6-Qi-BiW"/>
                         <outlet property="flightLogo" destination="dFs-up-cOu" id="fRw-OK-XQx"/>
                         <outlet property="flightNr" destination="uVA-CO-9BZ" id="RwP-YM-DhC"/>
                         <outlet property="seat1Picker" destination="xpf-TP-kG7" id="Pp8-qS-NZT"/>
+                        <outlet property="updateButton" destination="mnl-EV-UrM" id="fXC-Qb-fkg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H2w-bU-fHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -557,11 +585,11 @@
             <objects>
                 <viewController storyboardIdentifier="ExchangeAggreement" id="FSj-jt-83I" customClass="FlightDetailViewControllerExchangeAggreement" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2QS-03-LD6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="FlightNr." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mce-th-qRK">
-                                <rect key="frame" x="32" y="88" width="139" height="42"/>
+                                <rect key="frame" x="77" y="140" width="336.5" height="104"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -570,7 +598,7 @@
                                 </variation>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="I2z-ij-hk9">
-                                <rect key="frame" x="208" y="69" width="80" height="80"/>
+                                <rect key="frame" x="495" y="92" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="ORj-DH-OZo">
                                         <variation key="heightClass=regular-widthClass=regular" constant="200"/>
@@ -581,7 +609,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of seats to exchange" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gy-ls-FZZ">
-                                <rect key="frame" x="32" y="182" width="250" height="60"/>
+                                <rect key="frame" x="77" y="341.5" width="250" height="179.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="c1t-cS-v9f"/>
                                 </constraints>
@@ -593,7 +621,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MmS-Nf-tQ2">
-                                <rect key="frame" x="242" y="197" width="12.5" height="30"/>
+                                <rect key="frame" x="583.5" y="401.5" width="23" height="60"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -602,7 +630,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seat 1:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLi-0D-huR">
-                                <rect key="frame" x="32" y="290.5" width="91.5" height="36"/>
+                                <rect key="frame" x="77" y="625.5" width="170.5" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -611,7 +639,7 @@
                                 </variation>
                             </label>
                             <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="s0C-2W-dgR">
-                                <rect key="frame" x="88" y="340.5" width="320" height="100"/>
+                                <rect key="frame" x="435" y="661.5" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="85" id="JI4-I1-9jd">
                                         <variation key="heightClass=regular-widthClass=regular" constant="120"/>
@@ -627,7 +655,7 @@
                                 </variation>
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTp-TM-jiQ">
-                                <rect key="frame" x="61" y="477" width="198" height="42"/>
+                                <rect key="frame" x="61" y="933" width="646" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="x4K-eX-5UY"/>
                                 </constraints>
@@ -637,19 +665,19 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your seat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vp4-PT-ej2">
-                                <rect key="frame" x="32" y="375.5" width="107" height="30"/>
+                                <rect key="frame" x="77" y="746.5" width="107" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other User's seat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mq7-ia-kfB">
-                                <rect key="frame" x="32" y="477.5" width="194" height="30"/>
+                                <rect key="frame" x="77" y="848.5" width="194" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView tag="1" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="S2D-tj-lXI">
-                                <rect key="frame" x="88" y="442.5" width="320" height="100"/>
+                                <rect key="frame" x="435" y="763.5" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="85" id="0xP-nO-qor">
                                         <variation key="heightClass=regular-widthClass=regular" constant="120"/>
@@ -716,14 +744,14 @@
             <objects>
                 <viewController storyboardIdentifier="CheckSeats" id="UsU-kG-3Dm" customClass="CheckSeatsViewController" customModule="FlightRider" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jPE-Tc-TYs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rcr-jO-AUo">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="70" width="768" height="954"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gag-Z6-e50">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="954"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <viewLayoutGuide key="safeArea" id="fcw-Sr-8Xq"/>
                                     </view>
@@ -762,7 +790,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Lqr-5T-5AF" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LWz-uq-yLi">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -780,7 +808,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QNf-ju-Qoo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tmB-eB-Nux">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -798,7 +826,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="X5h-0J-nGX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XyQ-mw-FEg">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -816,7 +844,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="chU-AJ-5sn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fyq-wD-RMu">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

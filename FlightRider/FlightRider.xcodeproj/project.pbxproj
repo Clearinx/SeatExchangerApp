@@ -39,6 +39,7 @@
 		893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */; };
 		8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002B2321647D00BA2BF4 /* DateExtension.swift */; };
 		8937002F232172C500BA2BF4 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002E232172C500BA2BF4 /* Time.swift */; };
+		895D8D1E237DD47800DEAE6C /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D8D1D237DD47800DEAE6C /* CustomImageView.swift */; };
 		8962EED82358960E007731BE /* ViewControllerFlightAddExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */; };
 		8981F083236AEBCD0090ACEE /* CannotCheckInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07D236AEBCD0090ACEE /* CannotCheckInPresenter.swift */; };
 		8981F084236AEBCD0090ACEE /* CannotCheckInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07E236AEBCD0090ACEE /* CannotCheckInWorker.swift */; };
@@ -84,6 +85,8 @@
 		89CCED48237ADE690010A39F /* CheckSeatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED47237ADE690010A39F /* CheckSeatsViewControllerTests.swift */; };
 		89CCED4B237AE7D30010A39F /* SelectSeatsPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED4A237AE7D30010A39F /* SelectSeatsPresenterTests.swift */; };
 		89CCED4D237AF0B30010A39F /* SelectSeatsInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CCED4C237AF0B30010A39F /* SelectSeatsInteractorTests.swift */; };
+		89E67DFE237D6967003D99B6 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E67DFD237D6967003D99B6 /* CustomSwitch.swift */; };
+		89E67E00237DB56D003D99B6 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E67DFF237DB56D003D99B6 /* CustomView.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
 		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
 		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
@@ -159,6 +162,7 @@
 		893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		8937002B2321647D00BA2BF4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		8937002E232172C500BA2BF4 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		895D8D1D237DD47800DEAE6C /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightAddExtension.swift; sourceTree = "<group>"; };
 		8981F07D236AEBCD0090ACEE /* CannotCheckInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInPresenter.swift; sourceTree = "<group>"; };
 		8981F07E236AEBCD0090ACEE /* CannotCheckInWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInWorker.swift; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 		89CCED47237ADE690010A39F /* CheckSeatsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSeatsViewControllerTests.swift; sourceTree = "<group>"; };
 		89CCED4A237AE7D30010A39F /* SelectSeatsPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsPresenterTests.swift; sourceTree = "<group>"; };
 		89CCED4C237AF0B30010A39F /* SelectSeatsInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsInteractorTests.swift; sourceTree = "<group>"; };
+		89E67DFD237D6967003D99B6 /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
+		89E67DFF237DB56D003D99B6 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
 		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
@@ -442,6 +448,9 @@
 				89A8AA0E2333A08F00B673EE /* CustomButton.swift */,
 				89A8AA0F2333A08F00B673EE /* CustomTextField.swift */,
 				89A8AA122334B49000B673EE /* CustomLabel.swift */,
+				89E67DFD237D6967003D99B6 /* CustomSwitch.swift */,
+				89E67DFF237DB56D003D99B6 /* CustomView.swift */,
+				895D8D1D237DD47800DEAE6C /* CustomImageView.swift */,
 			);
 			path = CustomControls;
 			sourceTree = "<group>";
@@ -814,6 +823,7 @@
 				FF489CB322F887EF005FAE41 /* CheckSeatsViewController_old.swift in Sources */,
 				8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */,
 				89ACA96F237073D900160A83 /* CheckSeatsViewController.swift in Sources */,
+				895D8D1E237DD47800DEAE6C /* CustomImageView.swift in Sources */,
 				8934FBA223671422002A14F4 /* ManagedUser+CoreDataClass.swift in Sources */,
 				89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin_old.swift in Sources */,
 				89C21F3723686DB7002B8E05 /* LoginModels.swift in Sources */,
@@ -825,6 +835,7 @@
 				8937002F232172C500BA2BF4 /* Time.swift in Sources */,
 				89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */,
 				8934FBA323671422002A14F4 /* ManagedFlight+CoreDataClass.swift in Sources */,
+				89E67DFE237D6967003D99B6 /* CustomSwitch.swift in Sources */,
 				8981F091236AFEF40090ACEE /* ListFlightsPresenter.swift in Sources */,
 				8934FB9723670108002A14F4 /* Seat.swift in Sources */,
 				89ACA96D237073D900160A83 /* CheckSeatsRouter.swift in Sources */,
@@ -834,6 +845,7 @@
 				C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */,
 				8981F094236AFEF40090ACEE /* ListFlightsModels.swift in Sources */,
 				89C21F2B23684019002B8E05 /* DatabaseWorker.swift in Sources */,
+				89E67E00237DB56D003D99B6 /* CustomView.swift in Sources */,
 				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
 				89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */,

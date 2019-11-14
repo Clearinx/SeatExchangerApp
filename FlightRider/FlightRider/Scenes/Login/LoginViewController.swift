@@ -30,6 +30,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var EmailFiled: UITextField!
+    @IBOutlet weak var loginButton: CustomButton!
     var spinnerView : UIView!
     var ai : UIActivityIndicatorView!
     let backgroundImageView = UIImageView()
@@ -91,6 +92,10 @@ class LoginViewController: UIViewController, LoginDisplayLogic
     setRememberMeSwitch()
     setBackground()
   }
+    
+    override func viewDidLayoutSubviews() {
+        loginButton.setupButton()
+    }
 
     // MARK: - Request functions
     
@@ -167,22 +172,48 @@ class LoginViewController: UIViewController, LoginDisplayLogic
     }
     
     private func setBackground() {
+        setAnchors()
+        setGradientBackground()
+        setCloudImage()
+        setNavigationBar()
+    }
+    
+    private func setAnchors(){
         view.addSubview(backgroundImageView)
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        backgroundImageView.contentMode = .scaleAspectFill
-        
-        backgroundImageView.image = UIImage(named: "cloud-background")
+    }
+    
+    private func setCloudImage(){
+        let imageLayer = CALayer()
+        assert(UIImage(named: "clouds_all") != nil)
+        let cloudsBackground = UIImage(named: "clouds_all")!.cgImage
+        imageLayer.contents = cloudsBackground
+        imageLayer.frame = view.bounds
+        backgroundImageView.layer.addSublayer(imageLayer)
         view.sendSubviewToBack(backgroundImageView)
-        
+    }
+    
+    private func setGradientBackground(){
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
+        gradientLayer.masksToBounds = false
+        backgroundImageView.layer.addSublayer(gradientLayer)
+    }
+    
+    private func setNavigationBar(){
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
     }
+    
     
     private func setSpinnerView(){
         spinnerView = UIView.init(frame: self.view.bounds)

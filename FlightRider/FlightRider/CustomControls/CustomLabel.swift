@@ -23,12 +23,7 @@ class CustomLabel: UILabel {
     
     
     private func setUpField() {
-        tintColor             = .white
-        textColor             = #colorLiteral(red: 0.1417597532, green: 0.3963234425, blue: 0.5652638078, alpha: 1)
-        font                  = UIFont(name: "Arial", size: 18)
-        //backgroundColor       =
-        //alpha                 = 0.5
-        //layer.cornerRadius    = 15.0
+        textColor             = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         clipsToBounds         = true
     }
 }

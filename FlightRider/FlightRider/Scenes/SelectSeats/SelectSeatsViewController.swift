@@ -25,6 +25,9 @@ protocol SelectSeatsDisplayLogic: class
 class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SelectSeatsDisplayLogic
 {
  
+    @IBOutlet weak var updateButton: CustomButton!
+    @IBOutlet weak var destinationImageView: CustomImageView!
+    @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var seat1Picker: UIPickerView!
@@ -87,6 +90,13 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
     interactor?.requestDisplayData(request: SelectSeats.DisplayData.Request())
     interactor?.requestPickerInitialization(request: SelectSeats.PickerDataSource.Request())
   }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setBackground()
+        backgroundView.bringSubviewToFront(backgroundView.subviews[0])
+        updateButton.setupButton()
+    }
   
     //Fetch functions
     func fetchDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel) {
@@ -168,7 +178,7 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont(name: "Helvetica", size: (self.view.frame.height * 0.0616))
+            pickerLabel?.font = UIFont(name: "Helvetica", size: (self.view.frame.height * 0.0516))
             pickerLabel?.textAlignment = .center
         }
         let myRow = row % viewModel.pickerData[component].count
@@ -179,6 +189,31 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private func setSpinnerView(){
         spinnerView = UIView.init(frame: self.view.bounds)
         ai = UIActivityIndicatorView.init(style: .whiteLarge)
+    }
+    
+    private func setBackground() {
+        setGradientBackground()
+        setCloudImage()
+    }
+    
+    private func setCloudImage(){
+        let imageLayer = CALayer()
+        assert(UIImage(named: "clouds_bottom_2") != nil)
+        let cloudsBackground = UIImage(named: "clouds_bottom_2")!.cgImage
+        imageLayer.contents = cloudsBackground
+        imageLayer.frame = view.bounds
+        backgroundView.layer.addSublayer(imageLayer)
+        view.sendSubviewToBack(backgroundView)
+    }
+    
+    private func setGradientBackground(){
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
+        gradientLayer.masksToBounds = false
+        backgroundView.layer.addSublayer(gradientLayer)
     }
     
     //MARK: - Temporary routing

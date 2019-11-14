@@ -91,8 +91,8 @@ enum SelectSeats
             let maxElements = 10000
             let numberOfComponents = 2
             var selectedSeatNumber : String!
-            let rowHeightConstant : CGFloat = 0.1562
-            let widthForComponentConstant: CGFloat = 0.1875
+            let rowHeightConstant : CGFloat = 0.12
+            let widthForComponentConstant: CGFloat = 0.1275
         }
     }
     

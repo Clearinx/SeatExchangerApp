@@ -167,8 +167,8 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
         cell.textLabel?.text = flights[indexPath.row].iataNumber
         cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss")
-        if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-            cell.imageView?.image = UIImage(named: img)
+        if let img = UIImage(named: "london_wide"){
+            cell.imageView?.image = img
         }
         return cell
     }
@@ -215,11 +215,8 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         if(occupiedSeats.isEmpty){
             if(Calendar.current.date(byAdding: .day, value:2, to: Date())! > flight.departureDate){
                 if let vc = storyboard?.instantiateViewController(withIdentifier: "SelectSeats") as? SelectSeatsViewController{
-                    var imgToLoad : UIImage?
-                    if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png"){
-                        imgToLoad = UIImage(named: img)
-                    }
-                    let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: imgToLoad, databaseWorker: databaseWorker)
+                    let img = UIImage(named: "london_wide")
+                    let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: img, databaseWorker: databaseWorker)
                     vc.fetchDataFromPreviousViewController(viewModel: dependencies)
                     navigationController?.pushViewController(vc, animated: true)
                 }
