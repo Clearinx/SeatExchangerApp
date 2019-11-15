@@ -97,6 +97,7 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         backgroundView.bringSubviewToFront(backgroundView.subviews[0])
         updateButton.setupButton()
     }
+    
   
     //Fetch functions
     func fetchDataFromPreviousViewController(viewModel: ListFlights.SelectSeatsData.ViewModel) {

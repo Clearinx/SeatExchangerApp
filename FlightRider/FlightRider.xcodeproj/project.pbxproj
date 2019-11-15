@@ -40,6 +40,7 @@
 		8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002B2321647D00BA2BF4 /* DateExtension.swift */; };
 		8937002F232172C500BA2BF4 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002E232172C500BA2BF4 /* Time.swift */; };
 		895D8D1E237DD47800DEAE6C /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D8D1D237DD47800DEAE6C /* CustomImageView.swift */; };
+		895D8D22237EB8DA00DEAE6C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D8D21237EB8DA00DEAE6C /* CustomTableViewCell.swift */; };
 		8962EED82358960E007731BE /* ViewControllerFlightAddExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */; };
 		8981F083236AEBCD0090ACEE /* CannotCheckInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07D236AEBCD0090ACEE /* CannotCheckInPresenter.swift */; };
 		8981F084236AEBCD0090ACEE /* CannotCheckInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07E236AEBCD0090ACEE /* CannotCheckInWorker.swift */; };
@@ -163,6 +164,7 @@
 		8937002B2321647D00BA2BF4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		8937002E232172C500BA2BF4 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		895D8D1D237DD47800DEAE6C /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		895D8D21237EB8DA00DEAE6C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightAddExtension.swift; sourceTree = "<group>"; };
 		8981F07D236AEBCD0090ACEE /* CannotCheckInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInPresenter.swift; sourceTree = "<group>"; };
 		8981F07E236AEBCD0090ACEE /* CannotCheckInWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInWorker.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				89E67DFD237D6967003D99B6 /* CustomSwitch.swift */,
 				89E67DFF237DB56D003D99B6 /* CustomView.swift */,
 				895D8D1D237DD47800DEAE6C /* CustomImageView.swift */,
+				895D8D21237EB8DA00DEAE6C /* CustomTableViewCell.swift */,
 			);
 			path = CustomControls;
 			sourceTree = "<group>";
@@ -817,6 +820,7 @@
 				89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */,
 				8981F088236AEBCD0090ACEE /* CannotCheckInInteractor.swift in Sources */,
 				89BD5700236B17C9003234E2 /* SelectSeatsViewController.swift in Sources */,
+				895D8D22237EB8DA00DEAE6C /* CustomTableViewCell.swift in Sources */,
 				89ACA96E237073D900160A83 /* CheckSeatsModels.swift in Sources */,
 				89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */,
 				FF489CB622F88B92005FAE41 /* Tap.swift in Sources */,

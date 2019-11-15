@@ -54,7 +54,6 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
     var flights = [ManagedFlight]()
     var user : ManagedUser!
     var userRecord = CKRecord(recordType: "AppUsers")
-    //var container: NSPersistentContainer!
     var uid : String!
     var email : String!
     
@@ -64,7 +63,7 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
     var interactor: ListFlightsBusinessLogic?
     var router: (NSObjectProtocol & ListFlightsRoutingLogic & ListFlightsDataPassing)?
 
-  // MARK: Object lifecycle
+    // MARK: Object lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
   {
@@ -76,6 +75,7 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
   {
     super.init(coder: aDecoder)
     setup()
+    
   }
   
   // MARK: Setup
@@ -122,6 +122,13 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
     }
   }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setGradientBackground()
+        tableView.rowHeight = self.view.frame.height / 2.6
+    }
+    
+    
     func fillDatastore(){
         
         let flightRequest = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
@@ -163,15 +170,25 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         return flights.count
     }
     
+    /*func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 500.0
+    }*/
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
-        cell.textLabel?.text = flights[indexPath.row].iataNumber
+        //assert(cell.contentView.subviews.count == 0)
+        /*cell.textLabel?.text = flights[indexPath.row].iataNumber
         cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss")
         if let img = UIImage(named: "london_wide"){
             cell.imageView?.image = img
         }
+        cell.backgroundColor = UIColor.red
+        cell.layer.cornerRadius = 10*/
+        
         return cell
-    }
+        }
+    
+    
     
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -188,6 +205,22 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         tableView.deleteRows(at: [indexPath], with: .fade)
         self.databaseWorker.saveContext(container: self.databaseWorker.container)
         self.databaseWorker.getLocalDatabase(container: self.databaseWorker.container, delegate: self)
+    }
+    
+    
+    func setGradientBackground(){
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
+        gradientLayer.masksToBounds = false
+        
+        let image = UIImage.imageWithLayer(layer: gradientLayer)
+        let imageView = UIImageView(image: image)
+        
+        self.tableView.backgroundView = imageView
+        
     }
     
     

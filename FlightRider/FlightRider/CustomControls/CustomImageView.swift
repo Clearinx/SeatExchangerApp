@@ -29,3 +29,13 @@ class CustomImageView: UIImageView {
     }
     
 }
+
+extension UIImage {
+    class func imageWithLayer(layer: CALayer) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(layer.bounds.size, layer.isOpaque, 0.0)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let img = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return img
+    }
+}
