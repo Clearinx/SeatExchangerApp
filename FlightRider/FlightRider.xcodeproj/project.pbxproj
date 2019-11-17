@@ -94,6 +94,8 @@
 		C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48672379DB2000C27027 /* LoginWorkerTests.swift */; };
 		C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */; };
 		C06CD644237B3ACE0004F8BA /* SelectSeatsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */; };
+		C0A3A0D12381C8EA00C59C8F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0A3A0CF2381C8AB00C59C8F /* OpenSans-Regular.ttf */; };
+		C0A3A0D22381C8EE00C59C8F /* Comfortaa-VariableFont:wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0A3A0D02381C8BA00C59C8F /* Comfortaa-VariableFont:wght.ttf */; };
 		C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48F823780B310059F2DE /* UserWorker.swift */; };
 		C0BB48FB23780B6C0059F2DE /* FlightWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */; };
 		C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */; };
@@ -103,7 +105,6 @@
 		FF90B14323084EE10003E4D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */; };
 		FFA03FF32312D94C009A3D3F /* LoginViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */; };
 		FFA03FF62312DB08009A3D3F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA03FF52312DB08009A3D3F /* CloudKit.framework */; };
-		FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFF37B222EDBC8C0014D999 /* Ryanair.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,6 +221,10 @@
 		C04A48672379DB2000C27027 /* LoginWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorkerTests.swift; sourceTree = "<group>"; };
 		C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
 		C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsWorker.swift; sourceTree = "<group>"; };
+		C0A3A0CF2381C8AB00C59C8F /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		C0A3A0D02381C8BA00C59C8F /* Comfortaa-VariableFont:wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-VariableFont:wght.ttf"; sourceTree = "<group>"; };
+		C0A3A0D32381CBE800C59C8F /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		C0A3A0D42381CBE800C59C8F /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		C0BB48F823780B310059F2DE /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 		C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightWorker.swift; sourceTree = "<group>"; };
 		C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
@@ -234,7 +239,6 @@
 		FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController_old.swift; sourceTree = "<group>"; };
 		FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlightRider.entitlements; sourceTree = "<group>"; };
 		FFA03FF52312DB08009A3D3F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		FFFF37B222EDBC8C0014D999 /* Ryanair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ryanair.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,7 +385,10 @@
 			isa = PBXGroup;
 			children = (
 				8913DA122326795700F94C1B /* AirplaneModels.json */,
-				FFFF37B222EDBC8C0014D999 /* Ryanair.png */,
+				C0A3A0CF2381C8AB00C59C8F /* OpenSans-Regular.ttf */,
+				C0A3A0D02381C8BA00C59C8F /* Comfortaa-VariableFont:wght.ttf */,
+				C0A3A0D32381CBE800C59C8F /* OpenSans-Bold.ttf */,
+				C0A3A0D42381CBE800C59C8F /* OpenSans-SemiBold.ttf */,
 			);
 			path = LocalResources;
 			sourceTree = "<group>";
@@ -703,11 +710,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFFF37B322EDBC8C0014D999 /* Ryanair.png in Resources */,
+				C0A3A0D22381C8EE00C59C8F /* Comfortaa-VariableFont:wght.ttf in Resources */,
 				8913DA132326795700F94C1B /* AirplaneModels.json in Resources */,
 				890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */,
 				890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */,
 				890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */,
+				C0A3A0D12381C8EA00C59C8F /* OpenSans-Regular.ttf in Resources */,
 				FF90B14323084EE10003E4D3 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

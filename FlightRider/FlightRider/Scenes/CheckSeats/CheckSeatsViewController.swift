@@ -22,6 +22,7 @@ protocol CheckSeatsDisplayLogic: class
 
 class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic
 {
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     var constants : CheckSeats.GetConstants.ViewModel!
     
@@ -111,6 +112,7 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic
         let seatNumbers = instantiateStackView(axis: .vertical, spacing: constants.lettersSpacing)
         fillLeadingStackView(seatNumbers: seatNumbers)
         instantiateRows(model: response.airplaneModel, seatNumbers: seatNumbers, leftLetters: leftLetters, rightLetters: rightLetters)
+        setBackground()
     }
     
     
@@ -149,7 +151,7 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic
         for row in 1...model.numberOfSeats{
             let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
             lbl.text = String(row)
-            lbl.font = UIFont(name: "Helvetica", size: constants.fontSize)
+            lbl.font = UIFont(name: "OpenSans-Regular", size: constants.fontSize)
             seatNumbers.addArrangedSubview(lbl)
             let stackViewABC = instantiateStackView(axis: .horizontal, spacing: constants.viewSpacing)
             let stackViewDEF = instantiateStackView(axis: .horizontal, spacing: constants.viewSpacing)
@@ -164,7 +166,7 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic
         for i in 0...Array(response.airplaneModel.columns).count - 1{
             let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
             lbl.text = String(Array(response.airplaneModel.columns)[i])
-            lbl.font = UIFont(name: "Helvetica", size: constants.fontSize)
+            lbl.font = UIFont(name: "OpenSans-Regular", size: constants.fontSize)
             if(i <= 2){
                 leftLetters.addArrangedSubview(lbl)
             }
@@ -241,5 +243,12 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic
          NSLayoutConstraint(item: stackViewDEF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constants.viewSize).isActive = true
          NSLayoutConstraint(item: stackViewDEF, attribute: .centerX, relatedBy: .equal, toItem: rightLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
          NSLayoutConstraint(item: stackViewDEF, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
+    }
+    
+    private func setBackground(){
+        contentView.backgroundColor = #colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)
+        scrollView.backgroundColor =  #colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)
+        
     }
 }

@@ -17,7 +17,6 @@ class CustomCell: UITableViewCell {
         self.layer.cornerRadius = 10
         self.contentView.backgroundColor = .clear
         
-        
     }
     
     
@@ -27,12 +26,14 @@ class CustomCell: UITableViewCell {
         }
         set (newFrame) {
             var frame =  newFrame
-            frame.origin.y += 10
-            frame.origin.x += 15
-            frame.size.height -= 2 * 10
-            frame.size.width -= 2 * 15
+            frame.origin.y += UIScreen.main.bounds.height * 0.0176
+            frame.origin.x += UIScreen.main.bounds.width * 0.0468
+            frame.size.height -= 2 * UIScreen.main.bounds.height * 0.0176
+            frame.size.width -= 2 * UIScreen.main.bounds.width * 0.0468
+            
             super.frame = frame
         }
+        
     }
-    
 }
+

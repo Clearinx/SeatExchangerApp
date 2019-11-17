@@ -28,43 +28,9 @@ class ContainerView: UIView {
         layer.shadowOpacity = 0.3
         layer.shadowOffset = .init(width: 8, height: 8)
         layer.shadowRadius = 8
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        //layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
         layer.cornerRadius  = UIScreen.main.bounds.height * 0.025
-    }
-}
-
-class CellContainerView: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupImage()
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupImage()
-    }
-    
-    
-    private func setupImage() {
-        
-        
-        // set the shadow of the view's layer
-        layer.backgroundColor = UIColor.clear.cgColor
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 1
-        layer.shadowRadius = 3
-        //layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        //layer.shouldRasterize = true
-        //layer.rasterizationScale = UIScreen.main.scale
-        
-        // set the cornerRadius of the containerView's layer
-        //containerView.layer.cornerRadius = cornerRadius
-        //containerView.layer.masksToBounds = true
-        
     }
 }

@@ -125,7 +125,12 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setGradientBackground()
-        tableView.rowHeight = self.view.frame.height / 2.6
+        if (self.view.frame.height < 570){
+            tableView.rowHeight = 220
+        }
+        else{
+            tableView.rowHeight = 400
+        }
     }
     
     
@@ -176,14 +181,17 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
-        //assert(cell.contentView.subviews.count == 0)
-        /*cell.textLabel?.text = flights[indexPath.row].iataNumber
-        cell.detailTextLabel?.text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss")
-        if let img = UIImage(named: "london_wide"){
-            cell.imageView?.image = img
+        
+        let cellSubview = cell.contentView.subviews.first!
+        let uiElements = cellSubview.subviews
+        for subview in uiElements{
+            if subview.tag == 1 { (subview as! UILabel).text = flights[indexPath.row].iataNumber }
+            if subview.tag == 2 { (subview as! UILabel).text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss") }
         }
-        cell.backgroundColor = UIColor.red
-        cell.layer.cornerRadius = 10*/
+        
+        /*if let img = UIImage(named: "london_wide"){
+            cell.imageView?.image = img
+        }*/
         
         return cell
         }

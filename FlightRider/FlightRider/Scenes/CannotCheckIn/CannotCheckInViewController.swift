@@ -81,6 +81,11 @@ class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic
     interactor?.requestStoredData(request: CannotCheckIn.StoredData.Request())
   }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setBackground()
+    }
+    
     //MARK: - Fetch functions
     
     func fetchDataFromPreviousViewController(viewModel: ListFlights.CannotCheckinData.ViewModel) {
@@ -101,6 +106,31 @@ class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic
     func displayStoredData(viewModel: CannotCheckIn.StoredData.ViewModel) {
         flightNr.text = viewModel.iataNumber
         flightLogo.image = viewModel.image
+    }
+    
+    //MARK: - Local functions
+    
+    
+    private func setBackground(){
+        let imageLayer = CALayer()
+        let bgView = UIView()
+        assert(UIImage(named: "clouds_bottom_2") != nil)
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
+        gradientLayer.masksToBounds = false
+        bgView.layer.addSublayer(gradientLayer)
+        
+        let cloudsBackground = UIImage(named: "clouds_bottom_2")!.cgImage
+        imageLayer.contents = cloudsBackground
+        imageLayer.frame = view.bounds
+        bgView.layer.addSublayer(imageLayer)
+        
+        view.addSubview(bgView)
+        view.sendSubviewToBack(bgView)
     }
 
 }
