@@ -12,53 +12,48 @@
 
 import UIKit
 
-protocol LoginPresentationLogic
-{
+protocol LoginPresentationLogic {
     func fetchLoginData(response: Login.LoginFields.Response)
     func fetchLoginProcessResults(response: Login.LoginProcess.Response)
     func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response)
     func setLoginError()
 }
 
-class LoginPresenter: LoginPresentationLogic
-{
+class LoginPresenter: LoginPresentationLogic {
 
   weak var viewController: LoginDisplayLogic?
 
     // MARK: - Fetch functions
-    
-    func fetchLoginData(response: Login.LoginFields.Response){
-        if(response.switchedOn){
+
+    func fetchLoginData(response: Login.LoginFields.Response) {
+        if(response.switchedOn) {
             viewController?.setRememberMeOn()
-        }
-        else{
+        } else {
             viewController?.setRememberMeOff()
         }
         let viewModel = Login.LoginFields.ViewModel(email: response.email, password: response.password, switchedOn: response.switchedOn)
         viewController?.displayLoginData(viewModel: viewModel)
     }
-    
-    func fetchLoginProcessResults(response: Login.LoginProcess.Response){
-        if(!response.success){
+
+    func fetchLoginProcessResults(response: Login.LoginProcess.Response) {
+        if(!response.success) {
             setLoginError()
-        }
-        else{
+        } else {
             viewController?.routeToFlightList(response: response)
         }
     }
-    
+
     func fetchSignupAuthenticationResults(response: Login.SignupProcess.Response) {
-        if(!response.success){
+        if(!response.success) {
             setLoginError()
-        }
-        else{
+        } else {
             let loginResponse = Login.LoginProcess.Response(email: response.email, uid: response.uid, databaseWorker: response.databaseWorker, success: response.success)
             viewController?.routeToFlightList(response: loginResponse)
         }
     }
-    
-    //MARK: - Set functions
-    func setLoginError(){
+
+    // MARK: - Set functions
+    func setLoginError() {
         viewController?.setRemoveSpinner()
         viewController?.setLoginError()
     }

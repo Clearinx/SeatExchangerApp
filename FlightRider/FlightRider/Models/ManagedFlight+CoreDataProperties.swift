@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension ManagedFlight {
 
     @nonobjc public class func createFetchRequest() -> NSFetchRequest<ManagedFlight> {
@@ -24,4 +23,3 @@ extension ManagedFlight {
     @NSManaged public var seats: Set<ManagedSeat>
 
 }
-

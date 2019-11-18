@@ -13,35 +13,32 @@
 import UIKit
 
 protocol CheckSeatsWorkerProtocol {
-    
-    var interactor : CheckSeatsBusinessLogic? { get set }
-    
+
+    var interactor: CheckSeatsBusinessLogic? { get set }
+
     func requestAirplaneModel(request: CheckSeats.GetAirplaneModel.Request)
 }
 
-class CheckSeatsWorker : CheckSeatsWorkerProtocol
-{
-    weak var interactor : CheckSeatsBusinessLogic?
-    
-    //MARK: - Request functions
-    
+class CheckSeatsWorker: CheckSeatsWorkerProtocol {
+    weak var interactor: CheckSeatsBusinessLogic?
+
+    // MARK: - Request functions
+
     func requestAirplaneModel(request: CheckSeats.GetAirplaneModel.Request) {
         let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
         let data = try? String(contentsOf: URL(fileURLWithPath: path))
-        if let data = data{
+        if let data = data {
             let jsonData = JSON(parseJSON: data)
             let jsonArray = jsonData.arrayValue
-            let jsonValueOptional = jsonArray.filter{$0["modelName"].stringValue == request.airplaneType}.first
-            if let jsonValue = jsonValueOptional{
+            let jsonValueOptional = jsonArray.filter {$0["modelName"].stringValue == request.airplaneType}.first
+            if let jsonValue = jsonValueOptional {
                 let actualType = AirplaneModel(modelName: jsonValue["modelName"].stringValue, numberOfSeats: jsonValue["numberOfSeats"].intValue, latestColumn: jsonValue["columns"].stringValue)
                 let response = CheckSeats.GetAirplaneModel.Response(airplaneModel: actualType)
                 interactor?.fetchAirplaneModel(response: response)
-            }
-            else{
+            } else {
                 print("Type could not find within JSON")
             }
-        }
-        else{
+        } else {
             print("JSON file could not found")
         }
     }

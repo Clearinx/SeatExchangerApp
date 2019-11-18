@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Time{
-    var days : String
-    var hours : String
-    var minutes : String
-    
+class Time {
+    var days: String
+    var hours: String
+    var minutes: String
+
     init(days: String, hours: String, minutes: String) {
         self.days = days
         self.hours = hours

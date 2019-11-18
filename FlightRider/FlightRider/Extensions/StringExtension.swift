@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension String{
+extension String {
     subscript (i: Int) -> Character {
         return self[index(startIndex, offsetBy: i)]
     }

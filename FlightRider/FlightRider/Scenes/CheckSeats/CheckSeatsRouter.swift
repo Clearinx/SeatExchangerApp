@@ -12,23 +12,20 @@
 
 import UIKit
 
-@objc protocol CheckSeatsRoutingLogic
-{
+@objc protocol CheckSeatsRoutingLogic {
   //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol CheckSeatsDataPassing
-{
+protocol CheckSeatsDataPassing {
   var dataStore: CheckSeatsDataStore? { get }
 }
 
-class CheckSeatsRouter: NSObject, CheckSeatsRoutingLogic, CheckSeatsDataPassing
-{
+class CheckSeatsRouter: NSObject, CheckSeatsRoutingLogic, CheckSeatsDataPassing {
   weak var viewController: CheckSeatsViewController?
   var dataStore: CheckSeatsDataStore?
-  
+
   // MARK: Routing
-  
+
   //func routeToSomewhere(segue: UIStoryboardSegue?)
   //{
   //  if let segue = segue {
@@ -45,14 +42,14 @@ class CheckSeatsRouter: NSObject, CheckSeatsRoutingLogic, CheckSeatsDataPassing
   //}
 
   // MARK: Navigation
-  
+
   //func navigateToSomewhere(source: CheckSeatsViewController, destination: SomewhereViewController)
   //{
   //  source.show(destination, sender: nil)
   //}
-  
+
   // MARK: Passing data
-  
+
   //func passDataToSomewhere(source: CheckSeatsDataStore, destination: inout SomewhereDataStore)
   //{
   //  destination.name = source.name

@@ -12,8 +12,7 @@
 
 import UIKit
 
-protocol CheckSeatsBusinessLogic: class
-{
+protocol CheckSeatsBusinessLogic: class {
     func requestAirplaneModel(request: inout CheckSeats.GetAirplaneModel.Request)
     func requestJustSelectedSeatFlag(request: CheckSeats.JustSelecetedSeatStatus.Request)
     func fetchAirplaneModel(response: CheckSeats.GetAirplaneModel.Response)
@@ -23,58 +22,56 @@ protocol CheckSeatsBusinessLogic: class
     func getUserEmail() -> String
 }
 
-protocol CheckSeatsDataStore
-{
-    var dataStore: CheckSeats.DataStore.DataStore  { get set }
+protocol CheckSeatsDataStore {
+    var dataStore: CheckSeats.DataStore.DataStore { get set }
 }
 
-class CheckSeatsInteractor: CheckSeatsBusinessLogic, CheckSeatsDataStore
-{
+class CheckSeatsInteractor: CheckSeatsBusinessLogic, CheckSeatsDataStore {
     var dataStore = CheckSeats.DataStore.DataStore()
-    
+
     var presenter: CheckSeatsPresentationLogic?
     var worker: CheckSeatsWorkerProtocol?
-    
-    //MARK: - Request functions
-    
+
+    // MARK: - Request functions
+
     func requestAirplaneModel(request: inout CheckSeats.GetAirplaneModel.Request) {
         request.airplaneType = dataStore.flight.airplaneType
         worker = CheckSeatsWorker()
         worker?.interactor = self
         worker?.requestAirplaneModel(request: request)
     }
-    
+
     func requestJustSelectedSeatFlag(request: CheckSeats.JustSelecetedSeatStatus.Request) {
         let response = CheckSeats.JustSelecetedSeatStatus.Response(justSelectedSeat: dataStore.justSelectedSeat)
         presenter?.fetchJustSelectedSeatFlag(response: response)
     }
-    
-    //MARK: - Fetch functions
-    
+
+    // MARK: - Fetch functions
+
     func fetchAirplaneModel(response: CheckSeats.GetAirplaneModel.Response) {
-        presenter?.fetchAirplaneModel(response:response)
+        presenter?.fetchAirplaneModel(response: response)
     }
-  
+
     // MARK: Push functions
-    
+
     func pushDataFromPreviousViewController(viewModel: SelectSeats.StoredData.CheckSeatsModel) {
         dataStore.flight = viewModel.flight
         dataStore.justSelectedSeat = viewModel.justSelectedSeat
         dataStore.user = viewModel.user
     }
-    
+
     func pushDataFromPreviousViewController(viewModel: ListFlights.CheckSeatsData.DataStore) {
         dataStore.flight = viewModel.flight
         dataStore.justSelectedSeat = viewModel.justSelectedSeat
         dataStore.user = viewModel.user
     }
-    
+
     func getSeatStatus(row: Int, column: Int, model: AirplaneModel) -> Set<ManagedSeat> {
-        return dataStore.flight.seats.filter{ $0.number == "\(String(format: "%02d", row))\(Array(model.columns)[column])" }
+        return dataStore.flight.seats.filter { $0.number == "\(String(format: "%02d", row))\(Array(model.columns)[column])" }
     }
-    
+
     func getUserEmail() -> String {
         return dataStore.user.email
     }
-  
+
 }

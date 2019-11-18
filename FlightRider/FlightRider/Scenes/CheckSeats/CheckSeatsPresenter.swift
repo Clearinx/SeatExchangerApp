@@ -12,24 +12,22 @@
 
 import UIKit
 
-protocol CheckSeatsPresentationLogic
-{
+protocol CheckSeatsPresentationLogic {
     func fetchAirplaneModel(response: CheckSeats.GetAirplaneModel.Response)
     func fetchJustSelectedSeatFlag(response: CheckSeats.JustSelecetedSeatStatus.Response)
 }
 
-class CheckSeatsPresenter: CheckSeatsPresentationLogic
-{
+class CheckSeatsPresenter: CheckSeatsPresentationLogic {
   weak var viewController: CheckSeatsDisplayLogic?
-    
-    //MARK: - Fetch functions
-    
+
+    // MARK: - Fetch functions
+
     func fetchAirplaneModel(response: CheckSeats.GetAirplaneModel.Response) {
         viewController?.displayUserInterface(response: response)
     }
-    
+
     func fetchJustSelectedSeatFlag(response: CheckSeats.JustSelecetedSeatStatus.Response) {
         viewController?.fetchJustSelectedSeatFlag(response: response)
     }
-  
+
 }

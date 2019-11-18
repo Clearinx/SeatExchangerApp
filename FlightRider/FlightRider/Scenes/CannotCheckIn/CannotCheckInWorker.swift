@@ -12,9 +12,7 @@
 
 import UIKit
 
-class CannotCheckInWorker
-{
-  func doSomeWork()
-  {
+class CannotCheckInWorker {
+  func doSomeWork() {
   }
 }

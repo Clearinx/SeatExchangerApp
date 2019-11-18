@@ -12,23 +12,20 @@
 
 import UIKit
 
-@objc protocol ListFlightsRoutingLogic
-{
+@objc protocol ListFlightsRoutingLogic {
   //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol ListFlightsDataPassing
-{
+protocol ListFlightsDataPassing {
   var dataStore: ListFlightsDataStore? { get }
 }
 
-class ListFlightsRouter: NSObject, ListFlightsRoutingLogic, ListFlightsDataPassing
-{
+class ListFlightsRouter: NSObject, ListFlightsRoutingLogic, ListFlightsDataPassing {
   weak var viewController: ListFlightsViewController?
   var dataStore: ListFlightsDataStore?
-  
+
   // MARK: Routing
-  
+
   //func routeToSomewhere(segue: UIStoryboardSegue?)
   //{
   //  if let segue = segue {
@@ -45,14 +42,14 @@ class ListFlightsRouter: NSObject, ListFlightsRoutingLogic, ListFlightsDataPassi
   //}
 
   // MARK: Navigation
-  
+
   //func navigateToSomewhere(source: ListFlightsViewController, destination: SomewhereViewController)
   //{
   //  source.show(destination, sender: nil)
   //}
-  
+
   // MARK: Passing data
-  
+
   //func passDataToSomewhere(source: ListFlightsDataStore, destination: inout SomewhereDataStore)
   //{
   //  destination.name = source.name

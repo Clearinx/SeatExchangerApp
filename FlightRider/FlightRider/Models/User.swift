@@ -8,11 +8,9 @@
 
 import Foundation
 
-struct User{
+struct User {
     var email: String
-    var flights : [String]
+    var flights: [String]
     var uid: String
     var changetag: String
 }
-
-

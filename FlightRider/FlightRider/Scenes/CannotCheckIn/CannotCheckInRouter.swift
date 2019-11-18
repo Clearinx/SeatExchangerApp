@@ -12,23 +12,20 @@
 
 import UIKit
 
-@objc protocol CannotCheckInRoutingLogic
-{
+@objc protocol CannotCheckInRoutingLogic {
   //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol CannotCheckInDataPassing
-{
+protocol CannotCheckInDataPassing {
   var dataStore: CannotCheckInDataStore? { get }
 }
 
-class CannotCheckInRouter: NSObject, CannotCheckInRoutingLogic, CannotCheckInDataPassing
-{
+class CannotCheckInRouter: NSObject, CannotCheckInRoutingLogic, CannotCheckInDataPassing {
   weak var viewController: CannotCheckInViewController?
   var dataStore: CannotCheckInDataStore?
-  
+
   // MARK: Routing
-  
+
   //func routeToSomewhere(segue: UIStoryboardSegue?)
   //{
   //  if let segue = segue {
@@ -45,14 +42,14 @@ class CannotCheckInRouter: NSObject, CannotCheckInRoutingLogic, CannotCheckInDat
   //}
 
   // MARK: Navigation
-  
+
   //func navigateToSomewhere(source: CannotCheckInViewController, destination: SomewhereViewController)
   //{
   //  source.show(destination, sender: nil)
   //}
-  
+
   // MARK: Passing data
-  
+
   //func passDataToSomewhere(source: CannotCheckInDataStore, destination: inout SomewhereDataStore)
   //{
   //  destination.name = source.name

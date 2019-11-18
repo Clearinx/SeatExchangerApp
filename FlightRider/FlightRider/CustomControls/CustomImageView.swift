@@ -9,25 +9,23 @@
 import UIKit
 
 class CustomImageView: UIImageView {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupImage()
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupImage()
     }
-    
-    
+
     private func setupImage() {
         layer.cornerRadius = UIScreen.main.bounds.height * 0.025
         layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         layer.masksToBounds = true
     }
-    
+
 }
 
 extension UIImage {

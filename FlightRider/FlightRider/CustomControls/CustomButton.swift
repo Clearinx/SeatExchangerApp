@@ -9,17 +9,15 @@
 import UIKit
 
 class CustomButton: UIButton {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
+
      func setupButton() {
         backgroundColor     = nil
         alpha               = 0.9
@@ -32,26 +30,24 @@ class CustomButton: UIButton {
         gradientLayer.cornerRadius = UIScreen.main.bounds.height * 0.025
         gradientLayer.masksToBounds = false
         layer.insertSublayer(gradientLayer, at: 0)
-        
+
         layer.cornerRadius  = UIScreen.main.bounds.height * 0.025
         setTitleColor(.white, for: .normal)
     }
 }
 
 class SignUpButton: UIButton {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupButton()
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupButton()
     }
-    
-    
+
     private func setupButton() {
         backgroundColor     = nil
         alpha               = 0.9

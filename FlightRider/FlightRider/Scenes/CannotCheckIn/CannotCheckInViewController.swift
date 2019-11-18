@@ -12,43 +12,36 @@
 
 import UIKit
 
-protocol CannotCheckInDisplayLogic: class
-{
+protocol CannotCheckInDisplayLogic: class {
     func fetchDataFromPreviousViewController(viewModel: ListFlights.CannotCheckinData.ViewModel)
     func fetchStoredData(viewModel: CannotCheckIn.StoredData.ViewModel)
     func displayRemainingTime(response: CannotCheckIn.CalculateTime.Response)
     func displayStoredData(viewModel: CannotCheckIn.StoredData.ViewModel)
 }
 
-class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic
-{
+class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic {
     @IBOutlet weak var flightNr: UILabel!
     @IBOutlet weak var flightLogo: UIImageView!
     @IBOutlet weak var timeLeft: UILabel!
-    
-    
-    
+
   var interactor: CannotCheckInBusinessLogic?
   var router: (NSObjectProtocol & CannotCheckInRoutingLogic & CannotCheckInDataPassing)?
 
   // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
+
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     setup()
   }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
+
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setup()
   }
-  
+
   // MARK: Setup
-  
-    private func setup()
-    {
+
+    private func setup() {
         let viewController = self
         let interactor = CannotCheckInInteractor()
         let presenter = CannotCheckInPresenter()
@@ -60,11 +53,10 @@ class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic
         router.viewController = viewController
         router.dataStore = interactor
     }
-  
+
   // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let scene = segue.identifier {
       let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
       if let router = router, router.responds(to: selector) {
@@ -72,46 +64,44 @@ class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic
       }
     }
   }
-  
+
   // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
+
+  override func viewDidLoad() {
     super.viewDidLoad()
     interactor?.requestStoredData(request: CannotCheckIn.StoredData.Request())
   }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setBackground()
     }
-    
-    //MARK: - Fetch functions
-    
+
+    // MARK: - Fetch functions
+
     func fetchDataFromPreviousViewController(viewModel: ListFlights.CannotCheckinData.ViewModel) {
         interactor?.pushDataFromPreviousViewController(viewModel: viewModel)
     }
-    
+
     func fetchStoredData(viewModel: CannotCheckIn.StoredData.ViewModel) {
         displayStoredData(viewModel: viewModel)
         interactor?.requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request(departureDate: viewModel.departureDate))
     }
-    
-    //MARK: - Display functions
-    
+
+    // MARK: - Display functions
+
     func displayRemainingTime(response: CannotCheckIn.CalculateTime.Response) {
         timeLeft.text = "\(response.days) days \(response.hours) hours \(response.minutes) minutes"
     }
-    
+
     func displayStoredData(viewModel: CannotCheckIn.StoredData.ViewModel) {
         flightNr.text = viewModel.iataNumber
         flightLogo.image = viewModel.image
     }
-    
-    //MARK: - Local functions
-    
-    
-    private func setBackground(){
+
+    // MARK: - Local functions
+
+    private func setBackground() {
         let imageLayer = CALayer()
         let bgView = UIView()
         assert(UIImage(named: "clouds_bottom_2") != nil)
@@ -123,12 +113,12 @@ class CannotCheckInViewController: UIViewController, CannotCheckInDisplayLogic
         gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
         gradientLayer.masksToBounds = false
         bgView.layer.addSublayer(gradientLayer)
-        
+
         let cloudsBackground = UIImage(named: "clouds_bottom_2")!.cgImage
         imageLayer.contents = cloudsBackground
         imageLayer.frame = view.bounds
         bgView.layer.addSublayer(imageLayer)
-        
+
         view.addSubview(bgView)
         view.sendSubviewToBack(bgView)
     }

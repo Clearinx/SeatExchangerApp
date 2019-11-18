@@ -12,9 +12,7 @@
 
 import UIKit
 
-class ListFlightsWorker
-{
-  func doSomeWork()
-  {
+class ListFlightsWorker {
+  func doSomeWork() {
   }
 }

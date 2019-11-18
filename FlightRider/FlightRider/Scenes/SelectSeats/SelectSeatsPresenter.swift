@@ -12,8 +12,7 @@
 
 import UIKit
 
-protocol SelectSeatsPresentationLogic
-{
+protocol SelectSeatsPresentationLogic {
     func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
     func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel)
     func fetchDisplayData(response: SelectSeats.DisplayData.Response)
@@ -21,53 +20,49 @@ protocol SelectSeatsPresentationLogic
     func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response)
 }
 
-class SelectSeatsPresenter: SelectSeatsPresentationLogic
-{
+class SelectSeatsPresenter: SelectSeatsPresentationLogic {
 
   weak var viewController: SelectSeatsDisplayLogic?
-  
-    //MARK: Request functions
+
+    // MARK: Request functions
     func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request) {
-        
+
     }
-    
-    //MARK: - Fetch functions
-    
+
+    // MARK: - Fetch functions
+
     func fetchCheckSeatsData(dataModel: SelectSeats.StoredData.CheckSeatsModel) {
         viewController?.routeToCheckSeats(dataModel: dataModel)
     }
-    
+
     func fetchDisplayData(response: SelectSeats.DisplayData.Response) {
         let viewModel = SelectSeats.DisplayData.ViewModel(image: response.image, flightNumber: response.flightNumber)
         viewController?.displayData(viewModel: viewModel)
     }
-    
+
     func fetchPickerDataModel(response: SelectSeats.PickerDataModel.Response) {
         var dataModel = SelectSeats.PickerDataModel.ViewModel()
         dataModel.pickerDataNumbers = [String]()
         dataModel.pickerData = [[String]]()
-        for i in 1...response.airplaneModel.numberOfSeats{
+        for i in 1...response.airplaneModel.numberOfSeats {
             dataModel.pickerDataNumbers.append((String(format: "%02d", i)))
         }
-        
-        let charArr : [Character] = Array(response.airplaneModel.columns)
+
+        let charArr: [Character] = Array(response.airplaneModel.columns)
         var strArr = [String]()
-        for char in charArr{
+        for char in charArr {
             strArr.append(String(char))
         }
         dataModel.pickerData = [dataModel.pickerDataNumbers, strArr]
         viewController?.displayPickerView(viewModel: dataModel)
     }
-    
+
     func fetchUpdateSeatResult(response: SelectSeats.UpdateSeat.Response) {
-        if response.result == true{
+        if response.result == true {
             viewController?.displaySuccessfulSeatUpdate(response: response)
-        }
-        else{
+        } else {
             viewController?.displayUnsuccessfulSeatUpdate(response: response)
         }
     }
-    
-  
 
 }

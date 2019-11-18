@@ -12,8 +12,7 @@
 
 import UIKit
 
-protocol LoginDisplayLogic: class
-{
+protocol LoginDisplayLogic: class {
     func requestLoginData()
     func displayLoginData(viewModel: Login.LoginFields.ViewModel)
     func pushRememberMeSwitchChanged()
@@ -24,39 +23,34 @@ protocol LoginDisplayLogic: class
     func routeToFlightList(response: Login.LoginProcess.Response)
 }
 
-class LoginViewController: UIViewController, LoginDisplayLogic
-{
-    
+class LoginViewController: UIViewController, LoginDisplayLogic {
+
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var EmailFiled: UITextField!
     @IBOutlet weak var loginButton: CustomButton!
-    var spinnerView : UIView!
-    var ai : UIActivityIndicatorView!
+    var spinnerView: UIView!
+    var ai: UIActivityIndicatorView!
     let backgroundImageView = UIImageView()
-    
 
   var interactor: LoginBusinessLogic?
   var router: (NSObjectProtocol & LoginRoutingLogic & LoginDataPassing)?
 
   // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
+
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     setup()
   }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
+
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setup()
   }
-  
+
   // MARK: Setup
-  
-  private func setup()
-  {
+
+  private func setup() {
     let viewController = self
     let interactor = LoginInteractor()
     let presenter = LoginPresenter()
@@ -68,11 +62,10 @@ class LoginViewController: UIViewController, LoginDisplayLogic
     router.viewController = viewController
     router.dataStore = interactor
   }
-  
+
   // MARK: Routing
-    
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let scene = segue.identifier {
       let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
       if let router = router, router.responds(to: selector) {
@@ -80,11 +73,10 @@ class LoginViewController: UIViewController, LoginDisplayLogic
       }
     }
   }
-  
+
   // MARK: View lifecycle
-    
-  override func viewDidLoad()
-  {
+
+  override func viewDidLoad() {
     super.viewDidLoad()
     setGestureRecognizer()
     setSpinnerView()
@@ -92,93 +84,91 @@ class LoginViewController: UIViewController, LoginDisplayLogic
     setRememberMeSwitch()
     setBackground()
   }
-    
+
     override func viewDidLayoutSubviews() {
         loginButton.setupButton()
     }
 
     // MARK: - Request functions
-    
-    func requestLoginData(){
+
+    func requestLoginData() {
         let request = Login.LoginFields.Request()
         interactor?.requestLoginData(request: request)
     }
-    
-    
+
     // MARK: - Push functions
-    
-    @objc func pushRememberMeSwitchChanged(){
+
+    @objc func pushRememberMeSwitchChanged() {
         let request = Login.SwitchData.Request(email: EmailFiled.text, password: PasswordField.text, switchedOn: rememberMeSwitch.isOn)
         interactor?.pushRememberMeSwitchChanged(request: request)
     }
-    
+
     // MARK: - Set functions
-    
-    func setRememberMeSwitch(){
+
+    func setRememberMeSwitch() {
         rememberMeSwitch.addTarget(self, action: #selector(self.pushRememberMeSwitchChanged), for: .valueChanged)
     }
-    
-    func setRememberMeOn(){
+
+    func setRememberMeOn() {
         rememberMeSwitch.setOn(true, animated: false)
     }
-    
-    func setRememberMeOff(){
+
+    func setRememberMeOff() {
         rememberMeSwitch.setOn(false, animated: false)
     }
-    
-    func setRemoveSpinner(){
+
+    func setRemoveSpinner() {
         self.removeSpinner(spinnerView: spinnerView, ai: ai)
     }
-    
-    func setLoginError(){
+
+    func setLoginError() {
         self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
         let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
         ac.addAction(cancelAction)
         present(ac, animated: true)
     }
-    
-    //MARK: - Display functions
-    
-    func displayLoginData(viewModel: Login.LoginFields.ViewModel){
+
+    // MARK: - Display functions
+
+    func displayLoginData(viewModel: Login.LoginFields.ViewModel) {
         EmailFiled.text = viewModel.email
         PasswordField.text = viewModel.password
     }
-    
+
     // MARK: - Local functions
-    
+
     @IBAction func LoginButtonPressed(_ sender: Any) {
         let request = Login.LoginProcess.Request(email: EmailFiled.text, password: PasswordField.text, switchedOn: rememberMeSwitch.isOn)
         interactor?.requestLoginDataUpdate(request: request)
         showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
         interactor?.requestLoginAuthentication(request: request)
     }
-    
+
     @IBAction func SignupButtonPressed(_ sender: Any) {
         let request = Login.SignupProcess.Request(email: EmailFiled.text, password: PasswordField.text)
         interactor?.requestSignupAuthentication(request: request)
         showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
-        
+
     }
-    
+
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    
-    private func setGestureRecognizer(){
+
+    private func setGestureRecognizer() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
-    
+
     private func setBackground() {
         setAnchors()
         setGradientBackground()
         setCloudImage()
         setNavigationBar()
     }
-    
-    private func setAnchors(){
+
+    private func setAnchors() {
         view.addSubview(backgroundImageView)
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -186,8 +176,8 @@ class LoginViewController: UIViewController, LoginDisplayLogic
         backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
-    
-    private func setCloudImage(){
+
+    private func setCloudImage() {
         let imageLayer = CALayer()
         assert(UIImage(named: "clouds_all") != nil)
         let cloudsBackground = UIImage(named: "clouds_all")!.cgImage
@@ -196,8 +186,8 @@ class LoginViewController: UIViewController, LoginDisplayLogic
         backgroundImageView.layer.addSublayer(imageLayer)
         view.sendSubviewToBack(backgroundImageView)
     }
-    
-    private func setGradientBackground(){
+
+    private func setGradientBackground() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
@@ -206,24 +196,23 @@ class LoginViewController: UIViewController, LoginDisplayLogic
         gradientLayer.masksToBounds = false
         backgroundImageView.layer.addSublayer(gradientLayer)
     }
-    
-    private func setNavigationBar(){
+
+    private func setNavigationBar() {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
     }
-    
-    
-    private func setSpinnerView(){
+
+    private func setSpinnerView() {
         spinnerView = UIView.init(frame: self.view.bounds)
         ai = UIActivityIndicatorView.init(style: .whiteLarge)
     }
-    
+
     // MARK: - Temporary routing
-    
+
     func routeToFlightList(response: Login.LoginProcess.Response) {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ListFlightsViewController{
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ListFlightsViewController {
             vc.uid = response.uid
             vc.email = response.email
             vc.databaseWorker = response.databaseWorker

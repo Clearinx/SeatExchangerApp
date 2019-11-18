@@ -12,18 +12,15 @@
 
 import UIKit
 
-protocol ListFlightsBusinessLogic
-{
+protocol ListFlightsBusinessLogic {
 
 }
 
-protocol ListFlightsDataStore
-{
+protocol ListFlightsDataStore {
 
 }
 
-class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore
-{
+class ListFlightsInteractor: ListFlightsBusinessLogic, ListFlightsDataStore {
   var presenter: ListFlightsPresentationLogic?
   var worker: ListFlightsWorker?
 

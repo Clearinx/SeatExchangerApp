@@ -12,37 +12,35 @@
 
 import UIKit
 
-protocol CannotCheckInPresentationLogic
-{
+protocol CannotCheckInPresentationLogic {
     func requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request)
     func fetchStoredData(response: CannotCheckIn.StoredData.Response)
 }
 
-class CannotCheckInPresenter: CannotCheckInPresentationLogic
-{
+class CannotCheckInPresenter: CannotCheckInPresentationLogic {
 
   weak var viewController: CannotCheckInDisplayLogic?
-  
-    //MARK: - Request functions
-    
-    func requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request){
-        if let departureDate = request.departureDate{
-            let deltaTime = Calendar.current.date(byAdding: .day, value:-2, to: departureDate)! - Date()
+
+    // MARK: - Request functions
+
+    func requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request) {
+        if let departureDate = request.departureDate {
+            let deltaTime = Calendar.current.date(byAdding: .day, value: -2, to: departureDate)! - Date()
             let timeResult = convertToDaysHoursMinutes(interval: deltaTime)
             viewController?.displayRemainingTime(response: CannotCheckIn.CalculateTime.Response(days: timeResult.days, hours: timeResult.hours, minutes: timeResult.minutes))
         }
     }
-    
-    //MARK: - Fetch functions
-    
+
+    // MARK: - Fetch functions
+
     func fetchStoredData(response: CannotCheckIn.StoredData.Response) {
         let viewModel = CannotCheckIn.StoredData.ViewModel(iataNumber: response.iataNumber, departureDate: response.departureDate, image: response.image)
         viewController?.fetchStoredData(viewModel: viewModel)
     }
-    
-    //MARK: - Local functions
-    
-    func convertToDaysHoursMinutes(interval: TimeInterval) -> Time{
+
+    // MARK: - Local functions
+
+    func convertToDaysHoursMinutes(interval: TimeInterval) -> Time {
         let daysFraction = interval / 86400
         let days = Double(Int(daysFraction))
         let hoursFraction = (daysFraction - days) * 24

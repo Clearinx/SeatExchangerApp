@@ -11,14 +11,12 @@ import CoreData
 
 @objc(ManagedFlight)
 public class ManagedFlight: NSManagedObject {
-    
-    func toFlight() -> Flight
-    {
+
+    func toFlight() -> Flight {
         return Flight(departureDate: departureDate, iataNumber: iataNumber, uid: uid, changetag: changetag, airplaneType: airplaneType, seats: seats)
     }
-    
-    func fromFlight(flight: Flight)
-    {
+
+    func fromFlight(flight: Flight) {
         departureDate = flight.departureDate
         iataNumber = flight.iataNumber
         uid = flight.uid
@@ -26,7 +24,5 @@ public class ManagedFlight: NSManagedObject {
         airplaneType = flight.airplaneType
         seats = flight.seats
     }
-    
-    
 
 }

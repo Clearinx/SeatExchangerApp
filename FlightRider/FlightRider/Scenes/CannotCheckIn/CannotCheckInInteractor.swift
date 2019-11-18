@@ -12,39 +12,36 @@
 
 import UIKit
 
-protocol CannotCheckInBusinessLogic
-{
+protocol CannotCheckInBusinessLogic {
     func requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request)
     func requestStoredData(request: CannotCheckIn.StoredData.Request)
     func pushDataFromPreviousViewController(viewModel: ListFlights.CannotCheckinData.ViewModel)
 }
 
-    protocol CannotCheckInDataStore
-    {
-        var viewModel : CannotCheckIn.StoredData.ViewModel { get set }
+    protocol CannotCheckInDataStore {
+        var viewModel: CannotCheckIn.StoredData.ViewModel { get set }
     }
 
-class CannotCheckInInteractor: CannotCheckInBusinessLogic, CannotCheckInDataStore
-{
-  
+class CannotCheckInInteractor: CannotCheckInBusinessLogic, CannotCheckInDataStore {
+
     var presenter: CannotCheckInPresentationLogic?
     var worker: CannotCheckInWorker?
-    
+
     var viewModel = CannotCheckIn.StoredData.ViewModel()
-    
-    //MARK: - Request functions
-    
+
+    // MARK: - Request functions
+
     func requestRemaningTimeCalculation(request: CannotCheckIn.CalculateTime.Request) {
         presenter?.requestRemaningTimeCalculation(request: request)
     }
-    
+
     func requestStoredData(request: CannotCheckIn.StoredData.Request) {
         let response = CannotCheckIn.StoredData.Response(iataNumber: viewModel.iataNumber, departureDate: viewModel.departureDate, image: viewModel.image)
         presenter?.fetchStoredData(response: response)
     }
-    
-    //MARK: - Push functions
-    
+
+    // MARK: - Push functions
+
     func pushDataFromPreviousViewController(viewModel: ListFlights.CannotCheckinData.ViewModel) {
          self.viewModel.iataNumber = viewModel.iataNumber
          self.viewModel.departureDate = viewModel.departureDate

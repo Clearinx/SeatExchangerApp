@@ -8,19 +8,18 @@
 
 import UIKit
 
-class CustomSwitch: UISwitch{
+class CustomSwitch: UISwitch {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSwitch()
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupSwitch()
     }
-    
-    func setupSwitch(){
+
+    func setupSwitch() {
         transform = CGAffineTransform(scaleX: (UIScreen.main.bounds.height * 0.001), y: (UIScreen.main.bounds.height * 0.001))
     }
 }

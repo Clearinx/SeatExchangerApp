@@ -12,79 +12,63 @@
 
 import UIKit
 
-enum CheckSeats
-{
+enum CheckSeats {
   // MARK: Use cases
-  
-  enum DataStore
-  {
-    struct Request
-    {
+
+  enum DataStore {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
     }
-    struct DataStore
-    {
-        var flight : ManagedFlight!
-        var user : ManagedUser!
-        var justSelectedSeat : Bool!
+    struct DataStore {
+        var flight: ManagedFlight!
+        var user: ManagedUser!
+        var justSelectedSeat: Bool!
     }
   }
-    
-    enum JustSelecetedSeatStatus
-    {
-        struct Request
-        {
+
+    enum JustSelecetedSeatStatus {
+        struct Request {
         }
-        struct Response
-        {
-            var justSelectedSeat : Bool
+        struct Response {
+            var justSelectedSeat: Bool
         }
-        struct DataStore
-        {
+        struct DataStore {
         }
     }
-    
-    enum GetAirplaneModel
-    {
-        struct Request
-        {
-            var airplaneType : String?
+
+    enum GetAirplaneModel {
+        struct Request {
+            var airplaneType: String?
         }
-        struct Response
-        {
-            var airplaneModel : AirplaneModel
+        struct Response {
+            var airplaneModel: AirplaneModel
         }
-        struct DataStore
-        {
+        struct DataStore {
         }
     }
-    
-    enum GetConstants
-    {
-        struct Request
-        {
-            let height : CGFloat
-            let width : CGFloat
+
+    enum GetConstants {
+        struct Request {
+            let height: CGFloat
+            let width: CGFloat
         }
-        
-        struct ViewModel
-        {
+
+        struct ViewModel {
             let viewSize: CGFloat //self.view.frame.width*0.0966
-            let viewSpacing : CGFloat //self.view.frame.width*0.0169
-            let lettersSpacing : CGFloat //self.view.frame.width*0.0724
-            let fontSize : CGFloat //self.view.frame.width*0.0724
-            let distanceFromTop : CGFloat //self.view.frame.height*0.0258
-            let distanceFromLeading : CGFloat //self.view.frame.width*0.169
-            let distanceFromTrailing : CGFloat //self.view.frame.width*0.1207
-            let seatNumbersViewSpacing : CGFloat //self.view.frame.height*0.051
-            let seatnumbersViewWidth : CGFloat //self.view.frame.width*0.0845
-            let seatnumbersViewLeading : CGFloat //self.view.frame.width*0.0483
-            let seatnumbersViewTop : CGFloat //self.view.frame.height*0.115
-            let seatnumbersViewBottom : CGFloat //self.view.frame.height*0.06
-            let cornerRadius : CGFloat //viewSize*0.25*/
-            
+            let viewSpacing: CGFloat //self.view.frame.width*0.0169
+            let lettersSpacing: CGFloat //self.view.frame.width*0.0724
+            let fontSize: CGFloat //self.view.frame.width*0.0724
+            let distanceFromTop: CGFloat //self.view.frame.height*0.0258
+            let distanceFromLeading: CGFloat //self.view.frame.width*0.169
+            let distanceFromTrailing: CGFloat //self.view.frame.width*0.1207
+            let seatNumbersViewSpacing: CGFloat //self.view.frame.height*0.051
+            let seatnumbersViewWidth: CGFloat //self.view.frame.width*0.0845
+            let seatnumbersViewLeading: CGFloat //self.view.frame.width*0.0483
+            let seatnumbersViewTop: CGFloat //self.view.frame.height*0.115
+            let seatnumbersViewBottom: CGFloat //self.view.frame.height*0.06
+            let cornerRadius: CGFloat //viewSize*0.25*/
+
             init(request: CheckSeats.GetConstants.Request) {
                 viewSize = request.width*0.0966
                 viewSpacing = request.width*0.0169
@@ -103,4 +87,3 @@ enum CheckSeats
         }
     }
 }
-

@@ -10,10 +10,7 @@
 		1AB47D25ADD1BB59B760D499 /* libPods-FlightRiderTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85526E7A1E671536FDD781C1 /* libPods-FlightRiderTests.a */; };
 		233086F38485A7E206AAD176 /* libPods-FlightRider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2065A8969282ABA87004A8 /* libPods-FlightRider.a */; };
 		516B1064D9C55A87BB069A54 /* libPods-FlightRiderUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D64074F5F038DF4F5AE346 /* libPods-FlightRiderUITests.a */; };
-		89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin_old.swift */; };
-		89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats_old.swift */; };
 		890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F8F22E20F2600FA7324 /* AppDelegate.swift */; };
-		890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F9122E20F2600FA7324 /* ViewController.swift */; };
 		890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9322E20F2600FA7324 /* Main.storyboard */; };
 		890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 890A4F9622E20F2600FA7324 /* FlightRider.xcdatamodeld */; };
 		890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 890A4F9922E20F2700FA7324 /* Assets.xcassets */; };
@@ -25,7 +22,6 @@
 		8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913DA102326768100F94C1B /* AirplaneModel.swift */; };
 		8913DA132326795700F94C1B /* AirplaneModels.json in Resources */ = {isa = PBXBuildFile; fileRef = 8913DA122326795700F94C1B /* AirplaneModels.json */; };
 		8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8913FB532301A8150069DE41 /* SwiftyJSON.swift */; };
-		891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */; };
 		8934FB9723670108002A14F4 /* Seat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8934FB9623670108002A14F4 /* Seat.swift */; };
 		8934FB9A236701C1002A14F4 /* ManagedSeat+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8934FB98236701C0002A14F4 /* ManagedSeat+CoreDataProperties.swift */; };
 		8934FB9B236701C1002A14F4 /* ManagedSeat+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8934FB99236701C0002A14F4 /* ManagedSeat+CoreDataClass.swift */; };
@@ -39,9 +35,9 @@
 		893652E823213BCA003C9B56 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */; };
 		8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002B2321647D00BA2BF4 /* DateExtension.swift */; };
 		8937002F232172C500BA2BF4 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8937002E232172C500BA2BF4 /* Time.swift */; };
+		89555E432382AFFD003F8241 /* Comfortaa-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89555E422382AFFD003F8241 /* Comfortaa-VariableFont_wght.ttf */; };
 		895D8D1E237DD47800DEAE6C /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D8D1D237DD47800DEAE6C /* CustomImageView.swift */; };
 		895D8D22237EB8DA00DEAE6C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D8D21237EB8DA00DEAE6C /* CustomTableViewCell.swift */; };
-		8962EED82358960E007731BE /* ViewControllerFlightAddExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */; };
 		8981F083236AEBCD0090ACEE /* CannotCheckInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07D236AEBCD0090ACEE /* CannotCheckInPresenter.swift */; };
 		8981F084236AEBCD0090ACEE /* CannotCheckInWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07E236AEBCD0090ACEE /* CannotCheckInWorker.swift */; };
 		8981F085236AEBCD0090ACEE /* CannotCheckInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981F07F236AEBCD0090ACEE /* CannotCheckInRouter.swift */; };
@@ -89,21 +85,16 @@
 		89E67DFE237D6967003D99B6 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E67DFD237D6967003D99B6 /* CustomSwitch.swift */; };
 		89E67E00237DB56D003D99B6 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E67DFF237DB56D003D99B6 /* CustomView.swift */; };
 		89EC5E072314331C00F24139 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E062314331C00F24139 /* Spinner.swift */; };
-		89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */; };
-		89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */; };
 		C04A48682379DB2000C27027 /* LoginWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48672379DB2000C27027 /* LoginWorkerTests.swift */; };
 		C04A486A2379DC3A00C27027 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */; };
 		C06CD644237B3ACE0004F8BA /* SelectSeatsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */; };
 		C0A3A0D12381C8EA00C59C8F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0A3A0CF2381C8AB00C59C8F /* OpenSans-Regular.ttf */; };
-		C0A3A0D22381C8EE00C59C8F /* Comfortaa-VariableFont:wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0A3A0D02381C8BA00C59C8F /* Comfortaa-VariableFont:wght.ttf */; };
 		C0BB48F923780B310059F2DE /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48F823780B310059F2DE /* UserWorker.swift */; };
 		C0BB48FB23780B6C0059F2DE /* FlightWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FA23780B6C0059F2DE /* FlightWorker.swift */; };
 		C0BB48FF237828F10059F2DE /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB48FE237828F10059F2DE /* LoginPresenterTests.swift */; };
 		C0BB490123788E1B0059F2DE /* LoginInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BB490023788E1B0059F2DE /* LoginInteractorTests.swift */; };
-		FF489CB322F887EF005FAE41 /* CheckSeatsViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB222F887EF005FAE41 /* CheckSeatsViewController_old.swift */; };
 		FF489CB622F88B92005FAE41 /* Tap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF489CB522F88B92005FAE41 /* Tap.swift */; };
 		FF90B14323084EE10003E4D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */; };
-		FFA03FF32312D94C009A3D3F /* LoginViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */; };
 		FFA03FF62312DB08009A3D3F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA03FF52312DB08009A3D3F /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -129,11 +120,8 @@
 		4E80D74EC729535A6A61D78F /* Pods-FlightRiderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRiderUITests.release.xcconfig"; path = "Target Support Files/Pods-FlightRiderUITests/Pods-FlightRiderUITests.release.xcconfig"; sourceTree = "<group>"; };
 		81940CAAAE87919D516C60A6 /* Pods-FlightRiderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRiderTests.debug.xcconfig"; path = "Target Support Files/Pods-FlightRiderTests/Pods-FlightRiderTests.debug.xcconfig"; sourceTree = "<group>"; };
 		85526E7A1E671536FDD781C1 /* libPods-FlightRiderTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRiderTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin_old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerCannotCheckin_old.swift; sourceTree = "<group>"; };
-		89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats_old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerSelectSeats_old.swift; sourceTree = "<group>"; };
 		890A4F8C22E20F2600FA7324 /* FlightRider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightRider.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		890A4F8F22E20F2600FA7324 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		890A4F9122E20F2600FA7324 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		890A4F9422E20F2600FA7324 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		890A4F9722E20F2600FA7324 /* FlightRider.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FlightRider.xcdatamodel; sourceTree = "<group>"; };
 		890A4F9922E20F2700FA7324 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -150,7 +138,6 @@
 		8913DA102326768100F94C1B /* AirplaneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirplaneModel.swift; sourceTree = "<group>"; };
 		8913DA122326795700F94C1B /* AirplaneModels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AirplaneModels.json; sourceTree = "<group>"; };
 		8913FB532301A8150069DE41 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
-		891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailViewControllerExchangeAggreement.swift; sourceTree = "<group>"; };
 		8934FB9623670108002A14F4 /* Seat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seat.swift; sourceTree = "<group>"; };
 		8934FB98236701C0002A14F4 /* ManagedSeat+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedSeat+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8934FB99236701C0002A14F4 /* ManagedSeat+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedSeat+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -164,9 +151,9 @@
 		893652E723213BCA003C9B56 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		8937002B2321647D00BA2BF4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		8937002E232172C500BA2BF4 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		89555E422382AFFD003F8241 /* Comfortaa-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		895D8D1D237DD47800DEAE6C /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		895D8D21237EB8DA00DEAE6C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
-		8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightAddExtension.swift; sourceTree = "<group>"; };
 		8981F07D236AEBCD0090ACEE /* CannotCheckInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInPresenter.swift; sourceTree = "<group>"; };
 		8981F07E236AEBCD0090ACEE /* CannotCheckInWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInWorker.swift; sourceTree = "<group>"; };
 		8981F07F236AEBCD0090ACEE /* CannotCheckInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannotCheckInRouter.swift; sourceTree = "<group>"; };
@@ -215,14 +202,11 @@
 		89E67DFD237D6967003D99B6 /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		89E67DFF237DB56D003D99B6 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		89EC5E062314331C00F24139 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
-		89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUserExtension.swift; sourceTree = "<group>"; };
-		89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFlightExtension.swift; sourceTree = "<group>"; };
 		AC2065A8969282ABA87004A8 /* libPods-FlightRider.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRider.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04A48672379DB2000C27027 /* LoginWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWorkerTests.swift; sourceTree = "<group>"; };
 		C04A48692379DC3A00C27027 /* LoginViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerTests.swift; sourceTree = "<group>"; };
 		C06CD643237B3ACE0004F8BA /* SelectSeatsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSeatsWorker.swift; sourceTree = "<group>"; };
 		C0A3A0CF2381C8AB00C59C8F /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		C0A3A0D02381C8BA00C59C8F /* Comfortaa-VariableFont:wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-VariableFont:wght.ttf"; sourceTree = "<group>"; };
 		C0A3A0D32381CBE800C59C8F /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		C0A3A0D42381CBE800C59C8F /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		C0BB48F823780B310059F2DE /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
@@ -233,10 +217,8 @@
 		D0CCD268A8AB0AB12FE0DDC3 /* Pods-FlightRider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRider.release.xcconfig"; path = "Target Support Files/Pods-FlightRider/Pods-FlightRider.release.xcconfig"; sourceTree = "<group>"; };
 		D2D64074F5F038DF4F5AE346 /* libPods-FlightRiderUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlightRiderUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D62F71DBE2557DB112C0704F /* Pods-FlightRiderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlightRiderTests.release.xcconfig"; path = "Target Support Files/Pods-FlightRiderTests/Pods-FlightRiderTests.release.xcconfig"; sourceTree = "<group>"; };
-		FF489CB222F887EF005FAE41 /* CheckSeatsViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckSeatsViewController_old.swift; sourceTree = "<group>"; };
 		FF489CB522F88B92005FAE41 /* Tap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tap.swift; sourceTree = "<group>"; };
 		FF90B14223084EE10003E4D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController_old.swift; sourceTree = "<group>"; };
 		FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlightRider.entitlements; sourceTree = "<group>"; };
 		FFA03FF52312DB08009A3D3F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -321,12 +303,10 @@
 			children = (
 				89C21F2C236867FE002B8E05 /* Scenes */,
 				89C21F2923683FFF002B8E05 /* Workers */,
-				89C21F2823683E28002B8E05 /* Services */,
 				89A8AA0D23339E2F00B673EE /* CustomControls */,
 				8937002D232172B500BA2BF4 /* Models */,
 				FFA03FF42312DB01009A3D3F /* FlightRider.entitlements */,
 				891990572303EFD5002D9074 /* LocalResources */,
-				891990552303EDE1002D9074 /* ViewControllers */,
 				8937002A2321644200BA2BF4 /* Extensions */,
 				FF489CB422F88B75005FAE41 /* 3rd Party */,
 				890A4F8F22E20F2600FA7324 /* AppDelegate.swift */,
@@ -368,26 +348,13 @@
 			path = ListFlight;
 			sourceTree = "<group>";
 		};
-		891990552303EDE1002D9074 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				FFA03FF22312D94C009A3D3F /* LoginViewController_old.swift */,
-				890A4F9122E20F2600FA7324 /* ViewController.swift */,
-				89082A8322F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin_old.swift */,
-				89082A8522F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats_old.swift */,
-				FF489CB222F887EF005FAE41 /* CheckSeatsViewController_old.swift */,
-				891F259F22FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		891990572303EFD5002D9074 /* LocalResources */ = {
 			isa = PBXGroup;
 			children = (
 				8913DA122326795700F94C1B /* AirplaneModels.json */,
 				C0A3A0CF2381C8AB00C59C8F /* OpenSans-Regular.ttf */,
-				C0A3A0D02381C8BA00C59C8F /* Comfortaa-VariableFont:wght.ttf */,
 				C0A3A0D32381CBE800C59C8F /* OpenSans-Bold.ttf */,
+				89555E422382AFFD003F8241 /* Comfortaa-VariableFont_wght.ttf */,
 				C0A3A0D42381CBE800C59C8F /* OpenSans-SemiBold.ttf */,
 			);
 			path = LocalResources;
@@ -396,9 +363,6 @@
 		8937002A2321644200BA2BF4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				89EC5E082317FC8200F24139 /* ViewControllerUserExtension.swift */,
-				89EC5E0A2318FEDC00F24139 /* ViewControllerFlightExtension.swift */,
-				8962EED72358960E007731BE /* ViewControllerFlightAddExtension.swift */,
 				8937002B2321647D00BA2BF4 /* DateExtension.swift */,
 				89B46C87232A43020000F5F1 /* StringExtension.swift */,
 				89EC5E062314331C00F24139 /* Spinner.swift */,
@@ -489,13 +453,6 @@
 				89BD56FB236B17C9003234E2 /* SelectSeatsInteractor.swift */,
 			);
 			path = SelectSeats;
-			sourceTree = "<group>";
-		};
-		89C21F2823683E28002B8E05 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		89C21F2923683FFF002B8E05 /* Workers */ = {
@@ -710,8 +667,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0A3A0D22381C8EE00C59C8F /* Comfortaa-VariableFont:wght.ttf in Resources */,
 				8913DA132326795700F94C1B /* AirplaneModels.json in Resources */,
+				89555E432382AFFD003F8241 /* Comfortaa-VariableFont_wght.ttf in Resources */,
 				890A4F9D22E20F2700FA7324 /* LaunchScreen.storyboard in Resources */,
 				890A4F9A22E20F2700FA7324 /* Assets.xcassets in Resources */,
 				890A4F9522E20F2600FA7324 /* Main.storyboard in Resources */,
@@ -815,7 +772,6 @@
 				89C21F3823686DB7002B8E05 /* LoginViewController.swift in Sources */,
 				89ACA96B237073D900160A83 /* CheckSeatsPresenter.swift in Sources */,
 				8981F093236AFEF40090ACEE /* ListFlightsRouter.swift in Sources */,
-				891F25A022FC6A7600167E94 /* FlightDetailViewControllerExchangeAggreement.swift in Sources */,
 				89BD56FF236B17C9003234E2 /* SelectSeatsModels.swift in Sources */,
 				89A8AA132334B49000B673EE /* CustomLabel.swift in Sources */,
 				89C21F3523686DB7002B8E05 /* LoginWorker.swift in Sources */,
@@ -824,7 +780,6 @@
 				8981F086236AEBCD0090ACEE /* CannotCheckInModels.swift in Sources */,
 				8981F087236AEBCD0090ACEE /* CannotCheckInViewController.swift in Sources */,
 				89C21F3423686DB7002B8E05 /* LoginPresenter.swift in Sources */,
-				89082A8622F4591E00EF1BDE /* FlightDetailViewControllerSelectSeats_old.swift in Sources */,
 				89A8AA112333A08F00B673EE /* CustomTextField.swift in Sources */,
 				8981F088236AEBCD0090ACEE /* CannotCheckInInteractor.swift in Sources */,
 				89BD5700236B17C9003234E2 /* SelectSeatsViewController.swift in Sources */,
@@ -832,20 +787,16 @@
 				89ACA96E237073D900160A83 /* CheckSeatsModels.swift in Sources */,
 				89B46C88232A43020000F5F1 /* StringExtension.swift in Sources */,
 				FF489CB622F88B92005FAE41 /* Tap.swift in Sources */,
-				FF489CB322F887EF005FAE41 /* CheckSeatsViewController_old.swift in Sources */,
 				8913FB542301A8150069DE41 /* SwiftyJSON.swift in Sources */,
 				89ACA96F237073D900160A83 /* CheckSeatsViewController.swift in Sources */,
 				895D8D1E237DD47800DEAE6C /* CustomImageView.swift in Sources */,
 				8934FBA223671422002A14F4 /* ManagedUser+CoreDataClass.swift in Sources */,
-				89082A8422F43B4E00EF1BDE /* FlightDetailViewControllerCannotCheckin_old.swift in Sources */,
 				89C21F3723686DB7002B8E05 /* LoginModels.swift in Sources */,
 				89C21F3923686DB7002B8E05 /* LoginInteractor.swift in Sources */,
 				8934FBA5236714D8002A14F4 /* Flight.swift in Sources */,
 				8981F096236AFEF40090ACEE /* ListFlightsInteractor.swift in Sources */,
-				890A4F9222E20F2600FA7324 /* ViewController.swift in Sources */,
 				89C08BD9233A5965004A3055 /* KeychainWrapper.swift in Sources */,
 				8937002F232172C500BA2BF4 /* Time.swift in Sources */,
-				89EC5E0B2318FEDC00F24139 /* ViewControllerFlightExtension.swift in Sources */,
 				8934FBA323671422002A14F4 /* ManagedFlight+CoreDataClass.swift in Sources */,
 				89E67DFE237D6967003D99B6 /* CustomSwitch.swift in Sources */,
 				8981F091236AFEF40090ACEE /* ListFlightsPresenter.swift in Sources */,
@@ -860,12 +811,10 @@
 				89E67E00237DB56D003D99B6 /* CustomView.swift in Sources */,
 				8937002C2321647D00BA2BF4 /* DateExtension.swift in Sources */,
 				890A4F9822E20F2600FA7324 /* FlightRider.xcdatamodeld in Sources */,
-				89EC5E092317FC8200F24139 /* ViewControllerUserExtension.swift in Sources */,
 				8913DA112326768100F94C1B /* AirplaneModel.swift in Sources */,
 				8981F095236AFEF40090ACEE /* ListFlightsViewController.swift in Sources */,
 				89ACA970237073D900160A83 /* CheckSeatsInteractor.swift in Sources */,
 				8934FBA023671422002A14F4 /* ManagedUser+CoreDataProperties.swift in Sources */,
-				FFA03FF32312D94C009A3D3F /* LoginViewController_old.swift in Sources */,
 				8981F092236AFEF40090ACEE /* ListFlightsWorker.swift in Sources */,
 				8934FB9A236701C1002A14F4 /* ManagedSeat+CoreDataProperties.swift in Sources */,
 				89ACA97223707C7600160A83 /* CloudSeat.swift in Sources */,
@@ -876,7 +825,6 @@
 				8934FB9B236701C1002A14F4 /* ManagedSeat+CoreDataClass.swift in Sources */,
 				8981F083236AEBCD0090ACEE /* CannotCheckInPresenter.swift in Sources */,
 				8934FBA7236714ED002A14F4 /* User.swift in Sources */,
-				8962EED82358960E007731BE /* ViewControllerFlightAddExtension.swift in Sources */,
 				89BD56FE236B17C9003234E2 /* SelectSeatsRouter.swift in Sources */,
 				890A4F9022E20F2600FA7324 /* AppDelegate.swift in Sources */,
 				89C21F3623686DB7002B8E05 /* LoginRouter.swift in Sources */,

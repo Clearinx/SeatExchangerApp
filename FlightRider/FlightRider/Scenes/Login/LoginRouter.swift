@@ -12,24 +12,21 @@
 
 import UIKit
 
-@objc protocol LoginRoutingLogic
-{
-    
+@objc protocol LoginRoutingLogic {
+
 }
 
-protocol LoginDataPassing
-{
+protocol LoginDataPassing {
   var dataStore: LoginDataStore? { get }
 }
 
-class LoginRouter: NSObject, LoginRoutingLogic, LoginDataPassing
-{
-    
+class LoginRouter: NSObject, LoginRoutingLogic, LoginDataPassing {
+
   weak var viewController: LoginViewController?
   var dataStore: LoginDataStore?
-  
+
   // MARK: Routing
-  
+
   //func routeToSomewhere(segue: UIStoryboardSegue?)
   //{
   //  if let segue = segue {
@@ -46,19 +43,19 @@ class LoginRouter: NSObject, LoginRoutingLogic, LoginDataPassing
   //}
 
   // MARK: Navigation
-  
+
   //func navigateToSomewhere(source: LoginViewController, destination: SomewhereViewController)
   //{
   //  source.show(destination, sender: nil)
   //}
-  
+
   // MARK: Passing data
-  
+
   //func passDataToSomewhere(source: LoginDataStore, destination: inout SomewhereDataStore)
   //{
   //  destination.name = source.name
   //}
-    
+
     /*func ToFlightList(){
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FlightList") as? ViewController{
             vc.uid = self.uid

@@ -13,71 +13,54 @@
 import UIKit
 import CloudKit
 
-enum ListFlights
-{
+enum ListFlights {
   // MARK: Use cases
-  
-    enum Something
-    {
-        struct Request
-        {
+
+    enum Something {
+        struct Request {
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
-    
-    enum CannotCheckinData
-    {
-        struct Request
-        {
+
+    enum CannotCheckinData {
+        struct Request {
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct ViewModel
-        {
-            var iataNumber : String
-            var departureDate : Date
+        struct ViewModel {
+            var iataNumber: String
+            var departureDate: Date
             var imageToLoad: UIImage?
         }
     }
-    
-    enum SelectSeatsData
-    {
-        struct Request
-        {
+
+    enum SelectSeatsData {
+        struct Request {
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct ViewModel
-        {
-            let flight : ManagedFlight
-            let user : ManagedUser
-            let userRecord : CKRecord
-            let image : UIImage?
-            let databaseWorker : DatabaseWorkerProtocol
+        struct ViewModel {
+            let flight: ManagedFlight
+            let user: ManagedUser
+            let userRecord: CKRecord
+            let image: UIImage?
+            let databaseWorker: DatabaseWorkerProtocol
         }
     }
-    
-    enum CheckSeatsData
-    {
-        struct Request
-        {
+
+    enum CheckSeatsData {
+        struct Request {
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct DataStore
-        {
-            let flight : ManagedFlight
-            let user : ManagedUser
-            let justSelectedSeat : Bool
+        struct DataStore {
+            let flight: ManagedFlight
+            let user: ManagedUser
+            let justSelectedSeat: Bool
         }
     }
-    
+
 }

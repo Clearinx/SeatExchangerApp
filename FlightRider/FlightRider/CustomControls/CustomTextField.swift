@@ -9,19 +9,17 @@
 import UIKit
 
 class CustomTextField: UITextField {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpField()
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init( coder: aDecoder )
         setUpField()
     }
-    
-    
+
     private func setUpField() {
         tintColor             = .white
         textColor             = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
@@ -31,7 +29,7 @@ class CustomTextField: UITextField {
         autocorrectionType    = .no
         layer.cornerRadius    = 5.0
         clipsToBounds         = true
-        
+
         let placeholder       = self.placeholder != nil ? self.placeholder! : ""
         let placeholderFont   = UIFont(name: "Arial", size: 15)!
         attributedPlaceholder = NSAttributedString(string: placeholder, attributes:

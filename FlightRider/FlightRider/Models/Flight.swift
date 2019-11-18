@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Flight{
+struct Flight {
     var departureDate: Date
     var iataNumber: String
     var uid: String
@@ -16,5 +16,3 @@ struct Flight{
     var airplaneType: String
     var seats = Set<ManagedSeat>()
 }
-
-

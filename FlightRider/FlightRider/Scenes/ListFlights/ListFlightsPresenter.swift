@@ -12,12 +12,10 @@
 
 import UIKit
 
-protocol ListFlightsPresentationLogic
-{
+protocol ListFlightsPresentationLogic {
 }
 
-class ListFlightsPresenter: ListFlightsPresentationLogic
-{
+class ListFlightsPresenter: ListFlightsPresentationLogic {
   var viewController: ListFlightsDisplayLogic?
 
 }

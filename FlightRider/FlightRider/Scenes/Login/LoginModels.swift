@@ -12,81 +12,64 @@
 
 import UIKit
 
-enum Login
-{
+enum Login {
   // MARK: Use cases
-  
-    enum LoginFields
-    {
-        struct Request
-        {
+
+    enum LoginFields {
+        struct Request {
         }
-        struct Response
-        {
-            var email : String?
-            var password : String?
-            var switchedOn : Bool!
+        struct Response {
+            var email: String?
+            var password: String?
+            var switchedOn: Bool!
         }
-        struct ViewModel
-        {
-            var email : String?
-            var password : String?
-            var switchedOn : Bool!
+        struct ViewModel {
+            var email: String?
+            var password: String?
+            var switchedOn: Bool!
         }
     }
-    
-    enum SwitchData
-    {
-        struct Request
-        {
-            var email : String?
-            var password : String?
-            var switchedOn : Bool!
+
+    enum SwitchData {
+        struct Request {
+            var email: String?
+            var password: String?
+            var switchedOn: Bool!
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
-    
-    enum LoginProcess
-    {
-        struct Request
-        {
-            var email : String?
-            var password : String?
-            var switchedOn : Bool!
+
+    enum LoginProcess {
+        struct Request {
+            var email: String?
+            var password: String?
+            var switchedOn: Bool!
         }
-        struct Response
-        {
-            var email : String?
-            var uid : String?
+        struct Response {
+            var email: String?
+            var uid: String?
             var databaseWorker: DatabaseWorker?
             var success: Bool!
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
-    
-    enum SignupProcess
-    {
-        struct Request
-        {
-            var email : String?
-            var password : String?
+
+    enum SignupProcess {
+        struct Request {
+            var email: String?
+            var password: String?
         }
-        struct Response
-        {
-            var email : String?
-            var uid : String?
+        struct Response {
+            var email: String?
+            var uid: String?
             var databaseWorker: DatabaseWorker?
             var success: Bool!
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
 }

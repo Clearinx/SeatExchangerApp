@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct AirplaneModel{
-    var modelName : String
-    var numberOfSeats : Int
-    var columns : String
-    
+struct AirplaneModel {
+    var modelName: String
+    var numberOfSeats: Int
+    var columns: String
+
     init(modelName: String, numberOfSeats: Int, latestColumn: String) {
         self.modelName = modelName
         self.numberOfSeats = numberOfSeats

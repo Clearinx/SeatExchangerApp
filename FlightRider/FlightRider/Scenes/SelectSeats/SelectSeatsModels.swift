@@ -13,112 +13,90 @@
 import UIKit
 import CloudKit
 
-enum SelectSeats
-{
+enum SelectSeats {
   // MARK: Use cases
-  
-  enum StoredData
-  {
-    struct Request
-    {
+
+  enum StoredData {
+    struct Request {
     }
-    struct Response
-    {
-        var flight : ManagedFlight?
-        var user : ManagedUser?
-        var userRecord : CKRecord?
-        var image : UIImage?
+    struct Response {
+        var flight: ManagedFlight?
+        var user: ManagedUser?
+        var userRecord: CKRecord?
+        var image: UIImage?
     }
-    struct ViewModel
-    {
-        var flight : ManagedFlight?
-        var user : ManagedUser?
-        var userRecord : CKRecord?
-        var image : UIImage?
-        var justSelectedSeat : Bool = false
+    struct ViewModel {
+        var flight: ManagedFlight?
+        var user: ManagedUser?
+        var userRecord: CKRecord?
+        var image: UIImage?
+        var justSelectedSeat: Bool = false
     }
-    struct CheckSeatsModel
-    {
-        var flight : ManagedFlight!
-        var user : ManagedUser!
-        var justSelectedSeat : Bool!
+    struct CheckSeatsModel {
+        var flight: ManagedFlight!
+        var user: ManagedUser!
+        var justSelectedSeat: Bool!
     }
   }
-    enum DisplayData
-    {
-        struct Request
-        {
+    enum DisplayData {
+        struct Request {
         }
-        struct Response
-        {
+        struct Response {
             var image: UIImage?
-            var flightNumber : String?
+            var flightNumber: String?
         }
-        struct ViewModel
-        {
+        struct ViewModel {
             var image: UIImage?
-            var flightNumber : String?
+            var flightNumber: String?
         }
     }
-    
-    enum PickerDataSource
-    {
-        struct Request
-        {
+
+    enum PickerDataSource {
+        struct Request {
         }
-        struct Response
-        {
-            let dataSource : [JSON]
+        struct Response {
+            let dataSource: [JSON]
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
-    
-    enum PickerDataModel
-    {
-        struct Request
-        {
+
+    enum PickerDataModel {
+        struct Request {
         }
-        struct Response
-        {
-            let airplaneModel : AirplaneModel
+        struct Response {
+            let airplaneModel: AirplaneModel
         }
-        struct ViewModel
-        {
+        struct ViewModel {
             var pickerData: [[String]]!
-            var pickerDataNumbers : [String]!
+            var pickerDataNumbers: [String]!
             let maxElements = 10000
             let numberOfComponents = 2
-            var selectedSeatNumber : String!
-            let rowHeightConstant : CGFloat = 0.12
+            var selectedSeatNumber: String!
+            let rowHeightConstant: CGFloat = 0.12
             let widthForComponentConstant: CGFloat = 0.1275
         }
     }
-    
-    enum UpdateSeat
-    {
-        struct Request
-        {
+
+    enum UpdateSeat {
+        struct Request {
             var selectedSeatNumber: String?
-            var email : String?
-            var flight : ManagedFlight?
-            
+            var email: String?
+            var flight: ManagedFlight?
+
             func doesAllFieldsHaveValue() -> Bool {
                 let optionals: [Any?] = [selectedSeatNumber, email, flight]
-                if (optionals.contains{ $0 == nil }) {return false}
+                if (optionals.contains { $0 == nil }) {return false}
                 return true
             }
         }
-        
-        struct Response
-        {
+
+        struct Response {
             var result: Bool
             var selectedSeatNumber: String?
             var errorMessage: String?
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
 }

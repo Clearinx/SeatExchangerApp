@@ -13,19 +13,16 @@
 import UIKit
 import CloudKit
 
-protocol SelectSeatsWorkerProtocol
-{
+protocol SelectSeatsWorkerProtocol {
     func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request)
     func requestUpdateSeat(request: SelectSeats.UpdateSeat.Request)
 }
 
-class SelectSeatsWorker : SelectSeatsWorkerProtocol
-{
+class SelectSeatsWorker: SelectSeatsWorkerProtocol {
 
     weak var interactor: SelectSeatsBusinessLogic?
-    weak var databaseWorker : DatabaseWorkerProtocol!
-    
-    
+    weak var databaseWorker: DatabaseWorkerProtocol!
+
     // Request functions
     func requestPickerInitialization(request: SelectSeats.PickerDataSource.Request) {
         let path = Bundle.main.path(forResource: "AirplaneModels", ofType: "json")!
@@ -35,17 +32,17 @@ class SelectSeatsWorker : SelectSeatsWorkerProtocol
         let response = SelectSeats.PickerDataSource.Response(dataSource: jsonArray)
         interactor?.fetchPickerDataSource(response: response)
     }
-    
+
     func requestUpdateSeat(request: SelectSeats.UpdateSeat.Request) {
-        if (request.doesAllFieldsHaveValue()){
+        if (request.doesAllFieldsHaveValue()) {
             let predicate = NSPredicate(format: "uid = %@", request.flight!.uid)
-            databaseWorker.makeCloudQuery(sortKey: "uid", predicate: predicate, cloudTable: "Flights"){ flightResults in
-                if let cloudFlight = flightResults.first{
+            databaseWorker.makeCloudQuery(sortKey: "uid", predicate: predicate, cloudTable: "Flights") { flightResults in
+                if let cloudFlight = flightResults.first {
                     let cloudSeat = CloudSeat(number: request.selectedSeatNumber!, occupiedBy: request.email!, flightID: cloudFlight.recordID)
                     var existingSeats = cloudFlight["seats"] as? [CKRecord.Reference] ?? [CKRecord.Reference]()
                     existingSeats.append(CKRecord.Reference(recordID: cloudSeat.seatRecord.recordID, action: .none))
                     cloudFlight["seats"] = existingSeats
-                    self.databaseWorker.saveRecords(records: [cloudSeat.seatRecord, cloudFlight]){
+                    self.databaseWorker.saveRecords(records: [cloudSeat.seatRecord, cloudFlight]) {
                         let seat = Seat(changetag: cloudSeat.seatRecord.recordChangeTag ?? "", number: request.selectedSeatNumber!, occupiedBy: request.email!, uid: cloudSeat.seatRecord.recordID.recordName, flight: request.flight)
                         let managedSeat = ManagedSeat(context: self.databaseWorker.container.viewContext)
                         managedSeat.fromSeat(seat: seat)
@@ -54,16 +51,14 @@ class SelectSeatsWorker : SelectSeatsWorkerProtocol
                         let response = SelectSeats.UpdateSeat.Response(result: true, selectedSeatNumber: request.selectedSeatNumber!, errorMessage: nil)
                         self.interactor?.fetchUpdateSeatResult(response: response)
                     }
-                }
-                else{
+                } else {
                     let response = SelectSeats.UpdateSeat.Response(result: false, selectedSeatNumber: nil, errorMessage: "Could not find flight")
-                    self.interactor?.fetchUpdateSeatResult(response:response)
+                    self.interactor?.fetchUpdateSeatResult(response: response)
                 }
             }
-        }
-        else{
+        } else {
             let response = SelectSeats.UpdateSeat.Response(result: false, selectedSeatNumber: nil, errorMessage: "Some input is missing")
-             interactor?.fetchUpdateSeatResult(response:response)
+             interactor?.fetchUpdateSeatResult(response: response)
         }
     }
 }

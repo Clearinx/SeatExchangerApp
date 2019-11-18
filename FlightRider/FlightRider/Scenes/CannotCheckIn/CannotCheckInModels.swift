@@ -12,43 +12,34 @@
 
 import UIKit
 
-enum CannotCheckIn
-{
+enum CannotCheckIn {
   // MARK: Use cases
-  
-  enum StoredData
-  {
-    struct Request
-    {
+
+  enum StoredData {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
         var iataNumber: String?
         var departureDate: Date?
         var image: UIImage?
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         var iataNumber: String?
         var departureDate: Date?
         var image: UIImage?
     }
   }
-    
-    enum CalculateTime
-    {
-        struct Request
-        {
-            var departureDate : Date?
+
+    enum CalculateTime {
+        struct Request {
+            var departureDate: Date?
         }
-        struct Response
-        {
+        struct Response {
             let days: String
             let hours: String
             let minutes: String
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
 }

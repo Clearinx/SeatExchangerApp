@@ -9,19 +9,17 @@
 import UIKit
 
 class ContainerView: UIView {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupImage()
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupImage()
     }
-    
-    
+
     private func setupImage() {
         backgroundColor     = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         layer.shadowColor = UIColor.black.cgColor

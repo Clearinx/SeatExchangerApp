@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Seat{
+struct Seat {
     var changetag: String
     var number: String
     var occupiedBy: String

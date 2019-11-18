@@ -12,23 +12,20 @@
 
 import UIKit
 
-@objc protocol SelectSeatsRoutingLogic
-{
+@objc protocol SelectSeatsRoutingLogic {
   //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol SelectSeatsDataPassing
-{
+protocol SelectSeatsDataPassing {
   var dataStore: SelectSeatsDataStore? { get }
 }
 
-class SelectSeatsRouter: NSObject, SelectSeatsRoutingLogic, SelectSeatsDataPassing
-{
+class SelectSeatsRouter: NSObject, SelectSeatsRoutingLogic, SelectSeatsDataPassing {
   weak var viewController: SelectSeatsViewController?
   var dataStore: SelectSeatsDataStore?
-  
+
   // MARK: Routing
-  
+
   //func routeToSomewhere(segue: UIStoryboardSegue?)
   //{
   //  if let segue = segue {
@@ -45,14 +42,14 @@ class SelectSeatsRouter: NSObject, SelectSeatsRoutingLogic, SelectSeatsDataPassi
   //}
 
   // MARK: Navigation
-  
+
   //func navigateToSomewhere(source: SelectSeatsViewController, destination: SomewhereViewController)
   //{
   //  source.show(destination, sender: nil)
   //}
-  
+
   // MARK: Passing data
-  
+
   //func passDataToSomewhere(source: SelectSeatsDataStore, destination: inout SomewhereDataStore)
   //{
   //  destination.name = source.name

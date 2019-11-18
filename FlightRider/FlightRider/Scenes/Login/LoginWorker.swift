@@ -16,47 +16,44 @@ import Firebase
 
 protocol LoginWorkerProtocol {
     var interactor: LoginBusinessLogic? { get set }
-    
+
     func requestLoginData(request: Login.LoginFields.Request)
     func requestLoginAuthentication(request: Login.LoginProcess.Request)
     func requestSignupAuthentication(request: Login.SignupProcess.Request)
     func pushSwitchOffRememberMe()
     func pushSwitchOnRememberMe(request: Login.SwitchData.Request)
     func pushLoginDataUpdate(request: Login.LoginProcess.Request)
-    func saveRecords(records : [CKRecord])
+    func saveRecords(records: [CKRecord])
 }
 
-class LoginWorker : LoginWorkerProtocol
-{
+class LoginWorker: LoginWorkerProtocol {
   weak var interactor: LoginBusinessLogic?
-    
+
     // MARK: - Request functions
-    
-    func requestLoginData(request: Login.LoginFields.Request){
+
+    func requestLoginData(request: Login.LoginFields.Request) {
         var response = Login.LoginFields.Response()
-        
+
         let defaults: UserDefaults? = UserDefaults.standard
-        
-        if (defaults?.bool(forKey: "ISRemember")) ?? false{
+
+        if (defaults?.bool(forKey: "ISRemember")) ?? false {
             response.email = defaults?.value(forKey: "SavedUserName") as? String ?? ""
-            if let retrievedString = KeychainWrapper.standard.string(forKey: "SavedPassword"){
+            if let retrievedString = KeychainWrapper.standard.string(forKey: "SavedPassword") {
                 response.password = retrievedString
             }
             response.switchedOn = true
-        }
-        else {
+        } else {
             response.switchedOn = false
         }
         interactor?.fetchLoginData(response: response)
     }
-    
-    func requestLoginAuthentication(request: Login.LoginProcess.Request){
+
+    func requestLoginAuthentication(request: Login.LoginProcess.Request) {
         Auth.auth().signIn(withEmail: request.email!, password: request.password!) { [unowned self] authResult, error in
             var response = Login.LoginProcess.Response()
             if error != nil {
                 response.success = false
-            }
-            else{
+            } else {
                 response.uid = authResult?.user.uid
                 response.email = authResult?.user.email
                 response.success = true
@@ -64,59 +61,58 @@ class LoginWorker : LoginWorkerProtocol
             self.interactor?.fetchLoginProcessResults(response: response)
         }
     }
-    
-    func requestSignupAuthentication(request: Login.SignupProcess.Request){
+
+    func requestSignupAuthentication(request: Login.SignupProcess.Request) {
         Auth.auth().createUser(withEmail: request.email!, password: request.password!) { authResult, error in
             var response = Login.SignupProcess.Response()
-            if error != nil{
+            if error != nil {
                 response.success = false
-            }
-            else{
+            } else {
                 response.email = request.email
                 response.uid = authResult?.user.uid
                 response.success = true
             }
             self.interactor?.fetchSignupAuthenticationResults(response: response)
-            
+
         }
     }
-    
+
     // MARK: - Push functions
-    
-    func pushSwitchOffRememberMe(){
+
+    func pushSwitchOffRememberMe() {
         let defaults: UserDefaults? = UserDefaults.standard
         defaults?.set(false, forKey: "ISRemember")
     }
-    
-    func pushSwitchOnRememberMe(request: Login.SwitchData.Request){
+
+    func pushSwitchOnRememberMe(request: Login.SwitchData.Request) {
         let defaults: UserDefaults? = UserDefaults.standard
         defaults?.set(true, forKey: "ISRemember")
         defaults?.set(request.email, forKey: "SavedUserName")
         let saveResult = KeychainWrapper.standard.set(request.password!, forKey: "SavedPassword")
-        if !saveResult{
+        if !saveResult {
             print("Password save to keychain was unsuccessful")
         }
     }
-    
-    func pushLoginDataUpdate(request: Login.LoginProcess.Request){
+
+    func pushLoginDataUpdate(request: Login.LoginProcess.Request) {
         let defaults: UserDefaults? = UserDefaults.standard
         let savedName = defaults?.string(forKey: "SavedUserName")
         let savedPass = KeychainWrapper.standard.string(forKey: "SavedPassword")
-        
-        if (savedName != request.email){
+
+        if (savedName != request.email) {
             defaults?.set(request.email, forKey: "SavedUserName")
         }
-        if (savedPass != request.password){
+        if (savedPass != request.password) {
             let saveResult = KeychainWrapper.standard.set(request.password!, forKey: "SavedPassword")
-            if !saveResult{
+            if !saveResult {
                 print("Password save to keychain was unsuccessful")
             }
         }
     }
-    
+
     // MARK: - Local functions
-    
-    func saveRecords(records : [CKRecord]){
+
+    func saveRecords(records: [CKRecord]) {
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
         operation.savePolicy = .ifServerRecordUnchanged
         CKContainer.default().publicCloudDatabase.add(operation)
