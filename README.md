@@ -1,5 +1,5 @@
 # Flight Rider
-Thank you for showing interest in my project. As my first Swift project for iOS, this is a demo project based on an own idea. Check the vision statement below to get the idea of the app. If you are interested in more project related documents, diagrams, flowcharts, you can check the **Docs** folder. This project is not finished yet, it is still under development.
+Thank you for showing interest in my project. Check the vision statement below to get the idea of the app. The project is based on requirements, if you are interested in them or you would like to see more project related documents, diagrams, flowcharts, you can check the **Docs** folder. This project is not finished yet, it is still under development.
 
 ## Vision statement
 This application is designed for travelers, who usually travels with low-budget airlines. On these kind of airlines you must pay for literally everything, almost nothing is included in the ticket, even if you want to sit next to the one(s) who you are travelling with you have to pay extra fee. 
@@ -31,15 +31,19 @@ As the app uses iCloud to store and fetch data, in order to be able to use it, y
 
 ## Documentation
 
-In the **Docs** folder, you can find further documentation and specification of the application, flowcharts which 
+In the **Docs** folder, you can find further documentation, the requirements and the specification of the application, flowcharts which 
 describe the operation of the different modules, etc. As this is an unfinished version yet, there may be some difference 
 between the documentation and the implementation.
+
+## Architecture
+
+The dependency injection and the separation of concerns is achived by using Clean Swift (VIP) architecture.
 
 ## Remarkable features/technologies used in the implementation
 
 - CoreData
 - CloudKit
-- Keeping the integrity of the local and cloud DB with syncronization
+- Constantly synchronizing the local database and iCloud to keep data integrity
 - Firebase (Authentication)
 - AviationEdge API (to check flight number validity and fetch departure date)
 - UserDefaults
@@ -61,7 +65,6 @@ between the documentation and the implementation.
 Basic info:
 
 - Multiple user accounts can be created, and users' data are handled separatley.
-- Only valid, existing flight numbers can be added.
 - There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as well. As there isn't any offline feature implemented yet, offline mode is not available.
 
 In this phase basically you can do in the app is the following:
@@ -74,7 +77,7 @@ Create a new user by entering an e-mail address (it doesn't have to be valid, it
 
 ### Login with an existing user
 
-Login with an existing user, using the e-mail and the password field, tapping on the login button. The scenario from the background side is the same, which is shown by the diagram below: 
+Login with an existing user, using the e-mail and the password field, tapping on the login button. The scenario from the backend side is the same, which is shown by the diagram below: 
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/Diagrams/Flowchart/Keeping%20users%20in%20local%20and%20cloud%20DB%20in%20sync.jpg" width="464" height="642">
 
@@ -100,12 +103,6 @@ Of course, you can use other flightnumbers (to be exact, officially these are ca
 When you tap on the + sign, you will be prompted for the flightcode, and the departure date. If you tap on the Submit button, in the background, the following procedure will happen:
 
 <img src="https://github.com/Clearinx/SeatExchangerApp/blob/master/Docs/Diagrams/Flowchart/Keeping%20flights%20and%20seats%20in%20local%20and%20cloud%20DB%20in%20sync.jpg" width="590" height="1062">
-
-As you can see from this diagram, in the current implementation the unique identifier of the flights is the iataNumber (flight number). This will be changed in the near future, because the iata number identifies a flight route, not an exact flight. This means that the iata number will be the same in case of the same flight routes in a different time. This it leads to the following things:
-
-- For example flights FR110 on November 5th and November 6th are handled as identical
-- As nothing deletes the flights if they become obsolate (the departure date passes), they will remain in iCloud. This causes the following: 
-  - For example someone registers on a flight with an iataNumber FR110 and date 2019.10.25. This flight will be stored in iCloud with this date. If someone else wants to register on the same FR110 flight, but on 2019.11.03, the app will fetch the existing FR110 flight, with departure date 2019.10.25, as the unique identifier is FR110 in this case.
   
 ### Check the status of a flight
 
@@ -137,13 +134,12 @@ You can delete a flight from your list by swiping left on a tableview item, and 
 Some other basic info:
 
 - Multiple user accounts can be created, and users' data are handled separatley.
-- Only valid, existing flight numbers can be added. 
 - There is a constant integrity among the local database and iCloud, so the app could have ran based on the local data as only. As there are no offline features implemented yet, offline mode is not available.
 
 ## Tests
 
-Currently only UI tests are available, which you can find in the FlightRiderUITests folder. To run the tests, you have to make sure
+The test scripts are testing the Clean Swift architecture's components separately, using spy and mock classes. You can find them in the FlightRiderTests folder. 
+
+You can find the UI tests in the FlightRiderUITests folder. To run the tests, you have to make sure
 that the "Remember me" switch in the main screen is switched off, and the E-mail and Password fields should be empty.
 If everything is installed correctly, these tests should run successfully.
-
-Non-ui tests will be available soon.
