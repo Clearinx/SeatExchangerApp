@@ -105,6 +105,18 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
 
     // MARK: - Set functions
 
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func setLoginError() {
+        self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
+        let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
+    }
+
     func setRememberMeSwitch() {
         rememberMeSwitch.addTarget(self, action: #selector(self.pushRememberMeSwitchChanged), for: .valueChanged)
     }
@@ -119,14 +131,6 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
 
     func setRemoveSpinner() {
         self.removeSpinner(spinnerView: spinnerView, ai: ai)
-    }
-
-    func setLoginError() {
-        self.removeSpinner(spinnerView: self.spinnerView, ai: self.ai)
-        let ac = UIAlertController(title: "Error", message: "Could not log in or sign up", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
     }
 
     // MARK: - Display functions
@@ -152,20 +156,9 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
 
     }
 
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
     private func setGestureRecognizer() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
-    }
-
-    private func setBackground() {
-        setAnchors()
-        setGradientBackground()
-        setCloudImage()
-        setNavigationBar()
     }
 
     private func setAnchors() {
@@ -175,6 +168,13 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
         backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+
+    private func setBackground() {
+        setAnchors()
+        setGradientBackground()
+        setCloudImage()
+        setNavigationBar()
     }
 
     private func setCloudImage() {

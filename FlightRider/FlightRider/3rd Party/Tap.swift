@@ -6,7 +6,7 @@ class Tap {
     private var view: UIView
     private var action: () -> Void
 
-    static func on(view: UIView, fires action: @escaping ()->Void) {
+    static func on(view: UIView, fires action: @escaping () -> Void) {
         let tap = Tap(view: view, action: action)
         instances.append(tap)
     }

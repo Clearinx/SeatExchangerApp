@@ -15,9 +15,10 @@ import MobileCoreServices
 protocol CoreDataWorkerProtocol {
     var container: NSPersistentContainer! { get set }
 
-    func setupContainer()
     func makeLocalQuery(sortKey: String, predicate: NSPredicate, request: NSFetchRequest<NSManagedObject>, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate) -> [NSManagedObject]?
     func saveContext(container: NSPersistentContainer)
+    func setupContainer()
+
     func getLocalDatabase(container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate)
 
 }
@@ -29,15 +30,14 @@ protocol ICloudWorkerProtocol {
 
 protocol DatabaseWorkerProtocol: class, ICloudWorkerProtocol, CoreDataWorkerProtocol {
 
-    typealias NSManagedObjectParameter = ([NSManagedObject]) -> Void
-    typealias StringValuesParameter = ([String]?) -> Void
     typealias CKRecordParameter = ([CKRecord]) -> Void
     typealias NSManagedAndCkrecordParameter = ([NSManagedObject], [CKRecord]) -> Void
-
-    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey: String, sortValue: [String], cloudTable: String, saveParams: [String]?, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void)
+    typealias NSManagedObjectParameter = ([NSManagedObject]) -> Void
+    typealias StringValuesParameter = ([String]?) -> Void
 
     func deindex(flight: ManagedFlight)
     func index(flight: ManagedFlight)
+    func syncLocalDBWithiCloud(providedObject: NSManagedObject.Type, sortKey: String, sortValue: [String], cloudTable: String, saveParams: [String]?, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate, saveToBothDbHandler: @escaping StringValuesParameter, fetchFromCloudHandler: @escaping CKRecordParameter, compareChangeTagHandler: @escaping NSManagedAndCkrecordParameter, decideIfUpdateCloudOrDeleteHandler: @escaping NSManagedObjectParameter, completionHandler: @escaping () -> Void)
 }
 
 class DatabaseWorker: DatabaseWorkerProtocol {
@@ -45,6 +45,82 @@ class DatabaseWorker: DatabaseWorkerProtocol {
 
     init() {
         setupContainer()
+    }
+
+    func index(flight: ManagedFlight) {
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+        attributeSet.title = flight.iataNumber
+        let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
+            if let error = error {
+                print("Indexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully indexed!")
+            }
+        }
+    }
+
+    func deindex(flight: ManagedFlight) {
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: ["\(flight.iataNumber)"]) { error in
+            if let error = error {
+                print("Deindexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully removed!")
+            }
+        }
+    }
+
+    func makeCloudQuery(sortKey: String, predicate: NSPredicate, cloudTable: String, completionHandler: @escaping ([CKRecord]) -> Void) {
+        let sort = NSSortDescriptor(key: sortKey, ascending: true)
+        let query = CKQuery(recordType: cloudTable, predicate: predicate)
+        query.sortDescriptors = [sort]
+
+        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil) { results, error in
+            if let error = error {
+                print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
+                return
+            } else {
+                if(results != nil) {
+                    completionHandler(results!)
+                }
+            }
+        }
+    }
+
+    func makeLocalQuery(sortKey: String, predicate: NSPredicate, request: NSFetchRequest<NSManagedObject>, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate) -> [NSManagedObject]? {
+        let sort = NSSortDescriptor(key: sortKey, ascending: true)
+        request.sortDescriptors = [sort]
+        let fetchedObject = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: sortKey, cacheName: nil)
+        fetchedObject.delegate = delegate
+        fetchedObject.fetchRequest.predicate = predicate
+        do {
+            try fetchedObject.performFetch()
+            return fetchedObject.fetchedObjects!
+        } catch {
+            return nil
+        }
+    }
+
+    func saveContext(container: NSPersistentContainer) {
+        if container.viewContext.hasChanges {
+            do {
+                try container.viewContext.save()
+            } catch {
+                print("An error occurred while saving: \(error)")
+            }
+        }
+    }
+
+    func saveRecords(records: [CKRecord], completionHandler: @escaping () -> Void) {
+        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordID, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                completionHandler()
+            }
+        }
+        CKContainer.default().publicCloudDatabase.add(operation)
     }
 
     func setupContainer() {
@@ -105,82 +181,7 @@ class DatabaseWorker: DatabaseWorkerProtocol {
 
     }
 
-    func makeLocalQuery(sortKey: String, predicate: NSPredicate, request: NSFetchRequest<NSManagedObject>, container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate) -> [NSManagedObject]? {
-        let sort = NSSortDescriptor(key: sortKey, ascending: true)
-        request.sortDescriptors = [sort]
-        let fetchedObject = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: sortKey, cacheName: nil)
-        fetchedObject.delegate = delegate
-        fetchedObject.fetchRequest.predicate = predicate
-        do {
-            try fetchedObject.performFetch()
-            return fetchedObject.fetchedObjects!
-        } catch {
-            return nil
-        }
-    }
-
-    func makeCloudQuery(sortKey: String, predicate: NSPredicate, cloudTable: String, completionHandler: @escaping ([CKRecord]) -> Void) {
-        let sort = NSSortDescriptor(key: sortKey, ascending: true)
-        let query = CKQuery(recordType: cloudTable, predicate: predicate)
-        query.sortDescriptors = [sort]
-
-        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil) { results, error in
-            if let error = error {
-                print("Cloud Query Error - Fetch Establishments: \(error.localizedDescription)")
-                return
-            } else {
-                if(results != nil) {
-                    completionHandler(results!)
-                }
-            }
-        }
-    }
-
-    func saveRecords(records: [CKRecord], completionHandler: @escaping () -> Void) {
-        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
-        operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordID, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-            } else {
-                completionHandler()
-            }
-        }
-        CKContainer.default().publicCloudDatabase.add(operation)
-    }
-
-    func saveContext(container: NSPersistentContainer) {
-        if container.viewContext.hasChanges {
-            do {
-                try container.viewContext.save()
-            } catch {
-                print("An error occurred while saving: \(error)")
-            }
-        }
-    }
-
-    func deindex(flight: ManagedFlight) {
-        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: ["\(flight.iataNumber)"]) { error in
-            if let error = error {
-                print("Deindexing error: \(error.localizedDescription)")
-            } else {
-                print("Search item successfully removed!")
-            }
-        }
-    }
-
-    func index(flight: ManagedFlight) {
-        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
-        attributeSet.title = flight.iataNumber
-        let item = CSSearchableItem(uniqueIdentifier: "\(flight.uid)", domainIdentifier: "com.clearinx.FlightRider", attributeSet: attributeSet)
-        CSSearchableIndex.default().indexSearchableItems([item]) { error in
-            if let error = error {
-                print("Indexing error: \(error.localizedDescription)")
-            } else {
-                print("Search item successfully indexed!")
-            }
-        }
-    }
-
+    //This is a debug function to print the contents of the local database
     func getLocalDatabase(container: NSPersistentContainer, delegate: NSFetchedResultsControllerDelegate) {
         var request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
         var pred = NSPredicate(value: true)
@@ -218,8 +219,8 @@ class DatabaseWorker: DatabaseWorkerProtocol {
             print(localseat.changetag)
             print(localseat.number)
             print(localseat.occupiedBy)
-            print(localseat.flight?.iataNumber)
+            print(localseat.flight?.iataNumber as Any)
         }
-        print(results?.count)
+        print(results?.count as Any)
     }
 }

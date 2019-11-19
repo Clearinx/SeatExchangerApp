@@ -16,12 +16,14 @@ protocol CheckSeatsDisplayLogic: class {
     func fetchDataFromPreviousViewController(viewModel: SelectSeats.StoredData.CheckSeatsModel)
     func fetchDataFromPreviousViewController(viewModel: ListFlights.CheckSeatsData.DataStore)
     func fetchJustSelectedSeatFlag(response: CheckSeats.JustSelecetedSeatStatus.Response)
+
     func displayUserInterface(response: CheckSeats.GetAirplaneModel.Response)
 }
 
 class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
+
     var constants: CheckSeats.GetConstants.ViewModel!
 
     var interactor: CheckSeatsBusinessLogic?
@@ -120,16 +122,6 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic {
         self.navigationItem.leftBarButtonItem = newBackButton
     }
 
-    func instantiateStackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat) -> UIStackView {
-        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        stackView.axis = axis
-        stackView.distribution = .fill
-        stackView.alignment = .fill
-        stackView.spacing = spacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }
-
     func fillLeadingStackView(seatNumbers: UIStackView) {
         contentView.addSubview(seatNumbers)
         NSLayoutConstraint(item: seatNumbers, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constants.seatnumbersViewWidth).isActive = true
@@ -138,24 +130,10 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic {
         NSLayoutConstraint(item: seatNumbers, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -constants.seatnumbersViewBottom).isActive = true
     }
 
-    func instantiateRows(model: AirplaneModel, seatNumbers: UIStackView, leftLetters: UIStackView, rightLetters: UIStackView) {
-        for row in 1...model.numberOfSeats {
-            let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-            lbl.text = String(row)
-            lbl.font = UIFont(name: "OpenSans-Regular", size: constants.fontSize)
-            seatNumbers.addArrangedSubview(lbl)
-            let stackViewABC = instantiateStackView(axis: .horizontal, spacing: constants.viewSpacing)
-            let stackViewDEF = instantiateStackView(axis: .horizontal, spacing: constants.viewSpacing)
-            for column in 0...Array(model.columns).count - 1 {
-                fillRows(row: row, column: column, model: model, stackViewABC: stackViewABC, stackViewDEF: stackViewDEF)
-            }
-            setConstraintForContainerStackViews(seatNumbers: seatNumbers, stackViewABC: stackViewABC, stackViewDEF: stackViewDEF, leftLetters: leftLetters, rightLetters: rightLetters, lbl: lbl)
-        }
-    }
-
     func fillTopStackViews(leftLetters: UIStackView, rightLetters: UIStackView, response: CheckSeats.GetAirplaneModel.Response) {
         for i in 0...Array(response.airplaneModel.columns).count - 1 {
             let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+            lbl.textColor = .white
             lbl.text = String(Array(response.airplaneModel.columns)[i])
             lbl.font = UIFont(name: "OpenSans-Regular", size: constants.fontSize)
             if(i <= 2) {
@@ -200,6 +178,51 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic {
         NSLayoutConstraint(item: seatview, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constants.viewSize).isActive = true
     }
 
+    func instantiateRows(model: AirplaneModel, seatNumbers: UIStackView, leftLetters: UIStackView, rightLetters: UIStackView) {
+        for row in 1...model.numberOfSeats {
+            let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+            lbl.textColor = .white
+            lbl.text = String(row)
+            lbl.font = UIFont(name: "OpenSans-Regular", size: constants.fontSize)
+            seatNumbers.addArrangedSubview(lbl)
+            let stackViewABC = instantiateStackView(axis: .horizontal, spacing: constants.viewSpacing)
+            let stackViewDEF = instantiateStackView(axis: .horizontal, spacing: constants.viewSpacing)
+            for column in 0...Array(model.columns).count - 1 {
+                fillRows(row: row, column: column, model: model, stackViewABC: stackViewABC, stackViewDEF: stackViewDEF)
+            }
+            setConstraintForContainerStackViews(seatNumbers: seatNumbers, stackViewABC: stackViewABC, stackViewDEF: stackViewDEF, leftLetters: leftLetters, rightLetters: rightLetters, lbl: lbl)
+        }
+    }
+
+    func instantiateStackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        stackView.axis = axis
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = spacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+
+    private func setBackground() {
+        contentView.backgroundColor = #colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)
+        scrollView.backgroundColor =  #colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)
+
+    }
+
+    func setConstraintForContainerStackViews(seatNumbers: UIStackView, stackViewABC: UIStackView, stackViewDEF: UIStackView, leftLetters: UIStackView, rightLetters: UIStackView, lbl: UILabel) {
+        contentView.addSubview(stackViewABC)
+        NSLayoutConstraint(item: stackViewABC, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: constants.viewSize).isActive = true
+        NSLayoutConstraint(item: stackViewABC, attribute: .centerX, relatedBy: .equal, toItem: leftLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: stackViewABC, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
+
+        contentView.addSubview(stackViewDEF)
+        NSLayoutConstraint(item: stackViewDEF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constants.viewSize).isActive = true
+        NSLayoutConstraint(item: stackViewDEF, attribute: .centerX, relatedBy: .equal, toItem: rightLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: stackViewDEF, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
+    }
+
     func viewTapped(view: UIView, email: String) {
         let ac = UIAlertController(title: "This seat is reserved by \(email)", message: nil, preferredStyle: .alert)
         ac.message = "Feel free to start a conversation with this user"
@@ -218,22 +241,4 @@ class CheckSeatsViewController: UIViewController, CheckSeatsDisplayLogic {
         present(ac, animated: true)
     }
 
-    func setConstraintForContainerStackViews(seatNumbers: UIStackView, stackViewABC: UIStackView, stackViewDEF: UIStackView, leftLetters: UIStackView, rightLetters: UIStackView, lbl: UILabel) {
-        contentView.addSubview(stackViewABC)
-         NSLayoutConstraint(item: stackViewABC, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: constants.viewSize).isActive = true
-         NSLayoutConstraint(item: stackViewABC, attribute: .centerX, relatedBy: .equal, toItem: leftLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
-         NSLayoutConstraint(item: stackViewABC, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
-
-         contentView.addSubview(stackViewDEF)
-         NSLayoutConstraint(item: stackViewDEF, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: constants.viewSize).isActive = true
-         NSLayoutConstraint(item: stackViewDEF, attribute: .centerX, relatedBy: .equal, toItem: rightLetters, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
-         NSLayoutConstraint(item: stackViewDEF, attribute: .centerY, relatedBy: .equal, toItem: lbl, attribute: .centerY, multiplier: 1.0, constant: 0.0).isActive = true
-    }
-
-    private func setBackground() {
-        contentView.backgroundColor = #colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)
-        view.backgroundColor = #colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)
-        scrollView.backgroundColor =  #colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)
-
-    }
 }

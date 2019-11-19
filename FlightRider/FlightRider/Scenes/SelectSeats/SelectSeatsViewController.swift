@@ -126,17 +126,6 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // MARK: Local functions
 
-    @IBAction func updateSeats(_ sender: Any) {
-        showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
-        var request = SelectSeats.UpdateSeat.Request()
-        request.selectedSeatNumber = viewModel.selectedSeatNumber
-        interactor?.requestUpdateSeat(request: request)
-    }
-
-    @objc func doneButtonPressed() {
-            interactor?.requestCheckSeatsData(request: SelectSeats.StoredData.Request())
-    }
-
     func displayAlertController(title: String, message: String) {
         DispatchQueue.main.async {
             let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -144,6 +133,10 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
             ac.addAction(cancelAction)
             self.present(ac, animated: true)
         }
+    }
+
+    @objc func doneButtonPressed() {
+        interactor?.requestCheckSeatsData(request: SelectSeats.StoredData.Request())
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -178,11 +171,6 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         return pickerLabel!
     }
 
-    private func setSpinnerView() {
-        spinnerView = UIView.init(frame: self.view.bounds)
-        ai = UIActivityIndicatorView.init(style: .whiteLarge)
-    }
-
     private func setBackground() {
         setGradientBackground()
         setCloudImage()
@@ -206,6 +194,19 @@ class SelectSeatsViewController: UIViewController, UIPickerViewDelegate, UIPicke
         gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
         gradientLayer.masksToBounds = false
         backgroundView.layer.addSublayer(gradientLayer)
+    }
+
+    private func setSpinnerView() {
+        spinnerView = UIView.init(frame: self.view.bounds)
+        ai = UIActivityIndicatorView.init(style: .whiteLarge)
+    }
+
+    @IBAction func updateSeats(_ sender: Any) {
+        showSpinner(view: self.view, spinnerView: spinnerView, ai: ai)
+        view.bringSubviewToFront(spinnerView)
+        var request = SelectSeats.UpdateSeat.Request()
+        request.selectedSeatNumber = viewModel.selectedSeatNumber
+        interactor?.requestUpdateSeat(request: request)
     }
 
     // MARK: - Temporary routing

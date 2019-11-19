@@ -26,6 +26,32 @@ protocol UserWorkerProtocol: class {
 
 extension UserWorkerProtocol {
 
+    func compareUserChangeTag(localResults: [NSManagedObject], cloudResults: [CKRecord]) {
+        self.user = localResults.first! as? ManagedUser
+        self.userRecord = cloudResults.first!
+        if(self.user.changetag != cloudResults.first!.recordChangeTag ?? "") {
+            fetchUserFromCloud(results: cloudResults)
+        }
+    }
+
+    func decideIfUpdateCloudOrDeleteUser(results: [NSManagedObject]) {
+        //this should never happen in case of users
+    }
+
+    func fetchUserFromCloud(results: [CKRecord]) {
+        self.userRecord = results.first!
+
+        let user = User(email: results.first!["email"]!, flights: results.first!["flights"] ?? [String](), uid: results.first!["uid"]!, changetag: results.first!.recordChangeTag ?? "")
+        self.user = ManagedUser(context: self.databaseWorker.container.viewContext)
+        self.user.fromUser(user: user)
+        self.databaseWorker.saveContext(container: self.databaseWorker.container)
+
+        let pred = NSPredicate(format: "uid = %@", results.first!["uid"]! as String)
+        let request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        self.user = (databaseWorker.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.databaseWorker.container, delegate: self as! NSFetchedResultsControllerDelegate) as! [ManagedUser]).first!
+
+    }
+
     func saveUserDataToBothDb(params: [String]?) {
         self.userRecord["uid"] = params![0] as CKRecordValue
         self.userRecord["email"] = params![1] as CKRecordValue
@@ -38,34 +64,6 @@ extension UserWorkerProtocol {
             self.databaseWorker.saveContext(container: self.databaseWorker.container)
         }
 
-    }
-
-    func fetchUserFromCloud(results: [CKRecord]) {
-        self.userRecord = results.first!
-
-        let user = User(email: results.first!["email"]!, flights: results.first!["flights"] ?? [String](), uid: results.first!["uid"]!, changetag: results.first!.recordChangeTag ?? "")
-        self.user = ManagedUser(context: self.databaseWorker.container.viewContext)
-        self.user.fromUser(user: user)
-        self.databaseWorker.saveContext(container: self.databaseWorker.container)
-
-        //maybe it is not neccessarry at all
-        /*let pred = NSPredicate(format: "uid = %@", results.first!["uid"]! as String)
-        let request = ManagedUser.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-        self.user = (databaseWorker.makeLocalQuery(sortKey: "uid", predicate: pred, request: request, container: self.databaseWorker.container, delegate: self as! NSFetchedResultsControllerDelegate) as! [ManagedUser]).first!*/
-        //until this point
-
-    }
-
-    func compareUserChangeTag(localResults: [NSManagedObject], cloudResults: [CKRecord]) {
-        self.user = localResults.first! as? ManagedUser
-        self.userRecord = cloudResults.first!
-        if(self.user.changetag != cloudResults.first!.recordChangeTag ?? "") {
-            fetchUserFromCloud(results: cloudResults)
-        }
-    }
-
-    func decideIfUpdateCloudOrDeleteUser(results: [NSManagedObject]) {
-        //this should never happen in case of users
     }
 
 }

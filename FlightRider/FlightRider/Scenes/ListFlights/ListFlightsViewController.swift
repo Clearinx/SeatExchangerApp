@@ -21,30 +21,30 @@ protocol ListFlightsDisplayLogic {
 }
 
 protocol ListFlightsProtocol {
+    var ai: UIActivityIndicatorView! { get set }
     var databaseWorker: DatabaseWorkerProtocol! { get set }
+    var email: String! { get set }
+    var interactor: ListFlightsBusinessLogic? { get set }
     var flights: [ManagedFlight] { get set }
+    var uid: String! { get set }
     var user: ManagedUser! { get set }
     var userRecord: CKRecord { get set }
-    var uid: String! { get set }
-    var email: String! { get set }
-    var spinnerView: UIView! { get set }
-    var ai: UIActivityIndicatorView! { get set }
-    var interactor: ListFlightsBusinessLogic? { get set }
     var router: (NSObjectProtocol & ListFlightsRoutingLogic & ListFlightsDataPassing)? { get set }
+    var spinnerView: UIView! { get set }
 
-    func loadUserData(completionHandler: @escaping () -> Void)
+    func addFlight()
     func createStringsFromJson(json: JSON, flightCode: String, departureDate: String) -> [String]
+    func flightAlreadyAdded()
+    func flightNotFoundError()
+    func flightNumberIsEmpty()
+    func getDate(receivedDate: String) -> Date
+    func getDateString(receivedDate: Date, dateFormat: String) -> String
+    func loadUserData(completionHandler: @escaping () -> Void)
+    func submit(_ flightCode: String, _ selectedDate: Date)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
-    func getDate(receivedDate: String) -> Date
-    func getDateString(receivedDate: Date, dateFormat: String) -> String
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    func addFlight()
-    func submit(_ flightCode: String, _ selectedDate: Date)
-    func flightNotFoundError()
-    func flightAlreadyAdded()
-    func flightNumberIsEmpty()
 
 }
 
@@ -126,6 +126,59 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         }
     }
 
+    // MARK: - Functions
+
+    @objc func addFlight() {
+        let ac = UIAlertController(title: "Enter the departure date and the flight number", message: nil, preferredStyle: .alert)
+        var selectedDate = Date()
+        ac.addTextField()
+        ac.addDatePicker(mode: .date, date: Date(), minimumDate: Date(), maximumDate: Calendar.current.date(byAdding: .year, value: 2, to: Date())) { date in
+            selectedDate = date
+        }
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned self, unowned ac] _ in
+            guard let flightCode = ac.textFields?[0].text else { return }
+            self.submit(flightCode.uppercased(), selectedDate)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        ac.addAction(submitAction)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
+    }
+
+    func addFlightCloudOperations(results: [CKRecord], flightCode: String, selectedDate: Date, flightCount: Int, flightPredicate: NSPredicate) {
+        var flightUid: String?
+        if(results.count == 1) {
+            flightUid = results.first!["uid"]
+        }
+        let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
+        self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
+            if(flightCount < self.user.flights.count) {
+                self.addFlightToList(flightPredicate: flightPredicate)
+            }
+        }
+    }
+
+    func addFlightToList(flightPredicate: NSPredicate) {
+        let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        let newFlight = self.databaseWorker.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.databaseWorker.container, delegate: self) as! [ManagedFlight]
+        self.flights.append(newFlight.first!)
+        self.databaseWorker.index(flight: newFlight.first!)
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
+            self.tableView.insertRows(at: [indexPath], with: .automatic)
+        }
+    }
+
+    func createStringsFromJson(json: JSON, flightCode: String, departureDate: String) -> [String] {
+        var result = [String]()
+        result.append(flightCode)
+        let departureDateAndTime = "\(departureDate)  \(json["departureTime"].stringValue)"
+        result.append(departureDateAndTime)
+        return result
+
+    }
+
     func fillDatastore() {
         let flightRequest = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
         let flightPred = NSPredicate(format: "ANY uid IN %@", self.user.flights)
@@ -144,74 +197,31 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
 
     }
 
-    func loadUserData(completionHandler: @escaping () -> Void) {
-        databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedUser.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser) {
-            self.loadUserFlights() {
-                completionHandler()
-            }
-        }
-    }
-    
-    func loadUserFlights(completionHandler: @escaping () -> Void){
-        self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
-            completionHandler()
+    func flightAlreadyAdded() {
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "The flight is already contained by the list", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
         }
     }
 
-    func createStringsFromJson(json: JSON, flightCode: String, departureDate: String) -> [String] {
-        var result = [String]()
-        result.append(flightCode)
-        let departureDateAndTime = "\(departureDate)  \(json["departureTime"].stringValue)"
-        result.append(departureDateAndTime)
-        return result
-
+    func flightNotFoundError() {
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "Could not found flight", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
+        }
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        return flights.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
-
-        let cellSubview = cell.contentView.subviews.first!
-        let uiElements = cellSubview.subviews
-        for subview in uiElements {
-            if subview.tag == 1 { (subview as! UILabel).text = flights[indexPath.row].iataNumber }
-            if subview.tag == 2 { (subview as! UILabel).text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss") }
+    func flightNumberIsEmpty() {
+        DispatchQueue.main.async {
+            let ac = UIAlertController(title: "Error", message: "The flight you specified is empty!", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
+            ac.addAction(cancelAction)
+            self.present(ac, animated: true)
         }
-        
-        return cell
-        }
-
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let flight = flights[indexPath.row]
-        for seat in flight.seats {
-            self.databaseWorker.container.viewContext.delete(seat)
-        }
-        databaseWorker.deindex(flight: flight)
-        unregisterFromFlightOnCloudDb(flight: flight)
-        self.databaseWorker.container.viewContext.delete(flight)
-        user.flights.removeAll {$0 == flight.uid}
-        flights.remove(at: indexPath.row)
-        userRecord["flights"] = user.flights as CKRecordValue
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        self.databaseWorker.saveContext(container: self.databaseWorker.container)
-        self.databaseWorker.getLocalDatabase(container: self.databaseWorker.container, delegate: self)
-    }
-
-    func setGradientBackground() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
-        gradientLayer.masksToBounds = false
-        let image = UIImage.imageWithLayer(layer: gradientLayer)
-        let imageView = UIImageView(image: image)
-        self.tableView.backgroundView = imageView
-
     }
 
     func getDate(receivedDate: String) -> Date {
@@ -228,32 +238,21 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         return date
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let flight = flights[indexPath.row]
-        let seatRequest = ManagedSeat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-        let seatPred = NSPredicate(format: "flight = %@ AND occupiedBy = %@", flight, self.user.email)
-        let occupiedSeats = (self.databaseWorker.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.databaseWorker.container, delegate: self) as? [ManagedSeat]) ?? [ManagedSeat]()
-        if(occupiedSeats.isEmpty) {
-            if(Calendar.current.date(byAdding: .day, value: 2, to: Date())! > flight.departureDate) {
-                navigateToSelectSeatsData(flight: flight)
-            } else {
-                navigateToCannotCheckIn(flight: flight)
+    func loadUserData(completionHandler: @escaping () -> Void) {
+        databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedUser.self, sortKey: "uid", sortValue: [self.uid], cloudTable: "AppUsers", saveParams: [self.uid, self.email], container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: saveUserDataToBothDb, fetchFromCloudHandler: fetchUserFromCloud, compareChangeTagHandler: compareUserChangeTag, decideIfUpdateCloudOrDeleteHandler: decideIfUpdateCloudOrDeleteUser) {
+            self.loadUserFlights {
+                completionHandler()
             }
-        } else {
-            navigateToCheckSeats(flight: flight)
         }
     }
-    
-    func navigateToSelectSeatsData(flight: ManagedFlight){
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "SelectSeats") as? SelectSeatsViewController {
-            let img = UIImage(named: "london_wide")
-            let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: img, databaseWorker: databaseWorker)
-            vc.fetchDataFromPreviousViewController(viewModel: dependencies)
-            navigationController?.pushViewController(vc, animated: true)
+
+    func loadUserFlights(completionHandler: @escaping () -> Void) {
+        self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: self.user.flights, cloudTable: "Flights", saveParams: nil, container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: self.doNothing, fetchFromCloudHandler: self.fetchFlightsFromCloud, compareChangeTagHandler: self.compareFlightsChangeTag, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb) {
+            completionHandler()
         }
     }
-    
-    func navigateToCannotCheckIn(flight: ManagedFlight){
+
+    func navigateToCannotCheckIn(flight: ManagedFlight) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "CannotCheckin") as? CannotCheckInViewController {
             var imgToLoad: UIImage?
             if let img = Bundle.main.path(forResource: "Ryanair", ofType: "png") {
@@ -264,8 +263,8 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    func navigateToCheckSeats(flight: ManagedFlight){
+
+    func navigateToCheckSeats(flight: ManagedFlight) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "CheckSeats") as? CheckSeatsViewController {
             let dataModel = ListFlights.CheckSeatsData.DataStore(flight: flight, user: user, justSelectedSeat: false)
             vc.fetchDataFromPreviousViewController(viewModel: dataModel)
@@ -273,22 +272,26 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
         }
     }
 
-    @objc func addFlight() {
-        let ac = UIAlertController(title: "Enter the departure date and the flight number", message: nil, preferredStyle: .alert)
-        var selectedDate = Date()
-        ac.addTextField()
-        ac.addDatePicker(mode: .date, date: Date(), minimumDate: Date(), maximumDate: Calendar.current.date(byAdding: .year, value: 2, to: Date())) { date in
-            selectedDate = date
+    func navigateToSelectSeatsData(flight: ManagedFlight) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "SelectSeats") as? SelectSeatsViewController {
+            let img = UIImage(named: "london_wide")
+            let dependencies = ListFlights.SelectSeatsData.ViewModel(flight: flight, user: user, userRecord: userRecord, image: img, databaseWorker: databaseWorker)
+            vc.fetchDataFromPreviousViewController(viewModel: dependencies)
+            navigationController?.pushViewController(vc, animated: true)
         }
-        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned self, unowned ac] _ in
-            guard let flightCode = ac.textFields?[0].text else { return }
-            self.submit(flightCode.uppercased(), selectedDate)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+    }
 
-        ac.addAction(submitAction)
-        ac.addAction(cancelAction)
-        present(ac, animated: true)
+    func setGradientBackground() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [(#colorLiteral(red: 0.4068969488, green: 0.5874248147, blue: 0.8163669705, alpha: 1)).cgColor, (#colorLiteral(red: 0.8379636407, green: 0.8866117001, blue: 0.9216472507, alpha: 1)).cgColor]
+        gradientLayer.masksToBounds = false
+        let image = UIImage.imageWithLayer(layer: gradientLayer)
+        let imageView = UIImageView(image: image)
+        self.tableView.backgroundView = imageView
+
     }
 
     func submit(_ flightCode: String, _ selectedDate: Date) {
@@ -314,55 +317,54 @@ class ListFlightsViewController: UITableViewController, NSFetchedResultsControll
             flightNumberIsEmpty()
         }
     }
-    
-    func addFlightToList(flightPredicate: NSPredicate){
-        let request = ManagedFlight.createFetchRequest() as! NSFetchRequest<NSManagedObject>
-        let newFlight = self.databaseWorker.makeLocalQuery(sortKey: "uid", predicate: flightPredicate, request: request, container: self.databaseWorker.container, delegate: self) as! [ManagedFlight]
-        self.flights.append(newFlight.first!)
-        self.databaseWorker.index(flight: newFlight.first!)
-        DispatchQueue.main.async {
-        let indexPath = IndexPath(row: self.flights.count - 1, section: 0)
-        self.tableView.insertRows(at: [indexPath], with: .automatic)
-        }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        return flights.count
     }
-    
-    func addFlightCloudOperations(results: [CKRecord], flightCode: String, selectedDate: Date, flightCount: Int, flightPredicate: NSPredicate){
-        var flightUid: String?
-        if(results.count == 1) {
-            flightUid = results.first!["uid"]
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Flight", for: indexPath)
+
+        let cellSubview = cell.contentView.subviews.first!
+        let uiElements = cellSubview.subviews
+        for subview in uiElements {
+            if subview.tag == 1 { (subview as! UILabel).text = flights[indexPath.row].iataNumber }
+            if subview.tag == 2 { (subview as! UILabel).text = getDateString(receivedDate: flights[indexPath.row].departureDate, dateFormat: "YYYY-MM-dd HH:mm:ss") }
         }
-        let params = [flightCode, self.getDateString(receivedDate: selectedDate, dateFormat: "YYYY-MM-dd")]
-        self.databaseWorker.syncLocalDBWithiCloud(providedObject: ManagedFlight.self, sortKey: "uid", sortValue: [flightUid ?? "not found"], cloudTable: "Flights", saveParams: params, container: self.databaseWorker.container, delegate: self, saveToBothDbHandler: self.saveFlightDataToBothDbAppendToFlightList, fetchFromCloudHandler: self.fetchFlightsFromCloudAndAppendToUserList, compareChangeTagHandler: self.compareFlightsChangeTagAndAppendToUserList, decideIfUpdateCloudOrDeleteHandler: self.deleteFlightsFromLocalDb){
-            if(flightCount < self.user.flights.count) {
-                self.addFlightToList(flightPredicate: flightPredicate)
+
+        return cell
+        }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let flight = flights[indexPath.row]
+        for seat in flight.seats {
+            self.databaseWorker.container.viewContext.delete(seat)
+        }
+        databaseWorker.deindex(flight: flight)
+        unregisterFromFlightOnCloudDb(flight: flight)
+        self.databaseWorker.container.viewContext.delete(flight)
+        user.flights.removeAll {$0 == flight.uid}
+        flights.remove(at: indexPath.row)
+        userRecord["flights"] = user.flights as CKRecordValue
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        self.databaseWorker.saveContext(container: self.databaseWorker.container)
+        self.databaseWorker.getLocalDatabase(container: self.databaseWorker.container, delegate: self)
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let flight = flights[indexPath.row]
+        let seatRequest = ManagedSeat.createFetchRequest() as! NSFetchRequest<NSManagedObject>
+        let seatPred = NSPredicate(format: "flight = %@ AND occupiedBy = %@", flight, self.user.email)
+        let occupiedSeats = (self.databaseWorker.makeLocalQuery(sortKey: "number", predicate: seatPred, request: seatRequest, container: self.databaseWorker.container, delegate: self) as? [ManagedSeat]) ?? [ManagedSeat]()
+        if(occupiedSeats.isEmpty) {
+            if(Calendar.current.date(byAdding: .day, value: 2, to: Date())! > flight.departureDate) {
+                navigateToSelectSeatsData(flight: flight)
+            } else {
+                navigateToCannotCheckIn(flight: flight)
             }
-        }
-    }
-
-    func flightNotFoundError() {
-        DispatchQueue.main.async {
-            let ac = UIAlertController(title: "Error", message: "Could not found flight", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
-            ac.addAction(cancelAction)
-            self.present(ac, animated: true)
-        }
-    }
-
-    func flightAlreadyAdded() {
-        DispatchQueue.main.async {
-            let ac = UIAlertController(title: "Error", message: "The flight is already contained by the list", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
-            ac.addAction(cancelAction)
-            self.present(ac, animated: true)
-        }
-    }
-
-    func flightNumberIsEmpty() {
-        DispatchQueue.main.async {
-            let ac = UIAlertController(title: "Error", message: "The flight you specified is empty!", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Ok", style: .cancel)
-            ac.addAction(cancelAction)
-            self.present(ac, animated: true)
+        } else {
+            navigateToCheckSeats(flight: flight)
         }
     }
 
